@@ -1,6 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
 include('session.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -156,87 +157,69 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Registo Item <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar informações da conta <small>Modifique as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2"  action="http://myslimsite/api/teste/insertF" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/updateUser" method="post" enctype="application/x-www-form-urlencoded> ">
+
+                      <?php 
+                        $myusername= $_SESSION['username'];
+                        $mypassword= $_SESSION['password'];
+                        $myemail = $_SESSION['email'];
+
+                        $sql = "SELECT * FROM teste_user WHERE username = '$myusername' and password = '$mypassword' and email = '$myemail'";
+                        $result = mysqli_query($mysqli,$sql);
+                        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+
+                        $myid=$row["id"];
+                        $mynumber=$row["numero"];
+                        $myphone=$row["telefone"];
+
+                      ?>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first_name">Primeiro nome </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first_name" name="first_name" class="form-control col-md-7 col-xs-12">
-                          <span id="msg_firstname" name="msg" style="color:red"></span>
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $myusername; ?>" >
+                          <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last_name">Último Nome </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last_name" name="last_name" class="form-control col-md-7 col-xs-12">
-                          <span id="msg_lastname" name="msg" style="color:red"></span>
+                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $myemail; ?>">
+                          <span id="msg_email" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min="1">
+                          <input type="text" id="password" name="password" class="form-control col-md-7 col-xs-12" value="<?php echo $mypassword; ?>">
+                          <span id="msg_password" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12"  value="<?php echo $mynumber; ?>">
                           <span id="msg_number" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="visible" name="visible" value="1" checked> Sim<br>
-                          <input type="radio" id="visible" name="visible" value="0"> Não<br>
-                          <span id="msg_visible" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                         
-                          <?php
-
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `teste_fkey` "; // Run your query
-                            $result=$mysqli->query($query);
-                            $final=[];
-                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-
-                            // Loop through the query results, outputing the options one by one
-                            while ($row = $result->fetch_assoc()) {
-                               echo '<option value="'.$row['id'].'">'.$row['descricao'].'</option>';
-                            }
-
-                            echo '</select>';// Close your drop down box
-                          ?>
-                          <span id="msg_desc" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12"> 
-                         <table class="table table-bordered" id="dynamic_field">
-                          <tr>
-                            <td><input type="text" id="name[]" name="name[]" placeholder="" class="form-control name_list" /></td>
-                            <td><button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button></td>
-                          </tr>
-                         </table>
-                         <span id="msg_name" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12"> 
-                          <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12" />
-                          <span id="msg_image" name="msg" style="color:red"></span>
+                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $myphone; ?>">
+                          <span id="msg_phonenumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <!--<input type="hidden" name="_method" value="put" />
                           <button type="submit" class="btn btn-success">Submit</button>
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12"></span>
                         </div>
@@ -305,18 +288,6 @@ include('session.php');
       $(document).ready(function(){
 
 
-        $("#image").change(function() {
-          var file = this.files[0];
-          var imagefile = file.type;
-          var match= ["image/jpeg","image/png","image/jpg"];
-          if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-            alert('Please select a valid image file (JPEG/JPG/PNG).');
-            $("#image").val('');
-            return false;
-          }
-        });
-
-
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
@@ -329,71 +300,42 @@ include('session.php');
             // Stop the browser from submitting the form.
             event.preventDefault();
 
-            var message1 = $('#first_name').val();  
-            var message2 = $('#last_name').val();  
-            var message3 = $('#number').val();  
-            var message4 = $('#visible').val();  
-            var message5 = $('#desc').val();  
-            var message7 = $('#image').val(); 
+            var message1 = $('#username').val();  
+            var message2 = $('#email').val();  
+            var message3 = $('#password').val();  
+            var message4 = $('#number').val();  
+            var message5 = $('#phonenumber').val();  
 
 
-            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' || message5 == '' || message7 == '' )  
+            if(message1 == '' || message2 == '' || message3 == '' )  
             {  
 
               if( message1 == '' )  
               {  
-                $('#msg_firstname').html("Deve preencher este campo de forma válida! Ex: Pedro");
+                $('#msg_username').html("Deve preencher este campo de forma válida! Ex: Pedro");
               }
               else
               {
-                $('#msg_firstname').html("");
+                $('#msg_username').html("");
               }
 
               if( message2 == '' )  
               {  
-                $('#msg_lastname').html("Deve preencher este campo de forma válida! Ex: Silva");
+                $('#msg_email').html("Deve preencher este campo de forma válida! Ex: emailteste@hotmail.com");
               }
               else
               {
-                $('#msg_lastname').html("");
+                $('#msg_email').html("");
               }
 
               if( message3 == '' )  
               {  
-                $('#msg_number').html("Deve preencher este campo de forma válida! Ex: 10225");
+                $('#msg_password').html("Deve preencher este campo de forma válida! Ex: palavrapasse");
               }
               else
               {
-                $('#msg_number').html("");
+                $('#msg_password').html("");
               }
-
-              if( message4 == '' )  
-              {  
-                $('#msg_visible').html("Deve preencher este campo de forma válida! Ex: wut");
-              }
-              else
-              {
-                $('#msg_visible').html("");
-              }
-
-              if( message5 == '' )  
-              {  
-                $('#msg_desc').html("Deve preencher este campo de forma válida! Ex: wut^2");
-              }
-              else
-              {
-                $('#msg_desc').html("");
-              }
-
-              if( message7 == '' )  
-              {  
-                $('#msg_image').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_image').html("");
-              }
-              
                    
             }  
             else  
@@ -404,20 +346,18 @@ include('session.php');
 
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'POST',
+                  type: 'put',
                   url: $(form).attr('action'),
                   data: new FormData(this),
                   contentType: false,
                   cache: false,
                   processData:false
               });
-               $('#msg_firstname').html("");
-              $('#msg_lastname').html("");
+              $('#msg_username').html("");
+              $('#msg_email').html("");
               $('#msg_number').html("");
-              $('#msg_visible').html("");
-              $('#msg_desc').html("");   
-              $('#msg_name').html("");
-              $('#msg_image').html("");
+              $('#msg_phonenumber').html("");
+              $('#msg_password').html("");   
               $('#msg').html("Data upload sucessful!");
               $('#demo-form2').trigger("reset");
               //$('#descricao').val('');
@@ -438,18 +378,3 @@ include('session.php');
 
 
 
-<!-- Adicionar mais campos para atributos -->
-<script>
-$(document).ready(function(){
-  var i=1;
-  $('#add').click(function(){
-    i++;
-    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="name[]" name="name[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
-  });
-  
-  $(document).on('click', '.btn_remove', function(){
-    var button_id = $(this).attr("id"); 
-    $('#row'+button_id+'').remove();
-  });
-});
-</script>

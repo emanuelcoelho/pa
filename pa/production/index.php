@@ -68,6 +68,7 @@
                       <li><a href="form_item.php">Item</a></li>
                       <li><a href="form_categoria.php">Categoria</a></li>
                       <li><a href="form_data.php">Data</a></li>
+                      <li><a href="form_kit.php">Kit</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -91,7 +92,7 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="index.php"><i class="fa fa-edit pull-right"></i> Editar informações</a></li>
+                    <li><a href="form_utilizador.php"><i class="fa fa-edit pull-right"></i> Editar informações</a></li>
                     <li><a href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>

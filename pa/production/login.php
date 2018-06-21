@@ -69,19 +69,19 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form>
+            <form action = "register_user.php" method = "post" enctype="multipart/form-data">
               <h1>Create Account</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Username" required="" id="usernameReg" name="usernameReg" />
               </div>
               <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
+                <input type="email" class="form-control" placeholder="Email" required="" id="emailReg" name="emailReg"/>
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="Password" required="" id="passwordReg" name="passwordReg"/>
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.php">Submit</a>
+                <button class="btn btn-default submit" type="submit" value="enterReg" name="enterReg" id="enterReg">submit</button>
               </div>
 
               <div class="clearfix"></div>

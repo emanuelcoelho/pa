@@ -1,5 +1,29 @@
 <?php
 
+/*
+// array holding allowed Origin domains
+$allowedOrigins = array(
+  '(http(s)://)?(www\.)?my\-domain\.com'
+);
+ 
+if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != '') {
+  foreach ($allowedOrigins as $allowedOrigin) {
+    if (preg_match('#' . $allowedOrigin . '#', $_SERVER['HTTP_ORIGIN'])) {
+      header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+      header('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+      header('Access-Control-Max-Age: 1000');
+      header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+      break;
+    }
+  }
+}
+*/
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+header('Content-Type: application/x-www-form-urlencoded');
+
 // teste POST
 $app->post('/api/teste', function($request) {
 
@@ -208,5 +232,58 @@ $app->get('/api/teste/image', function($request) {
 		 		 
 	}
 
+});
+
+
+// criar nova entrada na tabela teste com ligaçao a teste_fkey (ligaçao chave estrangeira)  (SELECT `id` FROM `teste_fkey` WHERE `descricao` = '$desc')
+$app->put('/api/teste/updateUser', function($request) {
+	
+	require_once('dbconnect_teste.php');
+
+/*	$username = $request->getParsedBody()['username'];
+	$email = $request->getParsedBody()['email'];
+	$password = $request->getParsedBody()['password'];
+	$number = $request->getParsedBody()['number'];
+	$phone = $request->getParsedBody()['phonenumber'];*/
+
+	var_dump($username);
+	var_dump($email);
+	var_dump($password);
+	var_dump($number);
+	var_dump($phone);
+
+
+/*	$query = "SELECT * FROM teste_user WHERE username = 'emanuel' and password = 'passeemanuel' and email = 'emanuelmail@gmail.com' ";
+	$result = mysqli_query($mysqli,$query);
+	print_r($result);
+	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+	print_r($row);
+	$id=$row["id"];
+
+	var_dump($id);
+	var_dump($username);
+	var_dump($email);
+	var_dump($password);
+	var_dump($number);
+	var_dump($phone);*/
+
+	$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = 2";
+
+	$stmt = $mysqli->prepare($sql);
+
+	$stmt->bind_param("sssii", $username1, $password1, $email1, $number1, $phone1);
+
+	$username1 = $request->getParsedBody()['username'];
+	$email1 = $request->getParsedBody()['email'];
+	$password1 = $request->getParsedBody()['password'];
+	$number1 = $request->getParsedBody()['number'];
+	$phone1 = $request->getParsedBody()['phonenumber'];
+
+	var_dump($sql);
+	var_dump($stmt);
+	print_r($stmt);
+
+	$stmt->execute();
+	
 });
 
