@@ -2,6 +2,7 @@
 require_once('dbconnect_teste.php');
 include('session.php');
 
+
 ?>
 
 <!DOCTYPE html>
@@ -169,7 +170,7 @@ include('session.php');
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/updateUser" method="post" enctype="application/x-www-form-urlencoded> ">
+                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/updateUser2" method="post">
 
                       <?php 
                         $myusername= $_SESSION['username'];
@@ -225,7 +226,7 @@ include('session.php');
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
-                          <!--<input type="hidden" name="_method" value="put" /> -->
+                          <input type="hidden" name="_METHOD" value="PUT"/> 
                           <button type="submit" class="btn btn-success">Submit</button>
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12"></span>
                         </div>
@@ -352,7 +353,7 @@ include('session.php');
 
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'put',
+                  type: 'post',
                   url: $(form).attr('action'),
                   data: new FormData(this),
                   contentType: false,

@@ -236,38 +236,14 @@ $app->get('/api/teste/image', function($request) {
 
 
 // criar nova entrada na tabela teste com ligaçao a teste_fkey (ligaçao chave estrangeira)  (SELECT `id` FROM `teste_fkey` WHERE `descricao` = '$desc')
-$app->put('/api/teste/updateUser', function($request) {
+$app->put('/api/teste/updateUser/{id}', function($request, $response, $args) {
 	
 	require_once('dbconnect_teste.php');
 
-/*	$username = $request->getParsedBody()['username'];
-	$email = $request->getParsedBody()['email'];
-	$password = $request->getParsedBody()['password'];
-	$number = $request->getParsedBody()['number'];
-	$phone = $request->getParsedBody()['phonenumber'];*/
+	echo("<script>alert('teste');</script>");
+	$id = $request->getAttribute('id');
 
-	var_dump($username);
-	var_dump($email);
-	var_dump($password);
-	var_dump($number);
-	var_dump($phone);
-
-
-/*	$query = "SELECT * FROM teste_user WHERE username = 'emanuel' and password = 'passeemanuel' and email = 'emanuelmail@gmail.com' ";
-	$result = mysqli_query($mysqli,$query);
-	print_r($result);
-	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-	print_r($row);
-	$id=$row["id"];
-
-	var_dump($id);
-	var_dump($username);
-	var_dump($email);
-	var_dump($password);
-	var_dump($number);
-	var_dump($phone);*/
-
-	$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = 2";
+	$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = $id";
 
 	$stmt = $mysqli->prepare($sql);
 
@@ -279,11 +255,8 @@ $app->put('/api/teste/updateUser', function($request) {
 	$number1 = $request->getParsedBody()['number'];
 	$phone1 = $request->getParsedBody()['phonenumber'];
 
-	var_dump($sql);
-	var_dump($stmt);
-	print_r($stmt);
-
 	$stmt->execute();
 	
 });
+
 

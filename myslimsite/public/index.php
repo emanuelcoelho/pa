@@ -19,5 +19,8 @@ require_once('../app/api/books.php');
 require_once('../app/api/genres.php');
 require_once('../app/api/teste.php');
 require_once('../app/api/teste2.php');
+require_once('../app/api/update.php');
 
 $app->run();
+
+?>
