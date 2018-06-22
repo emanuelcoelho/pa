@@ -73,6 +73,7 @@ include('session.php');
                       <li><a href="form_categoria.php">Categoria</a></li>
                       <li><a href="form_data.php">Data</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
+                      <li><a href="form_estado.php">Estado</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>

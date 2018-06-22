@@ -1,5 +1,6 @@
-<?php
-   include('session.php');
+<?php 
+require_once('dbconnect_teste.php');
+include('session.php');
 ?>
 
 <!DOCTYPE html>
@@ -10,8 +11,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon"  />
-
+	  
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -22,16 +22,25 @@
     <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- iCheck -->
     <link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-	
-    <!-- bootstrap-progressbar -->
-    <link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
+    <!-- bootstrap-wysiwyg -->
+    <link href="../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- starrr -->
+    <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+     
+
+    
+    
+
+
+    
   </head>
 
   <body class="nav-md">
@@ -153,7 +162,47 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-          
+          <div class="">
+            <div class="clearfix"></div>
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Registo estado <small>Insira as informações necessárias</small></h2>
+                    
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+
+                    
+                    <form id="demo-form2" action="http://myslimsite/api/teste/insertEstado" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_desc" name="msg" style="color:red"></span>  
+                        </div>
+                      </div>
+                      
+                      <div class="ln_solid"></div>
+                      
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button name="submit" type="submit" class="btn btn-success">Submit</button>
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
+
+                        </div>
+                      </div>
+
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- /page content -->
 
@@ -176,38 +225,88 @@
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- Chart.js -->
-    <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
-    <!-- gauge.js -->
-    <script src="../vendors/gauge.js/dist/gauge.min.js"></script>
     <!-- bootstrap-progressbar -->
     <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
-    <!-- Skycons -->
-    <script src="../vendors/skycons/skycons.js"></script>
-    <!-- Flot -->
-    <script src="../vendors/Flot/jquery.flot.js"></script>
-    <script src="../vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="../vendors/Flot/jquery.flot.time.js"></script>
-    <script src="../vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="../vendors/Flot/jquery.flot.resize.js"></script>
-    <!-- Flot plugins -->
-    <script src="../vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="../vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="../vendors/flot.curvedlines/curvedLines.js"></script>
-    <!-- DateJS -->
-    <script src="../vendors/DateJS/build/date.js"></script>
-    <!-- JQVMap -->
-    <script src="../vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="../vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="../vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
-
+    <!-- bootstrap-wysiwyg -->
+    <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+    <script src="../vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- Switchery -->
+    <script src="../vendors/switchery/dist/switchery.min.js"></script>
+    <!-- Select2 -->
+    <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Parsley -->
+    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    <!-- Autosize -->
+    <script src="../vendors/autosize/dist/autosize.min.js"></script>
+    <!-- jQuery autocomplete -->
+    <script src="../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+    <!-- starrr -->
+    <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+
+
+    
+    <script>
+    $(document).ready(function(){
+
+
+        $(function() {
+
+          // Get the form.
+          var form = $('#demo-form2');
+
+          // Get the messages div.
+          var formMessages = $('#msg');
+
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+
+            var message = $('#descricao').val();  
+            if(message == '')  
+            {  
+              
+              $('#msg_desc').html("Deve preencher este campo de forma válida! Ex: Máquina de Filmar A");  
+            }  
+            else  
+            {  
+
+              // Serialize the form data.
+              var formData = $(form).serialize();
+
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'POST',
+                  url: $(form).attr('action'),
+                  data: formData,
+                  success: function(formData) { 
+                    //$('#demo-form2').trigger("reset");
+                  }
+              });
+              $('#msg_desc').html("");
+              $('#msg').html("Upload de dados concluído!");
+              $('#demo-form2').trigger("reset");
+              //$('#descricao').val('');
+            }
+          });
+
+
+        });
+      });
+    </script>
+
+
+    
 	
   </body>
 </html>

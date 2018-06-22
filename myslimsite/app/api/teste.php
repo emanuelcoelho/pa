@@ -20,7 +20,7 @@ if (isset($_SERVER['HTTP_ORIGIN']) && $_SERVER['HTTP_ORIGIN'] != '') {
 */
 
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
+header('Access-Control-Allow-Methods: GET, SELECT, POST, PUT, OPTIONS');
 header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 header('Content-Type: application/x-www-form-urlencoded');
 
@@ -63,17 +63,23 @@ $app->post('/api/teste/insertF', function($request) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste` (`first_name`, `last_name`, `number`, `visible`, `id_fkey`, `photo`) VALUES (?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO `teste` (`marca`, `modelo`, `descricao`, `visivel`, `id_categoria`, `foto`, `serial_number`, `serial_ipvc`, `id_kit`, `id_estado`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("ssiiis", $first_name, $last_name, $number, $visible, $desc, $image_name);
+	$stmt->bind_param("sssiisiiii", $marca, $modelo, $descricao, $visivel, $cat, $image_name, $serialnumber, $ipvcnumber, $kit, $estado);
 
-	$first_name = $request->getParsedBody()['first_name'];
-	$last_name = $request->getParsedBody()['last_name'];
-	$number = $request->getParsedBody()['number'];
-	$visible = $request->getParsedBody()['visible'];
-	$desc = $request->getParsedBody()['desc'];
+	$marca = $request->getParsedBody()['marca'];
+	$modelo = $request->getParsedBody()['modelo'];
+	$descricao = $request->getParsedBody()['descricao'];
+	
+	$visivel = $request->getParsedBody()['visivel'];
+	$cat = $request->getParsedBody()['desc'];
+	$estado = $request->getParsedBody()['estado'];
+	$kit=1;
+	$serialnumber = $request->getParsedBody()['serialnumber'];
+	$ipvcnumber = $request->getParsedBody()['ipvcnumber'];
+
 
 	$image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!
 	$image_name = addslashes($_FILES['image']['name']);
@@ -83,8 +89,6 @@ $app->post('/api/teste/insertF', function($request) {
 	move_uploaded_file($_FILES['image']['tmp_name'], "$folder".$_FILES['image']['name']);
 
 	$stmt->execute();
-	
-	echo $first_name." ".$last_name." ".$number." ".$visible;
 
 
 	$query1 = "SELECT `id` FROM `teste` ORDER BY `id` DESC LIMIT 1"; // Run your query
@@ -93,12 +97,12 @@ $app->post('/api/teste/insertF', function($request) {
 	$num=$row1->id;
 
 
-	$number = count($_POST["name"]);
+	$number = count($_POST["attributes"]);
 	if($number >= 1)
 	{
 		for($i=0; $i<$number; $i++)
 		{
-			if(trim($_POST["name"][$i] != ''))
+			if(trim($_POST["attributes"][$i] != ''))
 			{
 
 				$sql = "INSERT INTO `teste_atributos`(`id_item`,`descricao`) VALUES(?,?)";
@@ -107,7 +111,7 @@ $app->post('/api/teste/insertF', function($request) {
 				$stmt->bind_param("ss", $id_item, $descricao);
 
 				$id_item = $num;
-				$descricao = $request->getParsedBody()['name'][$i];
+				$descricao = $request->getParsedBody()['attributes'][$i];
 				
 				$stmt->execute();
 			}
@@ -137,9 +141,76 @@ $app->post('/api/teste/insertCat', function($request) {
 	$stmt->execute();
 	
 	echo $descricao;
+	  
+});
 
+// criar nova entrada na tabela teste_kit
+$app->put('/api/teste/insertKit', function($request) {
 
+	require_once('dbconnect_teste.php');
 	
+
+	$query = "INSERT INTO `teste_kit` (`descricao`,`id_categoria`) VALUES (?, ?)";
+
+	$stmt = $mysqli->prepare($query);
+
+	$stmt->bind_param("si", $descricao, $cat);
+
+	$descricao = $request->getParsedBody()['descricao'];
+	$cat = $request->getParsedBody()['desc'];
+
+	$stmt->execute();
+
+
+	$query1 = "SELECT `id` FROM `teste_kit` ORDER BY `id` DESC LIMIT 1"; // Run your query
+	$result1=$mysqli->query($query1);
+	$row1 = $result1->fetch_object();
+	$num=$row1->id;
+
+	$number = count($_POST["itens"]);
+	if($number >= 1)
+	{
+		for($i=0; $i<$number; $i++)
+		{
+			if(trim($_POST["itens"][$i] != ''))
+			{
+
+				$sql = "UPDATE `teste` SET `id_kit` = ?, WHERE `teste`.`id` = ?";
+				$stmt = $mysqli->prepare($sql);
+
+				$stmt->bind_param("ii", $kit, $id);
+
+				$kit = $num;
+				$id = $request->getParsedBody()['itens'][$i];
+				
+				$stmt->execute();
+			}
+		}
+		echo "Data Inserted";
+	}
+	
+	echo $descricao;
+	  
+});
+
+// criar nova entrada na tabela teste_estado
+$app->post('/api/teste/insertEstado', function($request) {
+
+	require_once('dbconnect_teste.php');
+	
+
+	$query = "INSERT INTO `teste_estado` (`descricao`) VALUES (?)";
+
+	$stmt = $mysqli->prepare($query);
+
+	$stmt->bind_param("s", $descricao);
+
+	$descricao = $request->getParsedBody()['descricao'];
+	
+
+	$stmt->execute();
+	
+	echo $descricao;
 	  
 });
 
@@ -235,28 +306,6 @@ $app->get('/api/teste/image', function($request) {
 });
 
 
-// criar nova entrada na tabela teste com ligaçao a teste_fkey (ligaçao chave estrangeira)  (SELECT `id` FROM `teste_fkey` WHERE `descricao` = '$desc')
-$app->put('/api/teste/updateUser/{id}', function($request, $response, $args) {
-	
-	require_once('dbconnect_teste.php');
-
-	echo("<script>alert('teste');</script>");
-	$id = $request->getAttribute('id');
-
-	$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = $id";
-
-	$stmt = $mysqli->prepare($sql);
-
-	$stmt->bind_param("sssii", $username1, $password1, $email1, $number1, $phone1);
-
-	$username1 = $request->getParsedBody()['username'];
-	$email1 = $request->getParsedBody()['email'];
-	$password1 = $request->getParsedBody()['password'];
-	$number1 = $request->getParsedBody()['number'];
-	$phone1 = $request->getParsedBody()['phonenumber'];
-
-	$stmt->execute();
-	
-});
 
 
+?>

@@ -73,6 +73,7 @@ include('session.php');
                       <li><a href="form_categoria.php">Categoria</a></li>
                       <li><a href="form_data.php">Data</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
+                      <li><a href="form_estado.php">Estado</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
@@ -171,32 +172,46 @@ include('session.php');
                     <form id="demo-form2"  action="http://myslimsite/api/teste/insertF" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first_name">Primeiro nome </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first_name" name="first_name" class="form-control col-md-7 col-xs-12">
-                          <span id="msg_firstname" name="msg" style="color:red"></span>
+                          <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_marca" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last_name">Último Nome </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last_name" name="last_name" class="form-control col-md-7 col-xs-12">
-                          <span id="msg_lastname" name="msg" style="color:red"></span>
+                          <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_modelo" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min="1">
-                          <span id="msg_number" name="msg" style="color:red"></span>
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1">
+                          <span id="msg_serialnumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1">
+                          <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="visible" name="visible" value="1" checked> Sim<br>
-                          <input type="radio" id="visible" name="visible" value="0"> Não<br>
-                          <span id="msg_visible" name="msg" style="color:red"></span>
+                          <input type="radio" id="visivel" name="visivel" value="1" checked> Sim<br>
+                          <input type="radio" id="visivel" name="visivel" value="0"> Não<br>
+                          <span id="msg_visivel" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
@@ -221,15 +236,36 @@ include('session.php');
                         </div>
                       </div>
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <?php
+
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `teste_estado` "; // Run your query
+                            $result=$mysqli->query($query);
+                            $final=[];
+                            echo '<select class="form-control" id="estado" name="estado" >'; // Open your drop down box
+
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'">'.$row['descricao'].'</option>';
+                            }
+
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_estado" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                          <table class="table table-bordered" id="dynamic_field">
                           <tr>
-                            <td><input type="text" id="name[]" name="name[]" placeholder="" class="form-control name_list" /></td>
+                            <td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td>
                             <td><button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button></td>
                           </tr>
                          </table>
-                         <span id="msg_name" name="msg" style="color:red"></span>
+                         <span id="msg_attributes" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
@@ -335,69 +371,90 @@ include('session.php');
             // Stop the browser from submitting the form.
             event.preventDefault();
 
-            var message1 = $('#first_name').val();  
-            var message2 = $('#last_name').val();  
-            var message3 = $('#number').val();  
-            var message4 = $('#visible').val();  
+            var message1 = $('#marca').val();  
+            var message2 = $('#descricao').val();  
+              
+            var message4 = $('#visivel').val();  
             var message5 = $('#desc').val();  
-            var message7 = $('#image').val(); 
+            var message6 = $('#image').val();
+            var message7 = $('#serialnumber').val();
+            var message8 = $('#ipvcnumber').val();
+            var message9 = $('#modelo').val();  
 
 
-            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' || message5 == '' || message7 == '' )  
+            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '1' || message6 == '' || message7 == '' || message8 == '' || message9 == '' )  
             {  
 
               if( message1 == '' )  
               {  
-                $('#msg_firstname').html("Deve preencher este campo de forma válida! Ex: Pedro");
+                $('#msg_marca').html("Deve preencher este campo de forma válida! Ex: Canon");
               }
               else
               {
-                $('#msg_firstname').html("");
+                $('#msg_marca').html("");
               }
 
               if( message2 == '' )  
               {  
-                $('#msg_lastname').html("Deve preencher este campo de forma válida! Ex: Silva");
+                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica Canon 500D");
               }
               else
               {
-                $('#msg_lastname').html("");
-              }
-
-              if( message3 == '' )  
-              {  
-                $('#msg_number').html("Deve preencher este campo de forma válida! Ex: 10225");
-              }
-              else
-              {
-                $('#msg_number').html("");
+                $('#msg_descricao').html("");
               }
 
               if( message4 == '' )  
               {  
-                $('#msg_visible').html("Deve preencher este campo de forma válida! Ex: wut");
+                $('#msg_visivel').html("Deve preencher este campo de forma válida! Ex: wut");
               }
               else
               {
-                $('#msg_visible').html("");
+                $('#msg_visivel').html("");
               }
 
-              if( message5 == '' )  
+              if( message5 == '1' )  
               {  
-                $('#msg_desc').html("Deve preencher este campo de forma válida! Ex: wut^2");
+                $('#msg_desc').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
               }
               else
               {
                 $('#msg_desc').html("");
               }
 
-              if( message7 == '' )  
+              if( message6 == '' )  
               {  
                 $('#msg_image').html("Deve preencher este campo de forma válida!");
               }
               else
               {
                 $('#msg_image').html("");
+              }
+
+              if( message7 == '' )  
+              {  
+                $('#msg_serialnumber').html("Deve preencher este campo de forma válida! Ex: 1002392");
+              }
+              else
+              {
+                $('#msg_serialnumber').html("");
+              }
+
+              if( message8 == '' )  
+              {  
+                $('#msg_ipvcnumber').html("Deve preencher este campo de forma válida! Ex: 293");
+              }
+              else
+              {
+                $('#msg_ipvcnumber').html("");
+              }
+
+              if( message9 == '' )  
+              {  
+                $('#msg_modelo').html("Deve preencher este campo de forma válida! Ex: 500D");
+              }
+              else
+              {
+                $('#msg_modelo').html("");
               }
               
                    
@@ -417,13 +474,14 @@ include('session.php');
                   cache: false,
                   processData:false
               });
-               $('#msg_firstname').html("");
-              $('#msg_lastname').html("");
-              $('#msg_number').html("");
-              $('#msg_visible').html("");
+               $('#msg_nome').html("");
+              $('#msg_descricao').html("");
+              $('#msg_visivel').html("");
               $('#msg_desc').html("");   
-              $('#msg_name').html("");
+              $('#msg_attributes').html("");
               $('#msg_image').html("");
+              $('#msg_ipvcnumber').html("");
+              $('#msg_serialnumber').html("");
               $('#msg').html("Data upload sucessful!");
               $('#demo-form2').trigger("reset");
               //$('#descricao').val('');
@@ -450,7 +508,7 @@ $(document).ready(function(){
   var i=1;
   $('#add').click(function(){
     i++;
-    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="name[]" name="name[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
   });
   
   $(document).on('click', '.btn_remove', function(){

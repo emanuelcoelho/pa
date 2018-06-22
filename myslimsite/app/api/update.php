@@ -12,7 +12,7 @@
 		$phone = $request->getParsedBody()['phonenumber'];
 
 
-		$query = "SELECT * FROM teste_user WHERE username = 'emanuel' and password = 'passeemanuel' and email = 'emanuelmail@gmail.com' ";
+		$query = "SELECT * FROM teste_user WHERE username = '$username' and password = '$password' and email = '$email' ";
 		$result = mysqli_query($mysqli,$query);
 
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -20,9 +20,9 @@
 		$id=$row["id"];
 
 
-		$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = 2";
+		$sql = "UPDATE `teste_user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `teste_user`.`id` = ?";
 		$stmt = $mysqli->prepare($sql);
-		$stmt->bind_param("sssii", $username, $password, $email, $number, $phone);
+		$stmt->bind_param("sssiii", $username, $password, $email, $number, $phone, $id);
 
 
 		$stmt->execute();
