@@ -21,5 +21,8 @@ require_once('../app/api/teste.php');
 require_once('../app/api/teste2.php');
 require_once('../app/api/formKit.php');
 require_once('../app/api/update.php');
+require_once('../app/api/formKitEdit.php');
+
+
 
 $app->run();

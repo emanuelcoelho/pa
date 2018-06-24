@@ -80,7 +80,7 @@ include('session.php');
                   </li>
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="index.php">Kit</a></li>
+                      <li><a href="form_search_edit_kit.php">Kit</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
@@ -368,6 +368,7 @@ include('session.php');
               $('#msg_password').html("");   
               $('#msg').html("Data upload sucessful!");
               $('#demo-form2').trigger("reset");
+              //window.location.href=window.location.href;
               //$('#descricao').val('');
             }
           });
