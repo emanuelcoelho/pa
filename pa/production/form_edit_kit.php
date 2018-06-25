@@ -182,7 +182,7 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left" >
+                    <form id="demo-form2" action="" method="PUT" enctype="multipart/form-data" class="form-horizontal form-label-left" >
 
                       <?php
                             $id = $_GET['var'];
@@ -237,7 +237,7 @@ include('session.php');
                       </div>
                       </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEditDelete/editRemoverItemKit" method="post">
+                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEditDelete/editRemoverItemKit" method="PUT">
                         <div class="form-group">
                           <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
                           
@@ -293,6 +293,7 @@ include('session.php');
                                           if($row['id_kit'] == $row2['id'] )
                                           {
                                             echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
+                                            
                                           }
                                           else if ($row['id_kit'] != $row2['id'] ) 
                                           {
@@ -431,9 +432,8 @@ include('session.php');
         var form2 = $('#formtabela');
         //var formData = $(this).serialize();
         $.ajax({
-          type: 'post',
-                  url: $(form2).attr('action'),
-                  data: {num: v},
+          type: 'put',
+                  url: "http://myslimsite/api/formKitEditDelete/editRemoverItemKit/num="+v,
                   contentType: false,
                   cache: false,
                   processData:false

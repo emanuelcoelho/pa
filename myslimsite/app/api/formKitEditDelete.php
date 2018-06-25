@@ -1,11 +1,8 @@
-
 <?php
-
-
-$app->put('/api/formKitEditDelete/editRemoverItemKit', function($request, $response, $args) {
+$app->put('/api/formKitEditDelete/editRemoverItemKit/num={id}', function($request, $response, $args) {
 
 	require_once('dbconnect_teste.php');
-	$id = $request->getAttribute('num');
+	$id = $request->getAttribute('id');
 	//$id = $request->getparsedBody()['num'];
 	//$id = $_POST['num'];
 	//$id = $_GET['num'];
@@ -21,9 +18,4 @@ $app->put('/api/formKitEditDelete/editRemoverItemKit', function($request, $respo
 	$stmt->execute();
 
 });
-
-
-
-
-
 ?>

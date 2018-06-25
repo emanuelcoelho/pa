@@ -26,3 +26,5 @@ require_once('../app/api/formKitEditDelete.php');
 
 
 $app->run();
+
+?>
