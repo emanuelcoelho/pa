@@ -182,7 +182,7 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite//api/formKitEdit/saveId" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left" >
+                    <form id="demo-form2" action="" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left" >
 
                       <?php
                             $id = $_GET['var'];
@@ -235,74 +235,87 @@ include('session.php');
                           <span id="msg_limite" name="msg" style="color:red"></span>
                         </div>
                       </div>
+                      </form>
                     
-
-                      <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
-                        
-                        
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th>Marca</th>
-                              <th>Modelo</th>
-                              <th>Kit</th>
-                              <th>Estado</th>
-                              <th>Categoria</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th>Marca</th>
-                              <th>Modelo</th>
-                              <th>Kit</th>
-                              <th>Estado</th>
-                              <th>Categoria</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-                              
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT teste.id, 
-                                        teste.marca,
-                                        teste.modelo,
-                                        teste_fkey.descricao AS descCat, 
-                                        teste_estado.descricao AS descEst,
-                                        teste_kit.descricao AS descKit
-                                        FROM teste 
-                                        INNER JOIN teste_fkey ON teste.id_categoria = teste_fkey.id
-                                        INNER JOIN teste_kit ON teste.id_kit = teste_kit.id
-                                        INNER JOIN teste_estado ON teste.id_estado = teste_estado.id 
-                                        WHERE (teste.id_kit=1 AND teste.visivel=1)
-                                        OR (teste.id_kit='$id' AND teste.visivel=1)
-                                        ORDER BY teste.id_kit DESC";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
+                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEditDelete/editRemoverItemKit" method="post">
+                        <div class="form-group">
+                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                          
+                          
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Kit</th>
+                                <th>Estado</th>
+                                <th>Categoria</th>
+                              </tr>
+                            </thead>
+                            <tfoot>
+                              <tr>
+                                <th></th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Kit</th>
+                                <th>Estado</th>
+                                <th>Categoria</th>
+                              </tr> 
+                            </tfoot>
+                            <tbody>
+                              <?php
                                 
-                               
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
-                                        <td> '.$row['marca'].'</td>
-                                        <td> '.$row['modelo'].'</td>
-                                        <td> '.$row['descKit'].'</td>
-                                        <td> '.$row['descEst'].'</td> 
-                                        <td>'.$row['descCat'].'</td>
-                                      </tr>';
-                              }
+                                // Assume $db is a PDO object
+                                
+                                $query = "SELECT teste.id, 
+                                          teste.marca,
+                                          teste.modelo,
+                                          teste.id_kit,
+                                          teste_fkey.descricao AS descCat, 
+                                          teste_estado.descricao AS descEst,
+                                          teste_kit.descricao AS descKit
+                                          FROM teste 
+                                          INNER JOIN teste_fkey ON teste.id_categoria = teste_fkey.id
+                                          INNER JOIN teste_kit ON teste.id_kit = teste_kit.id
+                                          INNER JOIN teste_estado ON teste.id_estado = teste_estado.id 
+                                          WHERE (teste.id_kit=1 AND teste.visivel=1)
+                                          OR (teste.id_kit='$id' AND teste.visivel=1)
+                                          ORDER BY teste.id_kit DESC";
+                                $result=$mysqli->query($query);
+                                
 
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        <span id="msg_check" name="msg" style="color:red"></span>
-                      </div>
+                                // Loop through the query results, outputing the options one by one
+                                while ($row = $result->fetch_assoc()) {
+                                  
+                                 
+                                   echo '<tr> 
+                                          <td><button type="button" id="button[]"  '; 
+                                          if($row['id_kit'] == $row2['id'] )
+                                          {
+                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
+                                          }
+                                          else if ($row['id_kit'] != $row2['id'] ) 
+                                          {
+                                            echo('class="btn btn-success botaoadd" data-id="'.$row['id'].'">Adicionar</button> </td>');
+                                          }; 
+                                          echo '  
+                                          <td> '.$row['marca'].'</td>
+                                          <td> '.$row['modelo'].'</td>
+                                          <td> '.$row['descKit'].'</td>
+                                          <td> '.$row['descEst'].'</td> 
+                                          <td>'.$row['descCat'].'</td>
+                                        </tr>';
+                                }
+
+                                echo '</select>';// Close your drop down box
+                              ?>
+                              
+                            </tbody>
+                          </table>
+                          <input type="hidden" name="_METHOD" value="PUT"/>
+                        </div>
+
+                      </form>
 
                       
                       <div class="ln_solid"></div>
@@ -313,7 +326,7 @@ include('session.php');
                         </div>
                       </div>
 
-                    </form>
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
@@ -322,150 +335,7 @@ include('session.php');
         </div>
 
 
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog modal-lg">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-              </div>
-              <div class="modal-body">
-
-                  <form id="demo-form3" >
-                        
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-3" for="descricao">Descrição </label>
-                          <div class="col-md-9 col-sm-9 col-xs-9">
-                            <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" >
-                            <span id="msg_descricao" name="msg" style="color:red"></span>  
-                          </div>
-                        </div>
-
-
-
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-3"> Categoria </label>
-                          <div class="col-md-9 col-sm-9 col-xs-9">                        
-                            <?php
-
-                              // Assume $db is a PDO object
-                              $query = "SELECT * FROM `teste_fkey` "; // Run your query
-                              $result=$mysqli->query($query);
-                              $final=[];
-                              echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                 echo '<option value="'.$row['id'].'">'.$row['descricao'].'</option>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            <span id="msg_cat" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-
-                       
-
-                      
-
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-3" for="limite">Limite máximo de dias </label>
-                          <div class="col-md-2 col-sm-12 col-xs-12 form-group">
-                            <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" min="1">
-                            <span id="msg_limite" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-                        
-                        <br>
-
-
-                      
-
-                        <div class="form-group">
-                          <table id="datatable" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
-                          
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <th>Nome kit</th>
-                                <th>Categoria</th>
-                                <th>Limite data</th>
-                              </tr>
-                            </thead>
-                            <tfoot>
-                              <tr>
-                                <th></th>
-                                <th>Nome kit</th>
-                                <th>Categoria</th>
-                                <th>Limite data</th>
-                              </tr> 
-                            </tfoot>
-                            <tbody>
-                              <?php
-
-                                // Assume $db is a PDO object
-                                
-                                $query = "SELECT teste_kit.id, teste_kit.descricao AS descKit, teste_fkey.descricao AS descCat, teste_kit.limite_data FROM teste_kit INNER JOIN teste_fkey ON teste_kit.id_categoria = teste_fkey.id WHERE teste_kit.id>1";
-                                $result=$mysqli->query($query);
-                                
-
-                                // Loop through the query results, outputing the options one by one
-                                while ($row = $result->fetch_assoc()) {
-                                  
-                                  /*$querycat = "SELECT * FROM `teste_fkey` WHERE `id`='$row[id_categoria]'"; // Run your query
-                                  $resultcat=$mysqli->query($querycat);
-                                  $rowcat = $resultcat->fetch_assoc();
-
-                                  $querykit = "SELECT * FROM `teste_kit` WHERE `id`='$row[id_kit]'"; // Run your query
-                                  $resultkit=$mysqli->query($querykit);
-                                  $rowkit = $resultkit->fetch_assoc();
-
-                                  $queryest = "SELECT * FROM `teste_estado` WHERE `id`='$row[id_estado]'"; // Run your query
-                                  $resultest=$mysqli->query($queryest);
-                                  $rowest = $resultest->fetch_assoc(); */
-                                   echo '<tr> 
-                                          <td><button id="button[]" type="button" data-toggle="modal" data-target="#myModal" value='.$row['id'].'>Editar kit</button></td>
-                                          <td> '.$row['descKit'].'</td> 
-                                          <td>'.$row['descCat'].'</td>
-                                          <td>'.$row['limite_data'].'</td>
-                                        </tr>';
-                                }
-
-                                echo '</select>';// Close your drop down box
-                              ?>
-                              
-                            </tbody>
-                          </table>
-                          <span id="msg_check" name="msg" style="color:red"></span>
-                        </div>
-
-                        
-                        
-                        
-                        <div class="form-group">
-                          <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            
-                            <input type="hidden" name="_METHOD" value="PUT"/> 
-                            
-                            <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-
-                          </div>
-                        </div>
-
-                      </form>
-
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -537,15 +407,43 @@ include('session.php');
     $(document).ready(function(){
 
       
-     $(".botao").click(function(){ // Click to only happen on announce links
+
+
+     $(".botaoadd").click(function(){ // Click to only happen on announce links
 
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/player_detail?username=' + v;
+        //window.location = '/player_detail?username=' + v;
+        
+
+
+        //window.location.href = "newcustomer.php";
+
+        
       }
        
      });
 
+      $(".botaodel").click(function(){ // Click to only happen on announce links 
+
+        var v = $(this).data('id'); 
+        //var dataObject = { 'num': v};
+        var form2 = $('#formtabela');
+        //var formData = $(this).serialize();
+        $.ajax({
+          type: 'post',
+                  url: $(form2).attr('action'),
+                  data: {num: v},
+                  contentType: false,
+                  cache: false,
+                  processData:false
+        });
+        //alert("delete!! "+v);    
+           
+        
+        //window.location.href = "http://myslimsite/api/formKitEditDelete/editRemoverItemKit/num="+v; //the php file where I have the delete query
+
+      });
 
       
       
@@ -555,8 +453,34 @@ include('session.php');
           // Get the form.
           var form = $('#demo-form2');
 
+          
+
           // Get the messages div.
           var formMessages = $('#msg');
+
+
+
+/*
+          // Set up an event listener for the contact form.
+          $(form2).submit(function(event) {
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+            alert("submit impedido val="+v);
+            
+            var formData = $(form2).serialize();
+
+            // Submit the form using AJAX.
+            $.ajax({
+              type: 'post',
+              url: $(form2).attr('action'),
+              data: {num: v},
+              success: function(formData) { 
+                //$('#demo-form2').trigger("reset");
+              }
+            });
+          });
+*/
+           
 
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
@@ -633,7 +557,10 @@ include('session.php');
           });
 
 
+
         });
+
+
       });
     </script>
 
