@@ -319,7 +319,7 @@ include('session.php');
 
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/pa/pa/production/form_edit_kit.php?var=' + v;
+          window.location = '/pa/production/form_edit_kit.php?var=' + v;
       }
        
      });

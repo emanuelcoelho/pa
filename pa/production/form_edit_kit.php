@@ -11,7 +11,7 @@ include('session.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -182,15 +182,16 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="" method="PUT" enctype="multipart/form-data" class="form-horizontal form-label-left" >
+                    <form id="demo-form2" action="http://myslimsite/api/formEditKit/update" method="post"  class="form-horizontal form-label-left" >
 
                       <?php
                             $id = $_GET['var'];
                             $query2 = "SELECT * FROM `teste_kit` WHERE `teste_kit`.`id`='$id' "; // Run your query
                             $result2=$mysqli->query($query2);
                             $row2 = $result2->fetch_assoc();
+                      ?>
 
-                            ?>
+                      <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
@@ -199,18 +200,17 @@ include('session.php');
                           <span id="msg_descricao" name="msg" style="color:red"></span>  
                         </div>
                       </div>
+                      
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                        <div class="col-md-6 col-sm-6 col-xs-12">                      
                           <?php
                                     
-
                             // Assume $db is a PDO object
                             $query = "SELECT * FROM `teste_fkey` "; // Run your query
                             $result=$mysqli->query($query);
                            
                             echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-
                             // Loop through the query results, outputing the options one by one
                             while ($row = $result->fetch_assoc()) 
                             {
@@ -221,7 +221,6 @@ include('session.php');
                                }; 
                                echo '   >'.$row['descricao'].'</option>';
                             }
-
                             echo '</select>';// Close your drop down box
                           ?>
                           <span id="msg_cat" name="msg" style="color:red"></span>
@@ -235,9 +234,24 @@ include('session.php');
                           <span id="msg_limite" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <input type="hidden" name="_METHOD" value="PUT"/> 
+                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+
                       </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEditDelete/editRemoverItemKit" method="PUT">
+                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
                         <div class="form-group">
                           <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
                           
@@ -283,7 +297,6 @@ include('session.php');
                                           ORDER BY teste.id_kit DESC";
                                 $result=$mysqli->query($query);
                                 
-
                                 // Loop through the query results, outputing the options one by one
                                 while ($row = $result->fetch_assoc()) {
                                   
@@ -297,7 +310,7 @@ include('session.php');
                                           }
                                           else if ($row['id_kit'] != $row2['id'] ) 
                                           {
-                                            echo('class="btn btn-success botaoadd" data-id="'.$row['id'].'">Adicionar</button> </td>');
+                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
                                           }; 
                                           echo '  
                                           <td> '.$row['marca'].'</td>
@@ -307,7 +320,6 @@ include('session.php');
                                           <td>'.$row['descCat'].'</td>
                                         </tr>';
                                 }
-
                                 echo '</select>';// Close your drop down box
                               ?>
                               
@@ -319,13 +331,7 @@ include('session.php');
                       </form>
 
                       
-                      <div class="ln_solid"></div>
-                      
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">                          
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-                        </div>
-                      </div>
+                     
 
                     <!--</form>-->
                   </div>
@@ -406,93 +412,62 @@ include('session.php');
     
     <script>
     $(document).ready(function(){
-
       
-
-
      $(".botaoadd").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-        //window.location = '/player_detail?username=' + v;
-        
-
-
-        //window.location.href = "newcustomer.php";
-
-        
-      }
-       
+      var v = $(this).data('id');
+      var i = $(this).attr('value');        
+      var form2 = $('#formtabela');
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formKitEdit/AddItem/num="+v+"&num2="+i,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
+                  }
+        });
+        //alert("delete!! "+i);          
      });
 
-      $(".botaodel").click(function(){ // Click to only happen on announce links 
 
+      $(".botaodel").click(function(){ // Click to only happen on announce links 
         var v = $(this).data('id'); 
         //var dataObject = { 'num': v};
         var form2 = $('#formtabela');
         //var formData = $(this).serialize();
         $.ajax({
           type: 'put',
-                  url: "http://myslimsite/api/formKitEditDelete/editRemoverItemKit/num="+v,
+                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
                   contentType: false,
                   cache: false,
-                  processData:false
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
+                  }
         });
         //alert("delete!! "+v);    
-           
-        
-        //window.location.href = "http://myslimsite/api/formKitEditDelete/editRemoverItemKit/num="+v; //the php file where I have the delete query
-
       });
-
       
       
-
         $(function() {
-
           // Get the form.
           var form = $('#demo-form2');
-
           
-
           // Get the messages div.
           var formMessages = $('#msg');
-
-
-
-/*
-          // Set up an event listener for the contact form.
-          $(form2).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-            alert("submit impedido val="+v);
-            
-            var formData = $(form2).serialize();
-
-            // Submit the form using AJAX.
-            $.ajax({
-              type: 'post',
-              url: $(form2).attr('action'),
-              data: {num: v},
-              success: function(formData) { 
-                //$('#demo-form2').trigger("reset");
-              }
-            });
-          });
-*/
            
-
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
+
             // Stop the browser from submitting the form.
             event.preventDefault();
 
             var message = $('#descricao').val();
             var message2 = $('#desc').val();   
             var message3 = $('#limite').val();
-            var check = $('input[name="itens[]"]:checked').length;
 
-            if(message == '' || message2 == '1' || message3 == '' || check == 0 )  
+            if(message == '' || message2 == '1' || message3 == ''  )  
             {  
               
               if( message == '' )  
@@ -503,7 +478,6 @@ include('session.php');
               {
                 $('#msg_descricao').html("");
               }
-
               if( message2 == '1' )  
               {  
                 $('#msg_cat').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
@@ -512,7 +486,6 @@ include('session.php');
               {
                 $('#msg_cat').html("");
               }
-
               if( message3 == '' )  
               {  
                 $('#msg_limite').html("Deve preencher este campo de forma válida! Ex: 6");
@@ -521,50 +494,38 @@ include('session.php');
               {
                 $('#msg_limite').html("");
               }
-
-              if( check == 0 )  
-              {  
-                $('#msg_check').html("Deve seleccionar pelo menos um item!");
-              }
-              else
-              {
-                $('#msg_check').html("");
-              }
+              
               
             }  
             else  
             {  
-
               // Serialize the form data.
               var formData = $(form).serialize();
-
               // Submit the form using AJAX.
               $.ajax({
                   type: 'post',
                   url: $(form).attr('action'),
-                  data: formData,
-                  success: function(formData) { 
-                    //$('#demo-form2').trigger("reset");
+                  data: new FormData(this),
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
                   }
               });
               $('#msg_descricao').html("");
               $('#msg_check').html("");
               $('#msg_limite').html("");
               $('#msg').html("Upload de dados concluído!");
-              $('#demo-form2').trigger("reset");
+              //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }
           });
-
-
-
         });
-
-
       });
     </script>
 
 
-	
+  
   </body>
 </html>

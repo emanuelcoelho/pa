@@ -94,5 +94,3 @@ $app->delete('/api/books/{id}', function($request) {
 	echo "done";
 
 });
-
-?>
