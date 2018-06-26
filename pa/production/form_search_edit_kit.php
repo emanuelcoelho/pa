@@ -90,6 +90,9 @@ include('session.php');
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
+                      <li><a href="form_search_edit_estado.php">Estado</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
@@ -186,23 +189,23 @@ include('session.php');
                      
 
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
                               <th></th>
-                              <th>Nome kit</th>
-                              <th>Categoria</th>
-                              <th>Limite data</th>
+                              <th class="text-center">Nome kit</th>
+                              <th class="text-center">Categoria</th>
+                              <th class="text-center">Limite data</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th>Nome kit</th>
-                              <th>Categoria</th>
-                              <th>Limite data</th>
+                              <th class="text-center">Nome kit</th>
+                              <th class="text-center">Categoria</th>
+                              <th class="text-center">Limite data</th>
                             </tr> 
                           </tfoot>
                           <tbody>

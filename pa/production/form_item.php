@@ -79,6 +79,9 @@ include('session.php');
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
+                      <li><a href="form_search_edit_estado.php">Estado</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
