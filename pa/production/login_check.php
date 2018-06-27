@@ -14,7 +14,7 @@
 
       
            
-      $sql = "SELECT * FROM teste_user WHERE username = '$myusername' and password = '$mypassword'";
+      $sql = "SELECT * FROM user WHERE username = '$myusername' and password = '$mypassword'";
       $result = mysqli_query($mysqli,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $myemail = $row["email"];

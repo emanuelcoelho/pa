@@ -63,7 +63,7 @@ $app->post('/api/teste/insertF', function($request) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste` (`marca`, `modelo`, `descricao`, `visivel`, `id_categoria`, `foto`, `serial_number`, `serial_ipvc`, `id_kit`, `id_estado`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO `itens` (`marca`, `modelo`, `descricao`, `visivel`, `id_categoria`, `foto`, `serial_number`, `serial_ipvc`, `id_kit`, `id_estado`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
@@ -91,7 +91,7 @@ $app->post('/api/teste/insertF', function($request) {
 	$stmt->execute();
 
 
-	$query1 = "SELECT `id` FROM `teste` ORDER BY `id` DESC LIMIT 1"; // Run your query
+	$query1 = "SELECT `id` FROM `itens` ORDER BY `id` DESC LIMIT 1"; // Run your query
 	$result1=$mysqli->query($query1);
 	$row1 = $result1->fetch_object();
 	$num=$row1->id;
@@ -105,7 +105,7 @@ $app->post('/api/teste/insertF', function($request) {
 			if(trim($_POST["attributes"][$i] != ''))
 			{
 
-				$sql = "INSERT INTO `teste_atributos`(`id_item`,`descricao`) VALUES(?,?)";
+				$sql = "INSERT INTO `atributos`(`id_item`,`descricao`) VALUES(?,?)";
 				$stmt = $mysqli->prepare($sql);
 
 				$stmt->bind_param("ss", $id_item, $descricao);
@@ -124,12 +124,32 @@ $app->post('/api/teste/insertF', function($request) {
 });
 
 // criar nova entrada na tabela teste_fkey
-$app->post('/api/teste/insertCat', function($request) {
+$app->post('/api/teste/insertCatItem', function($request) {
 
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste_fkey` (`descricao`) VALUES (?)";
+	$query = "INSERT INTO `categoria_item` (`descricao`) VALUES (?)";
+
+	$stmt = $mysqli->prepare($query);
+
+	$stmt->bind_param("s", $descricao);
+
+	$descricao = $request->getParsedBody()['descricao'];
+	
+
+	$stmt->execute();
+	
+	echo $descricao;
+	  
+});
+
+$app->post('/api/teste/insertCatKit', function($request) {
+
+	require_once('dbconnect_teste.php');
+	
+
+	$query = "INSERT INTO `categoria_kit` (`descricao`) VALUES (?)";
 
 	$stmt = $mysqli->prepare($query);
 
@@ -150,7 +170,7 @@ $app->put('/api/teste/insertKit', function($request) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste_kit` (`descricao`,`id_categoria`) VALUES (?, ?)";
+	$query = "INSERT INTO `kit` (`descricao`,`id_categoria`) VALUES (?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
@@ -162,7 +182,7 @@ $app->put('/api/teste/insertKit', function($request) {
 	$stmt->execute();
 
 
-	$query1 = "SELECT `id` FROM `teste_kit` ORDER BY `id` DESC LIMIT 1"; // Run your query
+	$query1 = "SELECT `id` FROM `kit` ORDER BY `id` DESC LIMIT 1"; // Run your query
 	$result1=$mysqli->query($query1);
 	$row1 = $result1->fetch_object();
 	$num=$row1->id;
@@ -175,7 +195,7 @@ $app->put('/api/teste/insertKit', function($request) {
 			if(trim($_POST["itens"][$i] != ''))
 			{
 
-				$sql = "UPDATE `teste` SET `id_kit` = ?, WHERE `teste`.`id` = ?";
+				$sql = "UPDATE `itens` SET `id_kit` = ?, WHERE `itens`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
 
 				$stmt->bind_param("ii", $kit, $id);
@@ -199,7 +219,7 @@ $app->post('/api/teste/insertEstado', function($request) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste_estado` (`descricao`) VALUES (?)";
+	$query = "INSERT INTO `estado` (`descricao`) VALUES (?)";
 
 	$stmt = $mysqli->prepare($query);
 

@@ -4,7 +4,7 @@ require_once('dbconnect_teste.php');
 
 
 
-$query = "SELECT marca, modelo, id_categoria, id_kit, id_estado FROM teste";
+$query = "SELECT marca, modelo, id_categoria, id_kit, id_estado FROM itens";
 
 
 $response = $mysqli->query($query);

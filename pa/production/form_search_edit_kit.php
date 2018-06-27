@@ -81,8 +81,8 @@ include('session.php');
                   <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria.php">Categoria</a></li>
-                      <li><a href="form_data.php">Data</a></li>
+                      <li><a href="form_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -91,7 +91,8 @@ include('session.php');
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
+                      <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
@@ -213,7 +214,13 @@ include('session.php');
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT teste_kit.id, teste_kit.descricao AS descKit, teste_fkey.descricao AS descCat, teste_kit.limite_data FROM teste_kit INNER JOIN teste_fkey ON teste_kit.id_categoria = teste_fkey.id WHERE teste_kit.id>1";
+                              $query = "SELECT kit.id, 
+                                        kit.descricao AS descKit, 
+                                        categoria_kit.descricao AS descCat, 
+                                        kit.limite_data 
+                                        FROM kit 
+                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
+                                        WHERE kit.id>1";
                               $result=$mysqli->query($query);
                               
 

@@ -7,7 +7,7 @@ $app->put('/api/formKitEdit/RemoveItem/num={id}', function($request, $response, 
 	//$id = $_POST['num'];
 	//$id = $_GET['num'];
 	$nId = 1;
-	$sql = "UPDATE `teste` SET `id_kit` = ? WHERE `id` = ?";
+	$sql = "UPDATE `itens` SET `id_kit` = ? WHERE `id` = ?";
 	$stmt = $mysqli->prepare($sql);
 	$stmt->bind_param("ii", $nId, $id);
 	
@@ -23,7 +23,7 @@ $app->put('/api/formKitEdit/AddItem/num={id}&num2={id2}', function($request, $re
 	//$id = $_POST['num'];
 	//$id = $_GET['num'];
 	$nId = $request->getAttribute('id2');
-	$sql = "UPDATE `teste` SET `id_kit` = ? WHERE `id` = ?";
+	$sql = "UPDATE `itens` SET `id_kit` = ? WHERE `id` = ?";
 	$stmt = $mysqli->prepare($sql);
 	$stmt->bind_param("ii", $nId, $id);
 	
@@ -41,7 +41,7 @@ $app->put('/api/formEditKit/update', function($request, $response, $args) {
 	$cat = $request->getParsedBody()['desc'];
 	$id = $request->getParsedBody()['idkit'];
 
-	$sql = "UPDATE `teste_kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ? WHERE `id` = ?";
+	$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ? WHERE `id` = ?";
 	$stmt = $mysqli->prepare($sql);
 	$stmt->bind_param("siii", $descricao, $limite, $cat, $id);
 

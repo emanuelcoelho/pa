@@ -81,8 +81,8 @@ include('session.php');
                   <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria.php">Categoria</a></li>
-                      <li><a href="form_data.php">Data</a></li>
+                      <li><a href="form_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -91,7 +91,8 @@ include('session.php');
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
+                      <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
@@ -209,7 +210,7 @@ include('session.php');
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT * FROM teste_estado ";
+                              $query = "SELECT * FROM estado ";
                               $result=$mysqli->query($query);
                               
 

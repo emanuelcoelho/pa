@@ -5,7 +5,7 @@ $app->put('/api/formKit/insertKit', function($request, $response, $args) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `teste_kit` (`descricao`,`id_categoria`, `limite_data`) VALUES (?, ?, ?)";
+	$query = "INSERT INTO `kit` (`descricao`,`id_categoria`, `limite_data`) VALUES (?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
@@ -18,7 +18,7 @@ $app->put('/api/formKit/insertKit', function($request, $response, $args) {
 	$stmt->execute();
 
 
-	$query1 = "SELECT `id` FROM `teste_kit` ORDER BY `id` DESC LIMIT 1"; // Run your query
+	$query1 = "SELECT `id` FROM `kit` ORDER BY `id` DESC LIMIT 1"; // Run your query
 	$result1=$mysqli->query($query1);
 	$row1 = $result1->fetch_object();
 	$num=$row1->id;
@@ -36,7 +36,7 @@ $app->put('/api/formKit/insertKit', function($request, $response, $args) {
 			{
 				echo "test3";
 
-				$sql = "UPDATE `teste` SET `id_kit` = ? WHERE `teste`.`id` = ?";
+				$sql = "UPDATE `itens` SET `id_kit` = ? WHERE `itens`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
 
 				$id = $request->getParsedBody()['itens'][$i];

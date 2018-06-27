@@ -81,8 +81,8 @@ include('session.php');
                   <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria.php">Categoria</a></li>
-                      <li><a href="form_data.php">Data</a></li>
+                      <li><a href="form_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -91,7 +91,8 @@ include('session.php');
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
+                      <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
                       <li><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
@@ -223,21 +224,21 @@ include('session.php');
                                 
                                 // Assume $db is a PDO object
                                 
-                                $query = "SELECT teste.id, 
-                                          teste.marca,
-                                          teste.modelo,
-                                          teste.id_kit,
-                                          teste.visivel,
-                                          teste.serial_number,
-                                          teste.serial_ipvc,
-                                          teste_fkey.descricao AS descCat, 
-                                          teste_estado.descricao AS descEst,
-                                          teste_kit.descricao AS descKit
-                                          FROM teste 
-                                          INNER JOIN teste_fkey ON teste.id_categoria = teste_fkey.id
-                                          INNER JOIN teste_kit ON teste.id_kit = teste_kit.id
-                                          INNER JOIN teste_estado ON teste.id_estado = teste_estado.id 
-                                          ORDER BY teste.id ASC";
+                                $query = "SELECT itens.id, 
+                                          itens.marca,
+                                          itens.modelo,
+                                          itens.id_kit,
+                                          itens.visivel,
+                                          itens.serial_number,
+                                          itens.serial_ipvc,
+                                          categoria_item.descricao AS descCat, 
+                                          estado.descricao AS descEst,
+                                          kit.descricao AS descKit
+                                          FROM itens 
+                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
+                                          INNER JOIN kit ON itens.id_kit = kit.id
+                                          INNER JOIN estado ON itens.id_estado = estado.id 
+                                          ORDER BY itens.id ASC";
                                 $result=$mysqli->query($query);
                                 
                                 // Loop through the query results, outputing the options one by one

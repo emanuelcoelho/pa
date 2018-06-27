@@ -15,17 +15,19 @@
 
       // Inserir utilizador na base de dados
 
-      $query = "INSERT INTO `teste_user` (`username`, `password`, `email`) VALUES (?, ?, ?)";
+      $query = "INSERT INTO `user` (`username`, `password`, `email`, `id_grupo`) VALUES (?, ?, ?, ?)";
 
       $stmt = $mysqli->prepare($query);
 
-      $stmt->bind_param("sss", $myusername, $mypassword, $myemail);
+      $group=1;
+
+      $stmt->bind_param("sssi", $myusername, $mypassword, $myemail, $group);
 
       $stmt->execute();
       
       // Pesquisar utilizador na base de dados
            
-      $sql = "SELECT * FROM teste_user WHERE username = '$myusername' and password = '$mypassword'";
+      $sql = "SELECT * FROM user WHERE username = '$myusername' and password = '$mypassword'";
       $result = mysqli_query($mysqli,$sql);
       $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
       $count = mysqli_num_rows($result);
@@ -35,6 +37,8 @@
       }else{
         setcookie("login",$myusername);
         $_SESSION['username'] = $myusername;
+        $_SESSION['password'] = $mypassword;
+        $_SESSION['email'] = $myemail;
         header("Location:index.php");
       }
     }

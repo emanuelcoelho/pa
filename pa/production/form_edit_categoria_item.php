@@ -178,7 +178,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar categoria de item <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -186,16 +186,16 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEditKit/update" method="post"  class="form-horizontal form-label-left" >
+                    <form id="demo-form2" action="http://myslimsite/api/formCatEdit/updateItem" method="post"  class="form-horizontal form-label-left" >
 
                       <?php
                             $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
+                            $query2 = "SELECT * FROM `categoria_item` WHERE `id`='$id' "; // Run your query
                             $result2=$mysqli->query($query2);
                             $row2 = $result2->fetch_assoc();
                       ?>
 
-                      <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
+                      <input type="hidden" name="idcat" id="idcat" value="<?php echo $row2['id'] ?>">
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
@@ -204,42 +204,6 @@ include('session.php');
                           <span id="msg_descricao" name="msg" style="color:red"></span>  
                         </div>
                       </div>
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                      
-                          <?php
-                                    
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `categoria_kit` "; // Run your query
-                            $result=$mysqli->query($query);
-                           
-                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-                            // Loop through the query results, outputing the options one by one
-                            while ($row = $result->fetch_assoc()) 
-                            {
-                               echo '<option value="'.$row['id'].'" '; 
-                               if($row['id'] == $row2['id_categoria'] )
-                               {
-                                  echo("selected");
-                               }; 
-                               echo '   >'.$row['descricao'].'</option>';
-                            }
-                            echo '</select>';// Close your drop down box
-                          ?>
-                          <span id="msg_cat" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['limite_data'] ?>">
-                          <span id="msg_limite" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-
-
 
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -255,88 +219,7 @@ include('session.php');
 
                       </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
-                        <div class="form-group">
-                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
-                          
-                          
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                              </tr>
-                            </thead>
-                            <tfoot>
-                              <tr>
-                                <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                              </tr> 
-                            </tfoot>
-                            <tbody>
-                              <?php
-                                
-                                // Assume $db is a PDO object
-                                
-                                $query = "SELECT teste.id, 
-                                          teste.marca,
-                                          teste.modelo,
-                                          teste.id_kit,
-                                          teste_fkey.descricao AS descCat, 
-                                          teste_estado.descricao AS descEst,
-                                          teste_kit.descricao AS descKit
-                                          FROM teste 
-                                          INNER JOIN teste_fkey ON teste.id_categoria = teste_fkey.id
-                                          INNER JOIN teste_kit ON teste.id_kit = teste_kit.id
-                                          INNER JOIN teste_estado ON teste.id_estado = teste_estado.id 
-                                          WHERE (teste.id_kit=1 AND teste.visivel=1)
-                                          OR (teste.id_kit='$id' AND teste.visivel=1)
-                                          ORDER BY teste.id_kit DESC";
-                                $result=$mysqli->query($query);
-                                
-                                // Loop through the query results, outputing the options one by one
-                                while ($row = $result->fetch_assoc()) {
-                                  
-                                 
-                                   echo '<tr> 
-                                          <td><button type="button" id="button[]"  '; 
-                                          if($row['id_kit'] == $row2['id'] )
-                                          {
-                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
-                                            
-                                          }
-                                          else if ($row['id_kit'] != $row2['id'] ) 
-                                          {
-                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
-                                          }; 
-                                          echo '  
-                                          <td> '.$row['marca'].'</td>
-                                          <td> '.$row['modelo'].'</td>
-                                          <td> '.$row['descKit'].'</td>
-                                          <td> '.$row['descEst'].'</td> 
-                                          <td>'.$row['descCat'].'</td>
-                                        </tr>';
-                                }
-                                echo '</select>';// Close your drop down box
-                              ?>
-                              
-                            </tbody>
-                          </table>
-                          <input type="hidden" name="_METHOD" value="PUT"/>
-                        </div>
-
-                      </form>
-
                       
-                     
-
                     <!--</form>-->
                   </div>
                 </div>
@@ -415,44 +298,7 @@ include('session.php');
 
     
     <script>
-    $(document).ready(function(){
-      
-     $(".botaoadd").click(function(){ // Click to only happen on announce links
-      var v = $(this).data('id');
-      var i = $(this).attr('value');        
-      var form2 = $('#formtabela');
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/AddItem/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });
-        //alert("delete!! "+i);          
-     });
-
-
-      $(".botaodel").click(function(){ // Click to only happen on announce links 
-        var v = $(this).data('id'); 
-        //var dataObject = { 'num': v};
-        var form2 = $('#formtabela');
-        //var formData = $(this).serialize();
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });
-        //alert("delete!! "+v);    
-      });
-      
+    $(document).ready(function(){      
       
         $(function() {
           // Get the form.
@@ -468,35 +314,18 @@ include('session.php');
             event.preventDefault();
 
             var message = $('#descricao').val();
-            var message2 = $('#desc').val();   
-            var message3 = $('#limite').val();
+            
 
-            if(message == '' || message2 == '1' || message3 == ''  )  
+            if(message == '' )  
             {  
               
               if( message == '' )  
               {  
-                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica Canon 500D");
+                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica ");
               }
               else
               {
                 $('#msg_descricao').html("");
-              }
-              if( message2 == '1' )  
-              {  
-                $('#msg_cat').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
-              }
-              else
-              {
-                $('#msg_cat').html("");
-              }
-              if( message3 == '' )  
-              {  
-                $('#msg_limite').html("Deve preencher este campo de forma válida! Ex: 6");
-              }
-              else
-              {
-                $('#msg_limite').html("");
               }
               
               
@@ -518,8 +347,6 @@ include('session.php');
                   }
               });
               $('#msg_descricao').html("");
-              $('#msg_check').html("");
-              $('#msg_limite').html("");
               $('#msg').html("Upload de dados concluído!");
               //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
