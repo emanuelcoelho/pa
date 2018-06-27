@@ -5,15 +5,16 @@ $app->put('/api/formKit/insertKit', function($request, $response, $args) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `kit` (`descricao`,`id_categoria`, `limite_data`) VALUES (?, ?, ?)";
+	$query = "INSERT INTO `kit` (`descricao`,`id_categoria`, `limite_data`, `observacao`) VALUES (?, ?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("sii", $descricao, $cat, $limite);
+	$stmt->bind_param("siis", $descricao, $cat, $limite, $obs);
 
 	$limite = $request->getParsedBody()['limite'];
 	$descricao = $request->getParsedBody()['descricao'];
 	$cat = $request->getParsedBody()['desc'];
+	$obs = $request->getParsedBody()['obs'];
 
 	$stmt->execute();
 

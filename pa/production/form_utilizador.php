@@ -74,6 +74,7 @@ include('session.php');
                       <li><a href="form_item.php">Item</a></li>
                       <li><a href="form_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li><a href="form_grupo.php">Grupo</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -81,7 +82,9 @@ include('session.php');
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_group.php">Grupo</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
@@ -175,55 +178,50 @@ include('session.php');
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/updateUser2" method="post">
+                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/formEditProfile/update" method="post">
 
                       <?php 
-                        $myusername= $_SESSION['username'];
-                        $mypassword= $_SESSION['password'];
-                        $myemail = $_SESSION['email'];
 
-                        $sql = "SELECT * FROM user WHERE username = '$myusername' and password = '$mypassword' and email = '$myemail'";
+                        $sql = "SELECT * FROM user WHERE id = '".$_SESSION['id']."' ";
                         $result = mysqli_query($mysqli,$sql);
                         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 
-                        $myid=$row["id"];
-                        $mynumber=$row["numero"];
-                        $myphone=$row["telefone"];
-
                       ?>
+
+                      <input type="hidden" name="iduser" id="iduser" value="<?php echo $row['id'] ?>">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $myusername; ?>" >
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row["username"] ?>" >
                           <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $myemail; ?>">
+                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row["email"]; ?>">
                           <span id="msg_email" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="password" name="password" class="form-control col-md-7 col-xs-12" value="<?php echo $mypassword; ?>">
+                          <input type="text" id="password" name="password" class="form-control col-md-7 col-xs-12" value="<?php echo $row["password"]; ?>">
                           <span id="msg_password" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12"  value="<?php echo $mynumber; ?>">
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12"  value="<?php echo $row["numero"]; ?>">
                           <span id="msg_number" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $myphone; ?>">
+                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row["telefone"]; ?>">
                           <span id="msg_phonenumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -314,9 +312,7 @@ include('session.php');
 
             var message1 = $('#username').val();  
             var message2 = $('#email').val();  
-            var message3 = $('#password').val();  
-            var message4 = $('#number').val();  
-            var message5 = $('#phonenumber').val();  
+            var message3 = $('#password').val();    
 
 
             if(message1 == '' || message2 == '' || message3 == '' )  
@@ -365,14 +361,19 @@ include('session.php');
                   cache: false,
                   processData:false,
                   success: function(data) { 
+                    <?php
+                    
+                      $_SESSION['username'] = $row['username'];
+                      $_SESSION['password'] = $row['password'];
+                      $_SESSION['email'] = $row['email'];
+                      
+                    ?>
                     location.reload();
                   }
               });
               $('#msg_username').html("");
               $('#msg_email').html("");
-              $('#msg_number').html("");
-              $('#msg_phonenumber').html("");
-              $('#msg_password').html("");   
+              $('#msg_number').html(""); 
               $('#msg').html("Data upload sucessful!");
               //$('#demo-form2').trigger("reset");
               //window.location.href=window.location.href;

@@ -1,5 +1,21 @@
 <?php
    include('session.php');
+
+     if($_SESSION['criar_editar']==0)
+            {
+              echo '<style type="text/css">
+                #createGroup {
+                    display: none;
+                }
+                </style>';
+              echo '<style type="text/css">
+                #editGroup {
+                    display: none;
+                }
+                </style>';
+            }
+
+        
 ?>
 
 <!DOCTYPE html>
@@ -49,12 +65,14 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo $_SESSION['username']; ?></h2>
+                <h2><?php echo $_SESSION['username'];?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
 
             <br />
+
+           
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -63,19 +81,22 @@
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
                   <li><a href="index.php"><i class="fa fa-search"></i> Pesquisar </a></li>
-                  <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
+                  <li id="createGroup"><a><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria_item.php">Categoria item</a></li>
+                      <li><a href="form_categoria_item.php">Categoria item  </a></li>
                       <li><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li><a href="form_grupo.php">Grupo</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
+                  <li id="editGroup"><a><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_group.php">Grupo</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>

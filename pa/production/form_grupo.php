@@ -32,21 +32,10 @@ include('session.php');
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
 
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -181,74 +170,93 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Registo grupo <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
-
-                    
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2"  action="http://myslimsite/api/formGroup/insertGroup" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT kit.id, 
-                                        kit.descricao AS descKit, 
-                                        categoria_kit.descricao AS descCat, 
-                                        kit.limite_data 
-                                        FROM kit 
-                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
-                                        WHERE kit.id>1";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
-                                        <td> '.$row['descKit'].'</td> 
-                                        <td>'.$row['descCat'].'</td>
-                                        <td>'.$row['limite_data'].'</td>
-                                      </tr>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver kits</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="ver" name="ver" value="1" checked> Sim<br>
+                          <input type="radio" id="ver" name="ver" value="0"> Não<br>
+                          <span id="msg_ver" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservar kits</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="reservar" name="reservar" value="1" checked> Sim<br>
+                          <input type="radio" id="reservar" name="reservar" value="0"> Não<br>
+                          <span id="msg_reservar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver itens escondidos</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="ver_admin" name="ver_admin" value="1" checked> Sim<br>
+                          <input type="radio" id="ver_admin" name="ver_admin" value="0"> Não<br>
+                          <span id="msg_ver_admin" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Aceitar, recusar, editar reservas</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="reservas" name="reservas" value="1" checked> Sim<br>
+                          <input type="radio" id="reservas" name="reservas" value="0"> Não<br>
+                          <span id="msg_reservas" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e editar</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="criar_editar" name="criar_editar" value="1" checked> Sim<br>
+                          <input type="radio" id="criar_editar" name="criar_editar" value="0"> Não<br>
+                          <span id="msg_criar_editar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver utilizadores</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="user_ver" name="user_ver" value="1" checked> Sim<br>
+                          <input type="radio" id="user_ver" name="user_ver" value="0"> Não<br>
+                          <span id="msg_user_ver" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Editar utilizadores e grupos</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="user_editar" name="user_editar" value="1" checked> Sim<br>
+                          <input type="radio" id="user_editar" name="user_editar" value="0"> Não<br>
+                          <span id="msg_user_editar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       
-                      
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+						              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button type="submit" class="btn btn-success">Submit</button>
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12"></span>
+                        </div>
+                      </div>
 
                     </form>
                   </div>
@@ -305,41 +313,74 @@ include('session.php');
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-    <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+
+
+
+
+    <script>
+      $(document).ready(function(){
+
+
+        $(function() {
+          // Get the form.
+          var form = $('#demo-form2');
+
+          // Get the messages div.
+          var formMessages = $('#msg');
+
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+
+            var message1 = $('#descricao').val();  
+             
+
+
+            if(message1 == ''  )  
+            {  
+
+              if( message1 == '' )  
+              {  
+                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Aluno");
+              }
+              else
+              {
+                $('#msg_descricao').html("");
+              }
+               
+            }  
+            else  
+            {  
+
+              // Serialize the form data.
+              var formData = $(form).serialize();
+
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'POST',
+                  url: $(form).attr('action'),
+                  data: new FormData(this),
+                  contentType: false,
+                  cache: false,
+                  processData:false
+              });
+               $('#msg_descricao').html("");
+              $('#msg').html("Data upload sucessful!");
+              $('#demo-form2').trigger("reset");
+              //$('#descricao').val('');
+            }
+          });
+
+
+        });
+      });
+    </script>
 
 
     
-    <script>
-    $(document).ready(function(){
-
-      
-     $(".botao").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_kit.php?var=' + v;
-      }
-       
-     });
-   });
-    </script>
-
 
 	
   </body>
 </html>
+

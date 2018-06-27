@@ -72,6 +72,7 @@ include('session.php');
                       <li><a href="form_item.php">Item</a></li>
                       <li><a href="form_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li><a href="form_grupo.php">Grupo</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -79,7 +80,9 @@ include('session.php');
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_group.php">Grupo</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
@@ -167,7 +170,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Registo Item <small>Insira as informações necessárias</small></h2>
+                    <h2>Registo item <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -270,6 +273,12 @@ include('session.php');
                           </tr>
                          </table>
                          <span id="msg_attributes" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="obs" class="form-control" name="obs"></textarea>
                         </div>
                       </div>
                       <div class="form-group">

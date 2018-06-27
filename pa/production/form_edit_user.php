@@ -11,7 +11,7 @@ include('session.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -181,7 +181,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -189,74 +189,105 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2" action="http://myslimsite/api/formEditUser/update" method="post"  class="form-horizontal form-label-left" >
 
+                      <?php
+                            $id = $_GET['var'];
+                            $query = "SELECT * FROM `user` WHERE `id`='$id' "; // Run your query
+                            $result = $mysqli->query($query);
+                            $row = $result->fetch_assoc();
+                      ?>
+
+                      <input type="hidden" name="iduser" id="iduser" value="<?php echo $row['id'] ?>">
+                      
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT kit.id, 
-                                        kit.descricao AS descKit, 
-                                        categoria_kit.descricao AS descCat, 
-                                        kit.limite_data 
-                                        FROM kit 
-                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
-                                        WHERE kit.id>1";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
-                                        <td> '.$row['descKit'].'</td> 
-                                        <td>'.$row['descCat'].'</td>
-                                        <td>'.$row['limite_data'].'</td>
-                                      </tr>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" >
+                          <span id="msg_username" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row['email'] ?>">
+                          <span id="msg_email" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="password" name="password" class="form-control col-md-7 col-xs-12" value="<?php echo $row['password'] ?>">
+                          <span id="msg_password" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12"  value="<?php echo $row['numero'] ?>">
+                          <span id="msg_number" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row['telefone'] ?>">
+                          <span id="msg_phonenumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Grupo </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                      
+                          <?php
+                                    
+                            // Assume $db is a PDO object
+                            $query2 = "SELECT * FROM `grupo` "; // Run your query
+                            $result2=$mysqli->query($query2);
+                           
+                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
+                            // Loop through the query results, outputing the options one by one
+                            while ($row2 = $result2->fetch_assoc()) 
+                            {
+                               echo '<option value="'.$row2['id'].'" '; 
+                               if($row2['id'] == $row['id_grupo'] )
+                               {
+                                  echo("selected");
+                               }; 
+                               echo '   >'.$row2['descricao'].'</option>';
+                            }
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_cat" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
-                      
-                      
 
-                    </form>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <input type="hidden" name="_METHOD" value="PUT"/> 
+                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -326,20 +357,95 @@ include('session.php');
     
     <script>
     $(document).ready(function(){
-
       
-     $(".botao").click(function(){ // Click to only happen on announce links
+     
+      
+        $(function() {
+          // Get the form.
+          var form = $('#demo-form2');
+          
+          // Get the messages div.
+          var formMessages = $('#msg');
+           
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
 
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_kit.php?var=' + v;
-      }
-       
-     });
-   });
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+
+            var message1 = $('#username').val();  
+            var message2 = $('#email').val();  
+            var message3 = $('#password').val();  
+
+            
+
+            if(message1 == '' || message2 == '' || message3 == '' )  
+            {  
+
+              if( message1 == '' )  
+              {  
+                $('#msg_username').html("Deve preencher este campo de forma válida! Ex: Pedro");
+              }
+              else
+              {
+                $('#msg_username').html("");
+              }
+
+              if( message2 == '' )  
+              {  
+                $('#msg_email').html("Deve preencher este campo de forma válida! Ex: emailteste@hotmail.com");
+              }
+              else
+              {
+                $('#msg_email').html("");
+              }
+
+              if( message3 == '' )  
+              {  
+                $('#msg_password').html("Deve preencher este campo de forma válida! Ex: palavrapasse");
+              }
+              else
+              {
+                $('#msg_password').html("");
+              }
+                   
+            }  
+            else  
+            {  
+              // Serialize the form data.
+              var formData = $(form).serialize();
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'post',
+                  url: $(form).attr('action'),
+                  data: new FormData(this),
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    <?php
+                    if ($row['id']==$_SESSION['id'])
+                      {
+                        $_SESSION['username'] = $row['username'];
+                        $_SESSION['password'] = $row['password'];
+                        $_SESSION['email'] = $row['email'];
+                      }
+                    ?>
+                    location.reload();
+                   
+                  }
+              });
+              $('#msg_descricao').html("");
+              $('#msg').html("Upload de dados concluído!");
+              //$('#demo-form2').trigger("reset");
+              //$('#descricao').val('');
+            }
+          });
+        });
+      });
     </script>
 
 
-	
+  
   </body>
 </html>

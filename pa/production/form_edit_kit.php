@@ -83,6 +83,7 @@ include('session.php');
                       <li><a href="form_item.php">Item</a></li>
                       <li><a href="form_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li><a href="form_grupo.php">Grupo</a></li>
                       <li><a href="form_kit.php">Kit</a></li>
                       <li><a href="form_estado.php">Estado</a></li>
                     </ul>
@@ -90,7 +91,9 @@ include('session.php');
                   <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li><a href="form_search_edit_group.php">Grupo</a></li>
                       <li><a href="form_search_edit_item.php">Item</a></li>
+                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
                       <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
                       <li><a href="form_search_edit_estado.php">Estado</a></li>
@@ -239,6 +242,13 @@ include('session.php');
                         </div>
                       </div>
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="obs"  class="form-control" name="obs"><?php echo $row2['observacao'] ?></textarea>
+                        </div>
+                      </div>
+
 
 
                       <div class="form-group">
@@ -257,27 +267,27 @@ include('session.php');
                     
                       <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
                         <div class="form-group">
-                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                           
                           
                             <thead>
                               <tr>
                                 <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
+                                <th class="text-center">Marca</th>
+                                <th class="text-center">Modelo</th>
+                                <th class="text-center">Kit</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Categoria</th>
                               </tr>
                             </thead>
                             <tfoot>
                               <tr>
                                 <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
+                                <th class="text-center">Marca</th>
+                                <th class="text-center">Modelo</th>
+                                <th class="text-center">Kit</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Categoria</th>
                               </tr> 
                             </tfoot>
                             <tbody>
@@ -289,11 +299,11 @@ include('session.php');
                                           itens.marca,
                                           itens.modelo,
                                           itens.id_kit,
-                                          categoria_kit.descricao AS descCat, 
+                                          categoria_item.descricao AS descCat, 
                                           estado.descricao AS descEst,
                                           kit.descricao AS descKit
                                           FROM itens 
-                                          INNER JOIN categoria_kit ON itens.id_categoria = categoria_kit.id
+                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
                                           INNER JOIN kit ON itens.id_kit = kit.id
                                           INNER JOIN estado ON itens.id_estado = estado.id 
                                           WHERE (itens.id_kit=1 AND itens.visivel=1)

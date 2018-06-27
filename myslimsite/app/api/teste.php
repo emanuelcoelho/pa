@@ -63,11 +63,11 @@ $app->post('/api/teste/insertF', function($request) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `itens` (`marca`, `modelo`, `descricao`, `visivel`, `id_categoria`, `foto`, `serial_number`, `serial_ipvc`, `id_kit`, `id_estado`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO `itens` (`marca`, `modelo`, `descricao`, `visivel`, `id_categoria`, `foto`, `serial_number`, `serial_ipvc`, `id_kit`, `id_estado`, `observacao`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("sssiisiiii", $marca, $modelo, $descricao, $visivel, $cat, $image_name, $serialnumber, $ipvcnumber, $kit, $estado);
+	$stmt->bind_param("sssiisiiiis", $marca, $modelo, $descricao, $visivel, $cat, $image_name, $serialnumber, $ipvcnumber, $kit, $estado, $obs);
 
 	$marca = $request->getParsedBody()['marca'];
 	$modelo = $request->getParsedBody()['modelo'];
@@ -79,6 +79,7 @@ $app->post('/api/teste/insertF', function($request) {
 	$kit=1;
 	$serialnumber = $request->getParsedBody()['serialnumber'];
 	$ipvcnumber = $request->getParsedBody()['ipvcnumber'];
+	$obs = $request->getParsedBody()['obs'];
 
 
 	$image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!

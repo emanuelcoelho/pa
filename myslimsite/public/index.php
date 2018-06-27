@@ -20,10 +20,14 @@ require_once('../app/api/genres.php');
 require_once('../app/api/teste.php');
 require_once('../app/api/teste2.php');
 require_once('../app/api/formKit.php');
-require_once('../app/api/update.php');
+require_once('../app/api/formGroup.php');
+require_once('../app/api/formUserEdit.php');
+require_once('../app/api/formProfileEdit.php');
 require_once('../app/api/formKitEdit.php');
+require_once('../app/api/formGroupEdit.php');
 require_once('../app/api/formCatEdit.php');
 require_once('../app/api/formEstEdit.php');
+
 
 
 

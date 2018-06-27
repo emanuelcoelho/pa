@@ -181,7 +181,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -199,31 +199,27 @@ include('session.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Grupo</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr> 
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Grupo</th>
+                            </tr>
                           </tfoot>
                           <tbody>
                             <?php
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT kit.id, 
-                                        kit.descricao AS descKit, 
-                                        categoria_kit.descricao AS descCat, 
-                                        kit.limite_data 
-                                        FROM kit 
-                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
-                                        WHERE kit.id>1";
+                              $query = "SELECT user.id, 
+                                        user.username, 
+                                        grupo.descricao AS descGroup 
+                                        FROM user 
+                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
                               $result=$mysqli->query($query);
                               
 
@@ -232,14 +228,12 @@ include('session.php');
                                 
 
                                  echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
-                                        <td> '.$row['descKit'].'</td> 
-                                        <td>'.$row['descCat'].'</td>
-                                        <td>'.$row['limite_data'].'</td>
+                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar utilizador</button></td>
+                                        <td> '.$row['username'].'</td> 
+                                        <td>'.$row['descGroup'].'</td>
                                       </tr>';
                               }
 
-                              echo '</select>';// Close your drop down box
                             ?>
                             
                           </tbody>
@@ -332,7 +326,7 @@ include('session.php');
 
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_kit.php?var=' + v;
+          window.location = '/pa/production/form_edit_user.php?var=' + v;
       }
        
      });

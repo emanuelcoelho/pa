@@ -2,6 +2,7 @@
   $error = "";
   require_once('dbconnect_teste.php');
   session_start();
+  
 
   if($_SERVER["REQUEST_METHOD"] == "POST") {
     // username and password sent from form 
@@ -39,6 +40,7 @@
         $_SESSION['username'] = $myusername;
         $_SESSION['password'] = $mypassword;
         $_SESSION['email'] = $myemail;
+        $_SESSION['id'] = $row['id'];
         header("Location:index.php");
       }
     }

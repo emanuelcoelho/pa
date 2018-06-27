@@ -40,10 +40,11 @@ $app->put('/api/formEditKit/update', function($request, $response, $args) {
 	$descricao = $request->getParsedBody()['descricao'];
 	$cat = $request->getParsedBody()['desc'];
 	$id = $request->getParsedBody()['idkit'];
+	$obs = $request->getParsedBody()['obs'];
 
-	$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ? WHERE `id` = ?";
+	$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
 	$stmt = $mysqli->prepare($sql);
-	$stmt->bind_param("siii", $descricao, $limite, $cat, $id);
+	$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
 
 	$stmt->execute();	
 });

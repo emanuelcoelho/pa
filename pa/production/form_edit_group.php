@@ -11,7 +11,7 @@ include('session.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -181,7 +181,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar grupo <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -189,74 +189,115 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2" action="http://myslimsite/api/formEditGroup/update" method="post"  class="form-horizontal form-label-left" >
 
+                      <?php
+                            $id = $_GET['var'];
+                            $query = "SELECT * FROM `grupo` WHERE `grupo`.`id`='$id' "; // Run your query
+                            $result = $mysqli->query($query);
+                            $row = $result->fetch_assoc();
+                      ?>
+
+                      <input type="hidden" name="idgroup" id="idgroup" value="<?php echo $row['id'] ?>">
+                      
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT kit.id, 
-                                        kit.descricao AS descKit, 
-                                        categoria_kit.descricao AS descCat, 
-                                        kit.limite_data 
-                                        FROM kit 
-                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
-                                        WHERE kit.id>1";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
-                                        <td> '.$row['descKit'].'</td> 
-                                        <td>'.$row['descCat'].'</td>
-                                        <td>'.$row['limite_data'].'</td>
-                                      </tr>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row['descricao'] ?>">
+                          <span id="msg_descricao" name="msg" style="color:red"></span>  
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver kits</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="ver" name="ver" value="1" <?php if($row['ver']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="ver" name="ver" value="0" <?php if($row['ver']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_ver" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
-                      
-                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservar kits</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="reservar" name="reservar" value="1" <?php if($row['reservar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="reservar" name="reservar" value="0" <?php if($row['reservar']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_reservar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
 
-                    </form>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver itens escondidos</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="ver_admin" name="ver_admin" value="1" <?php if($row['ver_admin']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="ver_admin" name="ver_admin" value="0" <?php if($row['ver_admin']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_ver_admin" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Aceitar, recusar, editar reservas</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="reservas" name="reservas" value="1" <?php if($row['reservas']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="reservas" name="reservas" value="0" <?php if($row['reservas']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_reservas" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e editar</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="criar_editar" name="criar_editar" value="1" <?php if($row['criar_editar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="criar_editar" name="criar_editar" value="0" <?php if($row['criar_editar']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_criar_editar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver utilizadores</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="user_ver" name="user_ver" value="1" <?php if($row['user_ver']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="user_ver" name="user_ver" value="0" <?php if($row['user_ver']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_user_ver" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Editar utilizadores e grupos</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="user_editar" name="user_editar" value="1" <?php if($row['user_editar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="user_editar" name="user_editar" value="0" <?php if($row['user_editar']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_user_editar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <input type="hidden" name="_METHOD" value="PUT"/> 
+                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -326,20 +367,66 @@ include('session.php');
     
     <script>
     $(document).ready(function(){
-
       
-     $(".botao").click(function(){ // Click to only happen on announce links
+     
+      
+        $(function() {
+          // Get the form.
+          var form = $('#demo-form2');
+          
+          // Get the messages div.
+          var formMessages = $('#msg');
+           
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
 
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_kit.php?var=' + v;
-      }
-       
-     });
-   });
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+
+            var message = $('#descricao').val();
+            
+
+            if(message == ''  )  
+            {  
+              
+              if( message == '' )  
+              {  
+                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Alunos");
+              }
+              else
+              {
+                $('#msg_descricao').html("");
+              }
+              
+              
+            }  
+            else  
+            {  
+              // Serialize the form data.
+              var formData = $(form).serialize();
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'post',
+                  url: $(form).attr('action'),
+                  data: new FormData(this),
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
+                  }
+              });
+              $('#msg_descricao').html("");
+              $('#msg').html("Upload de dados concluído!");
+              //$('#demo-form2').trigger("reset");
+              //$('#descricao').val('');
+            }
+          });
+        });
+      });
     </script>
 
 
-	
+  
   </body>
 </html>
