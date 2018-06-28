@@ -1,6 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
-include('session.php');
+require_once('session.php');
+require_once('session_user_editar.php');
 ?>
 
 <!DOCTYPE html>
@@ -77,27 +78,31 @@ include('session.php');
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="index.php"><i class="fa fa-search"></i> Pesquisar </a></li>
-                  <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span> </a>
                     <ul class="nav child_menu">
-                      <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria_item.php">Categoria item</a></li>
-                      <li><a href="form_categoria_kit.php">Categoria kit</a></li>
-                      <li><a href="form_grupo.php">Grupo</a></li>
-                      <li><a href="form_kit.php">Kit</a></li>
-                      <li><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form_search_edit_kit.php">Kit</a></li>
-                      <li><a href="form_search_edit_group.php">Grupo</a></li>
-                      <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
-                      <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
-                      <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
-                      <li><a href="form_search_edit_estado.php">Estado</a></li>
-                      <li><a href="form_utilizador.php">Meu perfil</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item  </a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_grupo.php">Grupo</a></li>
+                    </ul>
+                  </li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
+                      <li <?php echo $style_ver;?> ><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -200,6 +205,7 @@ include('session.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Username</th>
+                              <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
                             </tr>
                           </thead>
@@ -207,6 +213,7 @@ include('session.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Username</th>
+                              <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
                             </tr>
                           </tfoot>
@@ -216,7 +223,8 @@ include('session.php');
                               // Assume $db is a PDO object
                               
                               $query = "SELECT user.id, 
-                                        user.username, 
+                                        user.username,
+                                        user.email, 
                                         grupo.descricao AS descGroup 
                                         FROM user 
                                         INNER JOIN grupo ON user.id_grupo = grupo.id";
@@ -227,9 +235,10 @@ include('session.php');
                               while ($row = $result->fetch_assoc()) {
                                 
 
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar utilizador</button></td>
-                                        <td> '.$row['username'].'</td> 
+                                 echo '<tr>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Editar utilizador</button></td>
+                                        <td> '.$row['username'].'</td>
+                                        <td> '.$row['email'].'</td>  
                                         <td>'.$row['descGroup'].'</td>
                                       </tr>';
                               }

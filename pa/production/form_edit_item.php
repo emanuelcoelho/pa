@@ -1,6 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
-include('session.php');
+require_once('session.php');
+require_once('session_criar_editar.php');
+require_once('session_ver_admin.php');
 ?>
 
 <!DOCTYPE html>
@@ -77,27 +79,31 @@ include('session.php');
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="index.php"><i class="fa fa-search"></i> Pesquisar </a></li>
-                  <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span> </a>
                     <ul class="nav child_menu">
-                      <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria_item.php">Categoria item</a></li>
-                      <li><a href="form_categoria_kit.php">Categoria kit</a></li>
-                      <li><a href="form_grupo.php">Grupo</a></li>
-                      <li><a href="form_kit.php">Kit</a></li>
-                      <li><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form_search_edit_kit.php">Kit</a></li>
-                      <li><a href="form_search_edit_group.php">Grupo</a></li>
-                      <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_user.php">Utilizador</a></li>
-                      <li><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
-                      <li><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
-                      <li><a href="form_search_edit_estado.php">Estado</a></li>
-                      <li><a href="form_utilizador.php">Meu perfil</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item  </a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_grupo.php">Grupo</a></li>
+                    </ul>
+                  </li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
+                      <li <?php echo $style_ver;?> ><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -181,7 +187,7 @@ include('session.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar item <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -189,61 +195,138 @@ include('session.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEditKit/update" method="post"  class="form-horizontal form-label-left" >
+                    <form id="demo-form2"  method="post"  class="form-horizontal form-label-left" > <!-- action="http://myslimsite/api/formEditKit/update" -->
 
                       <?php
                             $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
+                            $query2 = "SELECT * FROM `itens` WHERE `itens`.`id`='$id' "; // Run your query
                             $result2=$mysqli->query($query2);
                             $row2 = $result2->fetch_assoc();
                       ?>
 
-                      <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
+                      <input type="hidden" name="iditem" id="iditem" value="<?php echo $row2['id'] ?>">
                       
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['marca'] ?>">
+                          <span id="msg_marca" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['modelo'] ?>">
+                          <span id="msg_modelo" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>  
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
                         </div>
                       </div>
-                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_number'] ?>">
+                          <span id="msg_serialnumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_ipvc'] ?>">
+                          <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" id="visivel" name="visivel" value="1" <?php if($row2['visivel']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" id="visivel" name="visivel" value="0" <?php if($row2['visivel']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_visivel" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                      
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <?php
-                                    
+
                             // Assume $db is a PDO object
-                            $query = "SELECT * FROM `categoria_kit` "; // Run your query
+                            $query = "SELECT * FROM `categoria_item` "; // Run your query
                             $result=$mysqli->query($query);
-                           
+                            
                             echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
+
                             // Loop through the query results, outputing the options one by one
-                            while ($row = $result->fetch_assoc()) 
-                            {
-                               echo '<option value="'.$row['id'].'" '; 
-                               if($row['id'] == $row2['id_categoria'] )
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'" ';
+                               if( $row['id'] == $row2['id_categoria'] )
                                {
-                                  echo("selected");
-                               }; 
-                               echo '   >'.$row['descricao'].'</option>';
+                                 echo ("selected");
+                               }
+                               echo ' ">'.$row['descricao'].'</option>';
                             }
+
                             echo '</select>';// Close your drop down box
                           ?>
-                          <span id="msg_cat" name="msg" style="color:red"></span>
+                          <span id="msg_desc" name="msg" style="color:red"></span>
                         </div>
                       </div>
-
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['limite_data'] ?>">
-                          <span id="msg_limite" name="msg" style="color:red"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <?php
+
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `estado` "; // Run your query
+                            $result=$mysqli->query($query);
+                            
+                            echo '<select class="form-control" id="estado" name="estado" >'; // Open your drop down box
+
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'" ';
+                               if( $row['id'] == $row2['id_estado'] )
+                               {
+                                 echo ("selected");
+                               }
+                               echo ' ">'.$row['descricao'].'</option>';
+                            }
+
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_estado" name="msg" style="color:red"></span>
                         </div>
                       </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"> 
+                         <table class="table table-bordered" id="dynamic_field">
+                          <tr>
 
-
-
+                            <td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td>
+                            <td><button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button></td>
+                          </tr>
+                         </table>
+                         <span id="msg_attributes" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="obs" class="form-control" name="obs"> <?php echo  $row2['observacao']; ?> </textarea>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"> 
+                          <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12" />
+                          <span id="msg_image" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
@@ -258,87 +341,7 @@ include('session.php');
 
                       </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
-                        <div class="form-group">
-                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
-                          
-                          
-                            <thead>
-                              <tr>
-                                <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                              </tr>
-                            </thead>
-                            <tfoot>
-                              <tr>
-                                <th></th>
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                              </tr> 
-                            </tfoot>
-                            <tbody>
-                              <?php
-                                
-                                // Assume $db is a PDO object
-                                
-                                $query = "SELECT teste.id, 
-                                          teste.marca,
-                                          teste.modelo,
-                                          teste.id_kit,
-                                          teste_fkey.descricao AS descCat, 
-                                          teste_estado.descricao AS descEst,
-                                          teste_kit.descricao AS descKit
-                                          FROM teste 
-                                          INNER JOIN teste_fkey ON teste.id_categoria = teste_fkey.id
-                                          INNER JOIN teste_kit ON teste.id_kit = teste_kit.id
-                                          INNER JOIN teste_estado ON teste.id_estado = teste_estado.id 
-                                          WHERE (teste.id_kit=1 AND teste.visivel=1)
-                                          OR (teste.id_kit='$id' AND teste.visivel=1)
-                                          ORDER BY teste.id_kit DESC";
-                                $result=$mysqli->query($query);
-                                
-                                // Loop through the query results, outputing the options one by one
-                                while ($row = $result->fetch_assoc()) {
-                                  
-                                 
-                                   echo '<tr> 
-                                          <td><button type="button" id="button[]"  '; 
-                                          if($row['id_kit'] == $row2['id'] )
-                                          {
-                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
-                                            
-                                          }
-                                          else if ($row['id_kit'] != $row2['id'] ) 
-                                          {
-                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
-                                          }; 
-                                          echo '  
-                                          <td> '.$row['marca'].'</td>
-                                          <td> '.$row['modelo'].'</td>
-                                          <td> '.$row['descKit'].'</td>
-                                          <td> '.$row['descEst'].'</td> 
-                                          <td>'.$row['descCat'].'</td>
-                                        </tr>';
-                                }
-                                echo '</select>';// Close your drop down box
-                              ?>
-                              
-                            </tbody>
-                          </table>
-                          <input type="hidden" name="_METHOD" value="PUT"/>
-                        </div>
-
-                      </form>
-
                       
-                     
 
                     <!--</form>-->
                   </div>
@@ -420,42 +423,7 @@ include('session.php');
     <script>
     $(document).ready(function(){
       
-     $(".botaoadd").click(function(){ // Click to only happen on announce links
-      var v = $(this).data('id');
-      var i = $(this).attr('value');        
-      var form2 = $('#formtabela');
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/AddItem/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });
-        //alert("delete!! "+i);          
-     });
-
-
-      $(".botaodel").click(function(){ // Click to only happen on announce links 
-        var v = $(this).data('id'); 
-        //var dataObject = { 'num': v};
-        var form2 = $('#formtabela');
-        //var formData = $(this).serialize();
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });
-        //alert("delete!! "+v);    
-      });
-      
+     
       
         $(function() {
           // Get the form.
@@ -536,3 +504,19 @@ include('session.php');
   
   </body>
 </html>
+
+<!-- Adicionar mais campos para atributos -->
+<script>
+$(document).ready(function(){
+  var i=1;
+  $('#add').click(function(){
+    i++;
+    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+  });
+  
+  $(document).on('click', '.btn_remove', function(){
+    var button_id = $(this).attr("id"); 
+    $('#row'+button_id+'').remove();
+  });
+});
+</script>

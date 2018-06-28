@@ -1,7 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_user_ver.php');
 ?>
 
 <!DOCTYPE html>
@@ -35,6 +35,12 @@ require_once('session_criar_editar.php');
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
      
 
     
@@ -180,7 +186,7 @@ require_once('session_criar_editar.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Registo categoria de kit <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -188,34 +194,61 @@ require_once('session_criar_editar.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/teste/insertCatKit" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                    <form id="demo-form2" class="form-horizontal form-label-left" >
+                     
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
-                          <span id="msg_desc" name="msg" style="color:red"></span>  
-
-                        </div>
-
+                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
-                      
-                                           
-                       
+                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
+                          <thead>
+                            <tr>
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Email</th>
+                              <th class="text-center">Grupo</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Email</th>
+                              <th class="text-center">Grupo</th>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                            <?php
 
+                              // Assume $db is a PDO object
+                              
+                              $query = "SELECT user.id, 
+                                        user.username,
+                                        user.email, 
+                                        grupo.descricao AS descGroup 
+                                        FROM user 
+                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
+                              $result=$mysqli->query($query);
+                              
+
+                              // Loop through the query results, outputing the options one by one
+                              while ($row = $result->fetch_assoc()) {
+                                
+
+                                 echo '<tr>
+                                        <td> '.$row['username'].'</td>
+                                        <td> '.$row['email'].'</td>  
+                                        <td>'.$row['descGroup'].'</td>
+                                      </tr>';
+                              }
+
+                            ?>
+                            
+                          </tbody>
+                        </table>
                         
                       </div>
-                      
-                      <div class="ln_solid"></div>
-                      
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-						              <button class="btn btn-primary" type="reset">Reset</button>
-                          <button name="submit" type="submit" class="btn btn-success">Submit</button>
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
 
-                        </div>
-                      </div>
+                      
+                      
 
                     </form>
                   </div>
@@ -272,61 +305,23 @@ require_once('session_criar_editar.php');
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
+    <!-- Datatables -->
+    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="../vendors/jszip/dist/jszip.min.js"></script>
+    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
-    <script>
-    $(document).ready(function(){
-
-
-        $(function() {
-
-          // Get the form.
-          var form = $('#demo-form2');
-
-          // Get the messages div.
-          var formMessages = $('#msg');
-
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message = $('#descricao').val();  
-            if(message == '')  
-            {  
-              
-              $('#msg_desc').html("Deve preencher este campo de forma válida! Ex: Televisão");  
-            }  
-            else  
-            {  
-
-              // Serialize the form data.
-              var formData = $(form).serialize();
-
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'POST',
-                  url: $(form).attr('action'),
-                  data: formData,
-                  success: function(formData) { 
-                    //$('#demo-form2').trigger("reset");
-                  }
-              });
-              $('#msg_desc').html("");
-              $('#msg').html("Upload de dados concluído!");
-              $('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
-            }
-          });
-
-
-        });
-      });
-    </script>
-
-
-    
 	
   </body>
 </html>
