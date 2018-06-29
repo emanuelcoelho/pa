@@ -12,12 +12,13 @@ $app->put('/api/formEditGroup/update', function($request, $response, $args) {
 	$criar_editar = $request->getParsedBody()['criar_editar'];
 	$user_ver = $request->getParsedBody()['user_ver'];
 	$user_editar = $request->getParsedBody()['user_editar'];
+	$criar_msg = $request->getParsedBody()['criar_msg'];
 	$id = $request->getParsedBody()['idgroup'];
 
-	$sql = "UPDATE `grupo` SET `descricao` = ?, `ver` = ?, `reservar` = ?, `ver_admin` = ?, `reservas` = ?, `criar_editar` = ?, `user_ver` = ?, `user_editar` = ? WHERE `id` = ?";
+	$sql = "UPDATE `grupo` SET `descricao` = ?, `ver` = ?, `reservar` = ?, `ver_admin` = ?, `reservas` = ?, `criar_editar` = ?, `user_ver` = ?, `user_editar` = ?, `criar_msg` = ? WHERE `id` = ?";
 
 	$stmt = $mysqli->prepare($sql);
-	$stmt->bind_param("siiiiiiii", $descricao, $ver, $reservar, $ver_admin, $reservas, $criar_editar, $user_ver, $user_editar, $id);
+	$stmt->bind_param("siiiiiiiii", $descricao, $ver, $reservar, $ver_admin, $reservas, $criar_editar, $user_ver, $user_editar, $criar_msg, $id);
 
 	$stmt->execute();	
 });

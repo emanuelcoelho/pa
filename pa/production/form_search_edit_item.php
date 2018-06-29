@@ -157,7 +157,7 @@ require_once('sessionMessages.php');
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
-                                              <span>'.$row3['assunto'].'</span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
                                               <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
                                             </span>
                                             <span class="message">
@@ -169,8 +169,8 @@ require_once('sessionMessages.php');
 
                     ?>
                     <li>
-                      <a href="form_search_messages.php">
-                        Ver todas as mensagens
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
                   </ul>
@@ -207,6 +207,7 @@ require_once('sessionMessages.php');
                           <thead>
                               <tr>
                                 <th></th>
+                                <th class="text-center">Descrição</th>
                                 <th class="text-center">Marca</th>
                                 <th class="text-center">Modelo</th>
                                 <th class="text-center">Kit</th>
@@ -220,6 +221,7 @@ require_once('sessionMessages.php');
                             <tfoot>
                               <tr>
                                 <th></th>
+                                <th class="text-center">Descrição</th>
                                 <th class="text-center">Marca</th>
                                 <th class="text-center">Modelo</th>
                                 <th class="text-center">Kit</th>
@@ -242,6 +244,7 @@ require_once('sessionMessages.php');
                                           itens.visivel,
                                           itens.serial_number,
                                           itens.serial_ipvc,
+                                          itens.descricao,
                                           categoria_item.descricao AS descCat, 
                                           estado.descricao AS descEst,
                                           kit.descricao AS descKit
@@ -259,6 +262,7 @@ require_once('sessionMessages.php');
 
                                  echo '<tr> 
                                         <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar item</button></td>
+                                        <td> '.$row['descricao'].'</td>
                                         <td> '.$row['marca'].'</td>
                                         <td> '.$row['modelo'].'</td>
                                         <td> '.$row['descKit'].'</td>

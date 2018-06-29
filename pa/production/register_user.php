@@ -36,6 +36,21 @@
         echo"<script language='javascript' type='text/javascript'>alert('Login e/ou senha incorretos');window.location.href='login.php';</script>";
         die();
       }else{
+
+        $sql2 = "SELECT * FROM grupo WHERE id = '$group' ";
+        $result2 = mysqli_query($mysqli,$sql2);
+        $row2 = mysqli_fetch_array($result2,MYSQLI_ASSOC);
+
+        $_SESSION['ver'] = $row2['ver'];
+        $_SESSION['reservar'] = $row2['reservar'];
+        $_SESSION['ver_admin'] = $row2['ver_admin'];
+        $_SESSION['reservas'] = $row2['reservas'];
+        $_SESSION['criar_editar'] = $row2['criar_editar'];
+        $_SESSION['user_ver'] = $row2['user_ver'];
+        $_SESSION['user_editar'] = $row2['user_editar'];
+
+
+
         setcookie("login",$myusername);
         $_SESSION['username'] = $myusername;
         $_SESSION['password'] = $mypassword;

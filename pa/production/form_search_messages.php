@@ -156,7 +156,7 @@ require_once('sessionMessages.php');
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
-                                              <span>'.$row3['assunto'].'</span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
                                               <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
                                             </span>
                                             <span class="message">
@@ -168,8 +168,8 @@ require_once('sessionMessages.php');
 
                     ?>
                     <li>
-                      <a href="form_search_messages.php">
-                        Ver todas as mensagens
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
                   </ul>
@@ -206,8 +206,8 @@ require_once('sessionMessages.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Estado</th>
                               <th class="text-center">Data</th>
+                              <th class="text-center">Estado</th>
                               <th class="text-center">Assunto</th>
                               <th class="text-center">Mensagem</th>
                             </tr>
@@ -215,8 +215,8 @@ require_once('sessionMessages.php');
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Estado</th>
                               <th class="text-center">Data</th>
+                              <th class="text-center">Estado</th>
                               <th class="text-center">Assunto</th>
                               <th class="text-center">Mensagem</th>
                             </tr> 
@@ -229,7 +229,7 @@ require_once('sessionMessages.php');
                               $query = "SELECT *
                                         FROM mensagem
                                         WHERE id_utilizador = '$id' 
-                                        ORDER BY id DESC";
+                                        ORDER BY data DESC";
                               $result=$mysqli->query($query);
                               
 
@@ -238,20 +238,28 @@ require_once('sessionMessages.php');
                                 $mensagem= substr($row['mensagem'],0,40);
                                 $date = new DateTime($row['data']);
 
-                                 echo '<tr>
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>';
+                                 
                                         if($row['lido']==0)
                                         {
-                                          echo '<td>Por ler</td>';
+                                          echo '<tr>
+                                                <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'"><b>Abrir mensagem</b></button></td>
+                                                <td><b> '.date_format($date, 'Y-m-d H:i').'</b></td>
+                                                <td><b>Por ler</b></td>
+                                                <td><b> '.$row['assunto'].'</b></td>
+                                                <td><b> '.$mensagem.' </b></td> 
+                                              </tr>';
                                         }
                                         if($row['lido']==1)
                                         {
-                                          echo '<td>Lida</td>';
+                                          echo '<tr>
+                                                <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>
+                                                <td> '.date_format($date, 'Y-m-d H:i').'</td>
+                                                <td>Lida</td>
+                                                <td> '.$row['assunto'].'</td>
+                                                <td> '.$mensagem.'</td> 
+                                              </tr>';
                                         }
-                                        echo '<td> '.date_format($date, 'Y-m-d H:i').'</td>
-                                        <td> '.$row['assunto'].'</td>
-                                        <td> '.$mensagem.'</td> 
-                                      </tr>';
+                                        
                               }
                             ?>
                             

@@ -5,11 +5,11 @@ $app->post('/api/formGroup/insertGroup', function($request, $response, $args) {
 	require_once('dbconnect_teste.php');
 	
 
-	$query = "INSERT INTO `grupo` (`descricao`, `ver`, `reservar`, `ver_admin`, `reservas`, `criar_editar`, `user_ver`, `user_editar`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+	$query = "INSERT INTO `grupo` (`descricao`, `ver`, `reservar`, `ver_admin`, `reservas`, `criar_editar`, `user_ver`, `user_editar`, `criar_msg`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 	$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("siiiiiii", $descricao, $ver, $reservar, $ver_admin, $reservas, $criar_editar, $user_ver, $user_editar);
+	$stmt->bind_param("siiiiiiii", $descricao, $ver, $reservar, $ver_admin, $reservas, $criar_editar, $user_ver, $user_editar, $criar_msg);
 
 	
 	$descricao = $request->getParsedBody()['descricao'];
@@ -20,6 +20,7 @@ $app->post('/api/formGroup/insertGroup', function($request, $response, $args) {
 	$criar_editar = $request->getParsedBody()['criar_editar'];
 	$user_ver = $request->getParsedBody()['user_ver'];
 	$user_editar = $request->getParsedBody()['user_editar'];
+	$criar_msg = $request->getParsedBody()['criar_msg'];
 
 	$stmt->execute();	
 	

@@ -157,7 +157,7 @@ require_once('sessionMessages.php');
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
-                                              <span>'.$row3['assunto'].'</span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
                                               <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
                                             </span>
                                             <span class="message">
@@ -169,8 +169,8 @@ require_once('sessionMessages.php');
 
                     ?>
                     <li>
-                      <a href="form_search_messages.php">
-                        Ver todas as mensagens
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
                   </ul>
@@ -214,6 +214,13 @@ require_once('sessionMessages.php');
                       <input type="hidden" name="iditem" id="iditem" value="<?php echo $row2['id'] ?>">
                       
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['marca'] ?>">
@@ -227,13 +234,7 @@ require_once('sessionMessages.php');
                           <span id="msg_modelo" name="msg" style="color:red"></span>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
+                      
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -251,8 +252,8 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="visivel" name="visivel" value="1" <?php if($row2['visivel']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="visivel" name="visivel" value="0" <?php if($row2['visivel']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="visivel" name="visivel" value="1" <?php if($row2['visivel']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="visivel" name="visivel" value="0" <?php if($row2['visivel']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_visivel" name="msg" style="color:red"></span>
                         </div>
                       </div>

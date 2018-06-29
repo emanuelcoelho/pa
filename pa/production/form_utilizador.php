@@ -147,7 +147,7 @@ require_once('sessionMessages.php');
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
-                                              <span>'.$row3['assunto'].'</span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
                                               <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
                                             </span>
                                             <span class="message">
@@ -159,8 +159,8 @@ require_once('sessionMessages.php');
 
                     ?>
                     <li>
-                      <a href="form_search_messages.php">
-                        Ver todas as mensagens
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
                   </ul>

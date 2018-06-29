@@ -157,7 +157,7 @@ require_once('sessionMessages.php');
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
-                                              <span>'.$row3['assunto'].'</span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
                                               <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
                                             </span>
                                             <span class="message">
@@ -169,8 +169,8 @@ require_once('sessionMessages.php');
 
                     ?>
                     <li>
-                      <a href="form_search_messages.php">
-                        Ver todas as mensagens
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
                   </ul>
@@ -224,8 +224,8 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver kits</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="ver" name="ver" value="1" <?php if($row['ver']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="ver" name="ver" value="0" <?php if($row['ver']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="ver" name="ver" value="1" <?php if($row['ver']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="ver" name="ver" value="0" <?php if($row['ver']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_ver" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -233,8 +233,8 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservar kits</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="reservar" name="reservar" value="1" <?php if($row['reservar']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="reservar" name="reservar" value="0" <?php if($row['reservar']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="reservar" name="reservar" value="1" <?php if($row['reservar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="reservar" name="reservar" value="0" <?php if($row['reservar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_reservar" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -242,8 +242,8 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver itens escondidos</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="ver_admin" name="ver_admin" value="1" <?php if($row['ver_admin']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="ver_admin" name="ver_admin" value="0" <?php if($row['ver_admin']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="ver_admin" name="ver_admin" value="1" <?php if($row['ver_admin']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="ver_admin" name="ver_admin" value="0" <?php if($row['ver_admin']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_ver_admin" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -251,17 +251,17 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Aceitar, recusar, editar reservas</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="reservas" name="reservas" value="1" <?php if($row['reservas']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="reservas" name="reservas" value="0" <?php if($row['reservas']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="reservas" name="reservas" value="1" <?php if($row['reservas']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="reservas" name="reservas" value="0" <?php if($row['reservas']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_reservas" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e editar</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e editar (kits, estados, itens e categorias)</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="criar_editar" name="criar_editar" value="1" <?php if($row['criar_editar']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="criar_editar" name="criar_editar" value="0" <?php if($row['criar_editar']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="criar_editar" name="criar_editar" value="1" <?php if($row['criar_editar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="criar_editar" name="criar_editar" value="0" <?php if($row['criar_editar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_criar_editar" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -269,8 +269,8 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver utilizadores</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="user_ver" name="user_ver" value="1" <?php if($row['user_ver']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="user_ver" name="user_ver" value="0" <?php if($row['user_ver']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="user_ver" name="user_ver" value="1" <?php if($row['user_ver']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="user_ver" name="user_ver" value="0" <?php if($row['user_ver']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_user_ver" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -278,9 +278,18 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Editar utilizadores e grupos</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="radio" id="user_editar" name="user_editar" value="1" <?php if($row['user_editar']==1) {echo "checked";}?> > Sim<br>
-                          <input type="radio" id="user_editar" name="user_editar" value="0" <?php if($row['user_editar']==0) {echo "checked";}?> > Não<br>
+                          <input type="radio" class="flat" id="user_editar" name="user_editar" value="1" <?php if($row['user_editar']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="user_editar" name="user_editar" value="0" <?php if($row['user_editar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_user_editar" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e enviar mensagens</label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="radio" class="flat" id="criar_msg" name="criar_msg" value="1" <?php if($row['criar_msg']==1) {echo "checked";}?> > Sim<br>
+                          <input type="radio" class="flat" id="criar_msg" name="criar_msg" value="0" <?php if($row['criar_msg']==0) {echo "checked";}?> > Não<br>
+                          <span id="msg_criar_msg" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
