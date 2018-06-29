@@ -1,8 +1,9 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_user_ver.php');
+require_once('session_ver.php');
 require_once('sessionMessages.php'); 
+require_once('sessionMessagesVer.php');  
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +14,7 @@ require_once('sessionMessages.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -183,82 +184,71 @@ require_once('sessionMessages.php');
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Mensagem</h3>
+              </div>
+            </div>
+
+            <div class="title_right">
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                  <a href="form_search_messages.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todas as mensagens</a>
+                </div>
+              </div>
+
             <div class="clearfix"></div>
+
+
+            <?php
+              $id = $_GET['var'];
+              $query = "SELECT * FROM `mensagem` WHERE `mensagem`.`id`='$id' "; // Run your query
+              $result=$mysqli->query($query);
+              $row = $result->fetch_assoc();
+
+              $date = new DateTime($row['data']);
+
+            ?>
+            
+           
+
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
+                    <h2> <?php echo $row['assunto']; ?> <small> <?php echo date_format($date, 'H:i d-m-Y'); ?> </small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
 
-                    
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
+
+                      
+                        <h2><p><?php echo $row['mensagem']; ?></p></h2>
+
+
+                  <!--  <div class="col-md-8 col-lg-8 col-sm-7">
                      
-
-                      <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT user.id, 
-                                        user.username,
-                                        user.email, 
-                                        grupo.descricao AS descGroup 
-                                        FROM user 
-                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr>
-                                        <td> '.$row['username'].'</td>
-                                        <td> '.$row['email'].'</td>  
-                                        <td>'.$row['descGroup'].'</td>
-                                      </tr>';
-                              }
-
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
-                      </div>
-
                       
+                        <h2><p><?php echo $row['mensagem']; ?></p></h2>
                       
 
-                    </form>
+                      <blockquote class="blockquote-reverse">
+                        <p><?php echo $row['mensagem']; ?></p>
+                      </blockquote>
+                    </div>
+                  -->
+                    
+                    
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -324,6 +314,8 @@ require_once('sessionMessages.php');
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+
+    
     <script>
     $(document).ready(function(){
 
@@ -347,6 +339,8 @@ require_once('sessionMessages.php');
     });
     </script>
 
-	
+
+  
   </body>
 </html>
+

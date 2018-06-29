@@ -1,8 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_user_ver.php');
-require_once('sessionMessages.php'); 
+require_once('session_ver.php');
+require_once('sessionMessages.php');
 ?>
 
 <!DOCTYPE html>
@@ -188,7 +188,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
+                    <h2>Mensagens </h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -205,43 +205,54 @@ require_once('sessionMessages.php');
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
+                              <th></th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Data</th>
+                              <th class="text-center">Assunto</th>
+                              <th class="text-center">Mensagem</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
+                              <th></th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Data</th>
+                              <th class="text-center">Assunto</th>
+                              <th class="text-center">Mensagem</th>
+                            </tr> 
                           </tfoot>
                           <tbody>
                             <?php
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT user.id, 
-                                        user.username,
-                                        user.email, 
-                                        grupo.descricao AS descGroup 
-                                        FROM user 
-                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
+                              $query = "SELECT *
+                                        FROM mensagem
+                                        WHERE id_utilizador = '$id' 
+                                        ORDER BY id DESC";
                               $result=$mysqli->query($query);
                               
 
                               // Loop through the query results, outputing the options one by one
                               while ($row = $result->fetch_assoc()) {
-                                
+                                $mensagem= substr($row['mensagem'],0,40);
+                                $date = new DateTime($row['data']);
 
                                  echo '<tr>
-                                        <td> '.$row['username'].'</td>
-                                        <td> '.$row['email'].'</td>  
-                                        <td>'.$row['descGroup'].'</td>
+                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>';
+                                        if($row['lido']==0)
+                                        {
+                                          echo '<td>Por ler</td>';
+                                        }
+                                        if($row['lido']==1)
+                                        {
+                                          echo '<td>Lida</td>';
+                                        }
+                                        echo '<td> '.date_format($date, 'Y-m-d H:i').'</td>
+                                        <td> '.$row['assunto'].'</td>
+                                        <td> '.$mensagem.'</td> 
                                       </tr>';
                               }
-
                             ?>
                             
                           </tbody>
@@ -324,8 +335,12 @@ require_once('sessionMessages.php');
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+
+    
     <script>
     $(document).ready(function(){
+
+
 
      $(".msgm").click(function(){ // Click to only happen on announce links
 
@@ -344,8 +359,27 @@ require_once('sessionMessages.php');
       }  
      });
 
-    });
+      
+     $(".botao").click(function(){ // Click to only happen on announce links
+
+      var v = $(this).data('id');        
+      if (v != undefined && v != null) {
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
+                  }
+        });
+      }
+       
+     });
+   });
     </script>
+
 
 	
   </body>

@@ -2,6 +2,7 @@
 require_once('dbconnect_teste.php');
 require_once('session.php');
 require_once('session_criar_editar.php');
+require_once('sessionMessages.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -123,40 +124,41 @@ require_once('session_criar_editar.php');
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">3</span>
+                    <?php echo $_SESSION['numberMessages']; ?>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <?php
+                      $id=$_SESSION['id'];
+
+                      $sql3 = "SELECT * FROM mensagem 
+                               WHERE id_utilizador = '$id' 
+                               AND lido = 0 
+                              ORDER BY data DESC 
+                               LIMIT 5  ";
+                      $result3 = mysqli_query($mysqli,$sql3);
+
+                      while ($row3 = $result3->fetch_assoc()) {
+                        $mensagem= substr($row3['mensagem'],0,40);
+                        $date = new DateTime($row3['data']);
+                                  
+                                 
+                                   echo '<li>
+                                          <a class="msgm" id='.$row3['id'].'>
+                                            <span>
+                                              <span>'.$row3['assunto'].'</span>
+                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                            </span>
+                                            <span class="message">
+                                              '.$mensagem.'
+                                            </span>
+                                          </a>
+                                        </li>';
+                                }
+
+                    ?>
                     <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
+                      <a href="form_search_messages.php">
+                        Ver todas as mensagens
                       </a>
                     </li>
                   </ul>
@@ -363,6 +365,27 @@ require_once('session_criar_editar.php');
 
     <script>
       $(document).ready(function(){
+
+
+
+     $(".msgm").click(function(){ // Click to only happen on announce links
+
+      var v = $(this).attr("id");        
+      if (v != undefined && v != null) {
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
+                  }
+        });
+      }  
+     });
+
+
 
 
         $("#image").change(function() {
