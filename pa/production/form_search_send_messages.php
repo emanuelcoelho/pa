@@ -1,7 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_criar_msg.php');
 require_once('sessionMessages.php'); 
 ?>
 
@@ -13,7 +13,7 @@ require_once('sessionMessages.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+	  
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -189,12 +189,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Insira as informações necessárias</small></h2>
-                    <div class="title_right">
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_estado.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os estados</a>
-                      </div>
-                    </div>
+                    <h2>Enviar mensagem <small>Seleccione o utilizador para o qual pretende enviar a mensagem</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -202,50 +197,76 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEstEdit/update" method="post"  class="form-horizontal form-label-left" >
-
-                      <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `estado` WHERE `id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
-                      ?>
-
-                      <input type="hidden" name="idest" id="idest" value="<?php echo $row2['id'] ?>">
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>  
-                        </div>
-                      </div>
+                    <form id="demo-form2" class="form-horizontal form-label-left" >
+                     
 
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-                        </div>
+                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                        
+                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Número Mecatrónico</th>
+                              <th class="text-center">Email</th>
+                              <th class="text-center">Grupo</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Username</th>
+                              <th class="text-center">Número Mecatrónico</th>
+                              <th class="text-center">Email</th>
+                              <th class="text-center">Grupo</th>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                            <?php
+
+                              // Assume $db is a PDO object
+                              
+                              $query = "SELECT user.id, 
+                                        user.username,
+                                        user.email,
+                                        user.numero, 
+                                        grupo.descricao AS descGroup 
+                                        FROM user 
+                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
+                              $result=$mysqli->query($query);
+                              
+
+                              // Loop through the query results, outputing the options one by one
+                              while ($row = $result->fetch_assoc()) {
+                                
+
+                                 echo '<tr>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Enviar mensagem</button></td>
+                                        <td> '.$row['username'].'</td>
+                                        <td> '.$row['numero'].'</td> 
+                                        <td> '.$row['email'].'</td>  
+                                        <td>'.$row['descGroup'].'</td>
+                                      </tr>';
+                              }
+
+                            ?>
+                            
+                          </tbody>
+                        </table>
+                        
                       </div>
 
-                      <div class="ln_solid"></div>
-
-
-                      </form>
-                    
                       
-                    <!--</form>-->
+                      
+
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -314,7 +335,7 @@ require_once('sessionMessages.php');
 
     
     <script>
-    $(document).ready(function(){     
+    $(document).ready(function(){
 
 
 
@@ -335,65 +356,20 @@ require_once('sessionMessages.php');
       }  
      });
 
-   
+
       
-        $(function() {
-          // Get the form.
-          var form = $('#demo-form2');
-          
-          // Get the messages div.
-          var formMessages = $('#msg');
-           
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
+     $(".botao").click(function(){ // Click to only happen on announce links
 
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message = $('#descricao').val();
-            
-
-            if(message == '' )  
-            {  
-              
-              if( message == '' )  
-              {  
-                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Funcional ");
-              }
-              else
-              {
-                $('#msg_descricao').html("");
-              }
-              
-              
-            }  
-            else  
-            {  
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-              });
-              $('#msg_descricao').html("");
-              $('#msg').html("Upload de dados concluído!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
-            }
-          });
-        });
-      });
+      var v = $(this).data('id');        
+      if (v != undefined && v != null) {
+          window.location = '/pa/production/form_send_messages.php?var=' + v;
+      }
+       
+     });
+   });
     </script>
 
 
-  
+	
   </body>
 </html>

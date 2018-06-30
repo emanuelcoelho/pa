@@ -1,8 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
-require_once('sessionMessages.php'); 
+require_once('session_ver_historico.php');
+require_once('sessionMessages.php');
 ?>
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@ require_once('sessionMessages.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+	  
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -181,6 +181,19 @@ require_once('sessionMessages.php');
         </div>
         <!-- /top navigation -->
 
+
+        <?php $id = $_GET['var']; 
+        $query1 = "SELECT *
+                  FROM user
+                  WHERE id = '$id'";
+        $result1=$mysqli->query($query1);
+        $row1 = $result1->fetch_assoc();
+
+        $utilizador = $row1['username'];
+
+
+        ?>
+
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -189,12 +202,14 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Insira as informações necessárias</small></h2>
+
+                    <h2>Histórico de mensagens de <?php echo $utilizador ?> <small>Seleccione a mensagem que pretende visualizar</small> </h2>
+
                     <div class="title_right">
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_estado.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os estados</a>
-                      </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                      <a href="form_search_history_user.php" id="button" type="button"  class="btn btn-primary botao" >Voltar ao histórico de utilizadores</a>
                     </div>
+                  </div>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -202,50 +217,82 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEstEdit/update" method="post"  class="form-horizontal form-label-left" >
-
-                      <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `estado` WHERE `id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
-                      ?>
-
-                      <input type="hidden" name="idest" id="idest" value="<?php echo $row2['id'] ?>">
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>  
-                        </div>
-                      </div>
+                    <form id="demo-form2" class="form-horizontal form-label-left" >
+                     
 
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-                        </div>
+                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                        
+                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Data</th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Assunto</th>
+                              <th class="text-center">Mensagem</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Data</th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Assunto</th>
+                              <th class="text-center">Mensagem</th>
+                            </tr> 
+                          </tfoot>
+                          <tbody>
+                            <?php
+
+                              // Assume $db is a PDO object
+                              
+                              $query = "SELECT *
+                                        FROM mensagem
+                                        WHERE id_utilizador = '$id' 
+                                        ORDER BY data DESC";
+                              $result=$mysqli->query($query);
+                              
+
+                              // Loop through the query results, outputing the options one by one
+                              while ($row = $result->fetch_assoc()) {
+                                $mensagem= substr($row['mensagem'],0,40);
+                                $date = new DateTime($row['data']);
+
+                                        echo '<tr>
+                                                <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>
+                                                <td> '.date_format($date, 'Y-m-d H:i').'</b></td>';
+                                 
+                                        if($row['lido']==0)
+                                        {
+                                          echo '<td>Por ler</td>';
+                                        }
+                                        if($row['lido']==1)
+                                        {
+                                          echo '<td>Lida</td>';
+                                        }
+                                        echo '<td>'.$row['assunto'].'</td>
+                                              <td>'.$mensagem.'</td> 
+                                            </tr>';
+                                        
+                              }
+                            ?>
+                            
+                          </tbody>
+                        </table>
+                        
                       </div>
 
-                      <div class="ln_solid"></div>
-
-
-                      </form>
-                    
                       
-                    <!--</form>-->
+                      
+
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -314,7 +361,7 @@ require_once('sessionMessages.php');
 
     
     <script>
-    $(document).ready(function(){     
+    $(document).ready(function(){
 
 
 
@@ -335,65 +382,21 @@ require_once('sessionMessages.php');
       }  
      });
 
-   
       
-        $(function() {
-          // Get the form.
-          var form = $('#demo-form2');
-          
-          // Get the messages div.
-          var formMessages = $('#msg');
-           
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
+     $(".botao").click(function(){ // Click to only happen on announce links
 
-            // Stop the browser from submitting the form.
-            event.preventDefault();
+      var v = $(this).data('id');        
+      if (v != undefined && v != null) {
 
-            var message = $('#descricao').val();
-            
+        window.location.href = "/pa/production/form_history_message.php?var=" + v;
 
-            if(message == '' )  
-            {  
-              
-              if( message == '' )  
-              {  
-                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Funcional ");
-              }
-              else
-              {
-                $('#msg_descricao').html("");
-              }
-              
-              
-            }  
-            else  
-            {  
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-              });
-              $('#msg_descricao').html("");
-              $('#msg').html("Upload de dados concluído!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
-            }
-          });
-        });
-      });
+      }
+       
+     });
+   });
     </script>
 
 
-  
+	
   </body>
 </html>

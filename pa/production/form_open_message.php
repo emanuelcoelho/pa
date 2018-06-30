@@ -104,9 +104,10 @@ require_once('sessionMessagesVer.php');
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
-                      <li <?php echo $style_ver;?> ><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
+                  <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>
+                  <li <?php echo $style_ver_historico;?> ><a href="form_search_history_user.php"><i class="fa fa-book"></i> Histórico utilizador </a></li>
                 </ul>
               </div>
             </div>
@@ -223,7 +224,7 @@ require_once('sessionMessagesVer.php');
 
 
                       
-                        <h2><p><?php echo $row['mensagem']; ?></p></h2>
+                        <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>
 
 
                   <!--  <div class="col-md-8 col-lg-8 col-sm-7">

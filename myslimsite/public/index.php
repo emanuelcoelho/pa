@@ -16,6 +16,7 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
 */
 
 require_once('../app/api/books.php');
+
 require_once('../app/api/genres.php');
 require_once('../app/api/teste.php');
 require_once('../app/api/teste2.php');
@@ -28,6 +29,7 @@ require_once('../app/api/formKitEdit.php');
 require_once('../app/api/formGroupEdit.php');
 require_once('../app/api/formCatEdit.php');
 require_once('../app/api/formEstEdit.php');
+require_once('../app/api/formMsg.php');
 
 
 

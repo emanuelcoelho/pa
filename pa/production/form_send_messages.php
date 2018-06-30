@@ -1,7 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_criar_msg.php');
 require_once('sessionMessages.php'); 
 ?>
 
@@ -189,10 +189,10 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Insira as informações necessárias</small></h2>
+                    <h2>Enviar mensagem <small>Insira as informações necessárias</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_estado.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os estados</a>
+                        <a href="form_search_send_messages.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os utilizadores</a>
                       </div>
                     </div>
                     
@@ -202,29 +202,46 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEstEdit/update" method="post"  class="form-horizontal form-label-left" >
+                    <form id="demo-form2"  method="post" action="http://myslimsite/api/formMsg/sendMsg" class="form-horizontal form-label-left" > 
 
                       <?php
                             $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `estado` WHERE `id`='$id' "; // Run your query
+                            $query2 = "SELECT * FROM `user` WHERE `user`.`id`='$id' "; // Run your query
                             $result2=$mysqli->query($query2);
                             $row2 = $result2->fetch_assoc();
                       ?>
 
-                      <input type="hidden" name="idest" id="idest" value="<?php echo $row2['id'] ?>">
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>  
-                        </div>
-                      </div>
+                      <input type="hidden" name="iddest" id="iddest" value="<?php echo $id ?>">
+                      <input type="hidden" name="idemi" id="idemi" value="<?php echo $_SESSION['id']; ?>">
 
                       <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Destinatário </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="dest" name="dest" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $row2['username']; ?>">
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Assunto </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="assunto" name="assunto" class="form-control col-md-7 col-xs-12">
+                          <span id="msg_assunto" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (500 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="mensagem" class="form-control" name="mensagem" maxlength="500"> </textarea>
+                          <span id="msg_mensagem" name="msg" style="color:red"></span>
+                        </div>
+                        
+                      </div>
+                      <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <input type="hidden" name="_METHOD" value="PUT"/> 
+                          <button class="btn btn-primary" type="reset">Reset</button> 
                           <button type="submit" class="btn btn-success">Submit</button>                          
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
                         </div>
@@ -236,6 +253,7 @@ require_once('sessionMessages.php');
                       </form>
                     
                       
+
                     <!--</form>-->
                   </div>
                 </div>
@@ -314,8 +332,7 @@ require_once('sessionMessages.php');
 
     
     <script>
-    $(document).ready(function(){     
-
+    $(document).ready(function(){
 
 
      $(".msgm").click(function(){ // Click to only happen on announce links
@@ -335,7 +352,9 @@ require_once('sessionMessages.php');
       }  
      });
 
-   
+
+      
+     
       
         $(function() {
           // Get the form.
@@ -350,19 +369,27 @@ require_once('sessionMessages.php');
             // Stop the browser from submitting the form.
             event.preventDefault();
 
-            var message = $('#descricao').val();
-            
+            var message = $('#assunto').val();
+            var message2 = $('#mensagem').val();   
 
-            if(message == '' )  
+            if(message == '' || !$.trim($("#mensagem").val()) )  
             {  
               
               if( message == '' )  
               {  
-                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Funcional ");
+                $('#msg_assunto').html("Deve preencher este campo de forma válida! ");
               }
               else
               {
-                $('#msg_descricao').html("");
+                $('#msg_assunto').html("");
+              }
+              if( !$.trim($("#mensagem").val()) )  
+              {  
+                $('#msg_mensagem').html("Deve preencher este campo de forma válida! ");
+              }
+              else
+              {
+                $('#msg_mensagem').html("");
               }
               
               
@@ -383,7 +410,8 @@ require_once('sessionMessages.php');
                     location.reload();
                   }
               });
-              $('#msg_descricao').html("");
+              $('#msg_assunto').html("");
+              $('#msg_mensagem').html("");
               $('#msg').html("Upload de dados concluído!");
               //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
@@ -397,3 +425,19 @@ require_once('sessionMessages.php');
   
   </body>
 </html>
+
+<!-- Adicionar mais campos para atributos -->
+<script>
+$(document).ready(function(){
+  var i=1;
+  $('#add').click(function(){
+    i++;
+    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+  });
+  
+  $(document).on('click', '.btn_remove', function(){
+    var button_id = $(this).attr("id"); 
+    $('#row'+button_id+'').remove();
+  });
+});
+</script>

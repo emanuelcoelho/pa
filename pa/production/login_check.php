@@ -37,6 +37,8 @@
         $_SESSION['criar_editar'] = $row2['criar_editar'];
         $_SESSION['user_ver'] = $row2['user_ver'];
         $_SESSION['user_editar'] = $row2['user_editar'];
+        $_SESSION['criar_msg'] = $row2['criar_msg'];
+        $_SESSION['ver_historico'] = $row2['ver_historico'];
 
         
 

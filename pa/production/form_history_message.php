@@ -1,8 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
-require_once('sessionMessages.php'); 
+require_once('session_ver_historico.php');
+require_once('sessionMessages.php');   
 ?>
 
 <!DOCTYPE html>
@@ -181,62 +181,68 @@ require_once('sessionMessages.php');
         </div>
         <!-- /top navigation -->
 
+        <?php
+              $id = $_GET['var'];
+              $query = "SELECT * FROM `mensagem` WHERE `mensagem`.`id`='$id' "; // Run your query
+              $result=$mysqli->query($query);
+              $row = $result->fetch_assoc();
+
+              $iduser=$row['id_utilizador'];
+
+              $date = new DateTime($row['data']);
+
+            ?>
+
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Mensagem</h3>
+              </div>
+            </div>
+
+            <div class="title_right">
+                <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                  <a href= <?php echo "form_search_history_messages.php?var=".$iduser; ?> id="button" type="button"  class="btn btn-primary botao" >Voltar ao histórico de mensagens</a>
+                </div>
+              </div>
+
             <div class="clearfix"></div>
+
+
+            
+            
+           
+
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Insira as informações necessárias</small></h2>
-                    <div class="title_right">
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_estado.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os estados</a>
-                      </div>
-                    </div>
+                    <h2> <?php echo $row['assunto']; ?> <small> <?php echo date_format($date, 'H:i d-m-Y'); ?> </small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
 
-                    
-                    <form id="demo-form2" action="http://myslimsite/api/formEstEdit/update" method="post"  class="form-horizontal form-label-left" >
 
-                      <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `estado` WHERE `id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
-                      ?>
-
-                      <input type="hidden" name="idest" id="idest" value="<?php echo $row2['id'] ?>">
                       
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
-                          <span id="msg_descricao" name="msg" style="color:red"></span>  
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-                        </div>
-                      </div>
-
-                      <div class="ln_solid"></div>
+                        <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>
 
 
-                      </form>
-                    
+                  <!--  <div class="col-md-8 col-lg-8 col-sm-7">
+                     
                       
-                    <!--</form>-->
+                        <h2><p><?php echo $row['mensagem']; ?></p></h2>
+                      
+
+                      <blockquote class="blockquote-reverse">
+                        <p><?php echo $row['mensagem']; ?></p>
+                      </blockquote>
+                    </div>
+                  -->
+                    
+                    
                   </div>
                 </div>
               </div>
@@ -245,6 +251,7 @@ require_once('sessionMessages.php');
         </div>
 
 
+        
         
         <!-- /page content -->
 
@@ -314,9 +321,7 @@ require_once('sessionMessages.php');
 
     
     <script>
-    $(document).ready(function(){     
-
-
+    $(document).ready(function(){
 
      $(".msgm").click(function(){ // Click to only happen on announce links
 
@@ -335,65 +340,11 @@ require_once('sessionMessages.php');
       }  
      });
 
-   
-      
-        $(function() {
-          // Get the form.
-          var form = $('#demo-form2');
-          
-          // Get the messages div.
-          var formMessages = $('#msg');
-           
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message = $('#descricao').val();
-            
-
-            if(message == '' )  
-            {  
-              
-              if( message == '' )  
-              {  
-                $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Funcional ");
-              }
-              else
-              {
-                $('#msg_descricao').html("");
-              }
-              
-              
-            }  
-            else  
-            {  
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-              });
-              $('#msg_descricao').html("");
-              $('#msg').html("Upload de dados concluído!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
-            }
-          });
-        });
-      });
+    });
     </script>
 
 
   
   </body>
 </html>
+

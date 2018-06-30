@@ -103,9 +103,10 @@ require_once('sessionMessages.php');
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
-                      <li <?php echo $style_ver;?> ><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
+                  <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>
+                  <li <?php echo $style_ver_historico;?> ><a href="form_search_history_user.php"><i class="fa fa-book"></i> Histórico utilizador </a></li>
                 </ul>
               </div>
             </div>
@@ -200,12 +201,13 @@ require_once('sessionMessages.php');
                      
 
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                        <table id="datatable" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
                               <th class="text-center">Username</th>
+                              <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
                             </tr>
@@ -213,6 +215,7 @@ require_once('sessionMessages.php');
                           <tfoot>
                             <tr>
                               <th class="text-center">Username</th>
+                              <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
                             </tr>
@@ -224,7 +227,8 @@ require_once('sessionMessages.php');
                               
                               $query = "SELECT user.id, 
                                         user.username,
-                                        user.email, 
+                                        user.email,
+                                        user.numero, 
                                         grupo.descricao AS descGroup 
                                         FROM user 
                                         INNER JOIN grupo ON user.id_grupo = grupo.id";
@@ -237,6 +241,7 @@ require_once('sessionMessages.php');
 
                                  echo '<tr>
                                         <td> '.$row['username'].'</td>
+                                        <td> '.$row['numero'].'</td> 
                                         <td> '.$row['email'].'</td>  
                                         <td>'.$row['descGroup'].'</td>
                                       </tr>';

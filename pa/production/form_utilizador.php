@@ -94,9 +94,10 @@ require_once('sessionMessages.php');
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
-                      <li <?php echo $style_ver;?> ><a href="form_utilizador.php">Meu perfil</a></li>
                     </ul>
                   </li>
+                  <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>
+                  <li <?php echo $style_ver_historico;?> ><a href="form_search_history_user.php"><i class="fa fa-book"></i> Histórico utilizador </a></li>
                 </ul>
               </div>
             </div>
@@ -221,7 +222,7 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12"  value="<?php echo $row["numero"]; ?>">
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1  value="<?php echo $row["numero"]; ?>">
                           <span id="msg_number" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -342,10 +343,11 @@ require_once('sessionMessages.php');
 
             var message1 = $('#username').val();  
             var message2 = $('#email').val();  
-            var message3 = $('#password').val();    
+            var message3 = $('#password').val();
+            var message4 = $('#number').val();     
 
 
-            if(message1 == '' || message2 == '' || message3 == '' )  
+            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' )  
             {  
 
               if( message1 == '' )  
@@ -373,6 +375,15 @@ require_once('sessionMessages.php');
               else
               {
                 $('#msg_password').html("");
+              }
+
+              if( message4 == '' )  
+              {  
+                $('#msg_number').html("Deve preencher este campo de forma válida! Ex: 10225");
+              }
+              else
+              {
+                $('#msg_number').html("");
               }
                    
             }  

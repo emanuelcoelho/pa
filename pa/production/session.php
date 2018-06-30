@@ -12,6 +12,8 @@
   $style_criar_editar = "";
   $style_user_ver = "";
   $style_user_editar = "";
+  $style_criar_msg="";
+  $style_ver_historico="";
 
 
   if($_SESSION['ver']==0)
@@ -50,7 +52,17 @@
     $style_user_editar = "style='display:none'";
   }
 
-	if (empty($_SESSION['username'])) {
+  if($_SESSION['criar_msg']==0)
+  {
+    $style_criar_msg = "style='display:none'";
+  }
+
+  if($_SESSION['ver_historico']==0)
+  {
+    $style_ver_historico = "style='display:none'";
+  }
+
+	if (empty($_SESSION['id'])) {
 	 
 		// não existe sessão iniciada
 		// neste caso, levamos o utilizador para a página de login
