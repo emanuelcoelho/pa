@@ -203,7 +203,7 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2"  method="post"  class="form-horizontal form-label-left" > <!-- action="http://myslimsite/api/formEditKit/update" -->
+                    <form id="demo-form2"  method="post" action="http://myslimsite/api/formEditItem/updateSem" enctype="multipart/form-data" class="form-horizontal form-label-left" >   
 
                       <?php
                             $id = $_GET['var'];
@@ -221,6 +221,7 @@ require_once('sessionMessages.php');
                           <span id="msg_descricao" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -228,6 +229,7 @@ require_once('sessionMessages.php');
                           <span id="msg_marca" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -243,6 +245,7 @@ require_once('sessionMessages.php');
                           <span id="msg_serialnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -250,6 +253,7 @@ require_once('sessionMessages.php');
                           <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -258,6 +262,7 @@ require_once('sessionMessages.php');
                           <span id="msg_visivel" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
@@ -284,6 +289,7 @@ require_once('sessionMessages.php');
                           <span id="msg_desc" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
@@ -310,29 +316,52 @@ require_once('sessionMessages.php');
                           <span id="msg_estado" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                          <table class="table table-bordered" id="dynamic_field">
-                          <tr>
+                          <?php
+                            $id=$row2['id'];
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `atributos` WHERE `id_item`= '$id' "; // Run your query
+                            $result=$mysqli->query($query);
 
-                            <td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td>
-                            <td><button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button></td>
-                          </tr>
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<tr  id="rowold'.$row['id'].'">
+                                      <td><input type="text" id="attributesold[]" name="attributesold[]" placeholder="" class="form-control name_list" value="'.$row['descricao'].'" />
+                                      <input type="hidden" name="idattributesold[]" id="idattributesold[]" value='.$row['id'].'>
+                                      </td>
+                                      <td><button type="button" name="remove" id="'.$row['id'].'" class="btn btn-danger btn_remove_old">X</button></td>
+                                    </tr>';        
+                            }
+                          ?>
+
                          </table>
+                         <button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button>
                          <span id="msg_attributes" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="obs" class="form-control" name="obs"> <?php echo  $row2['observacao']; ?> </textarea>
+                          <textarea id="obs" class="form-control" name="obs"><?php echo  $row2['observacao']; ?></textarea>
                         </div>
                       </div>
+
+                      <?php $link="../../images/".$row2['foto'];?>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
+
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
-                          <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12" />
+                          <?php 
+                          $link="../../images/".$row2['foto'];
+                          echo '<img class="myImg" src="'.$link.'" id="img" style="display: block; width:100%; max-width:400px; margin-left: auto; margin-right: auto">'
+                        ?>
+                          <input type="file" id="image"  name="image" class="form-control col-md-7 col-xs-12" />
+                          <input type="hidden" name="path" id="path" value="<?php echo $link; ?>">
                           <span id="msg_image" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -451,6 +480,29 @@ require_once('sessionMessages.php');
      });
 
 
+     $("#image").change(function() {
+          var maxSize=10000000; 
+          var file = this.files[0];
+          var imagefile = file.type;
+          var match= ["image/jpeg","image/png","image/jpg"];
+          if(this.files[0].size>maxSize){
+            alert('Por favor escolha uma imagem com menos de 10mb');
+            $("#image").val('');
+            return false;
+          }
+          if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            alert('Por favor escolha uma imagem com uma extensão válida (JPEG/JPG/PNG).');
+            $("#image").val('');
+            return false;
+          }
+          
+          
+
+        });
+
+
+
+
       
      
       
@@ -467,14 +519,30 @@ require_once('sessionMessages.php');
             // Stop the browser from submitting the form.
             event.preventDefault();
 
-            var message = $('#descricao').val();
-            var message2 = $('#desc').val();   
-            var message3 = $('#limite').val();
-
-            if(message == '' || message2 == '1' || message3 == ''  )  
-            {  
+            var message1 = $('#marca').val();  
+            var message2 = $('#descricao').val();  
               
-              if( message == '' )  
+            var message4 = $('#visivel').val();  
+            var message5 = $('#desc').val();  
+            var message6 = $('#image').val();
+            var message7 = $('#serialnumber').val();
+            var message8 = $('#ipvcnumber').val();
+            var message9 = $('#modelo').val();  
+
+
+            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '1' || message7 == '' || message8 == '' || message9 == '' )  
+            {  
+
+              if( message1 == '' )  
+              {  
+                $('#msg_marca').html("Deve preencher este campo de forma válida! Ex: Canon");
+              }
+              else
+              {
+                $('#msg_marca').html("");
+              }
+
+              if( message2 == '' )  
               {  
                 $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica Canon 500D");
               }
@@ -482,47 +550,86 @@ require_once('sessionMessages.php');
               {
                 $('#msg_descricao').html("");
               }
-              if( message2 == '1' )  
+
+              if( message4 == '' )  
               {  
-                $('#msg_cat').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
+                $('#msg_visivel').html("Deve preencher este campo de forma válida! Ex: wut");
               }
               else
               {
-                $('#msg_cat').html("");
+                $('#msg_visivel').html("");
               }
-              if( message3 == '' )  
+
+              if( message5 == '1' )  
               {  
-                $('#msg_limite').html("Deve preencher este campo de forma válida! Ex: 6");
+                $('#msg_desc').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
               }
               else
               {
-                $('#msg_limite').html("");
+                $('#msg_desc').html("");
+              }
+
+
+
+              if( message7 == '' )  
+              {  
+                $('#msg_serialnumber').html("Deve preencher este campo de forma válida! Ex: 1002392");
+              }
+              else
+              {
+                $('#msg_serialnumber').html("");
+              }
+
+              if( message8 == '' )  
+              {  
+                $('#msg_ipvcnumber').html("Deve preencher este campo de forma válida! Ex: 293");
+              }
+              else
+              {
+                $('#msg_ipvcnumber').html("");
+              }
+
+              if( message9 == '' )  
+              {  
+                $('#msg_modelo').html("Deve preencher este campo de forma válida! Ex: 500D");
+              }
+              else
+              {
+                $('#msg_modelo').html("");
               }
               
               
             }  
             else  
             {  
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-              });
-              $('#msg_descricao').html("");
-              $('#msg_check').html("");
-              $('#msg_limite').html("");
-              $('#msg').html("Upload de dados concluído!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
+              
+                  // Serialize the form data.
+                var formData = $(form).serialize();
+                // Submit the form using AJAX.
+                $.ajax({
+                    type: 'post',
+                    url: $(form).attr('action'),
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function(data) { 
+                      location.reload();
+                    }
+                });
+                $('#msg_nome').html("");
+                $('#msg_descricao').html("");
+                $('#msg_visivel').html("");
+                $('#msg_desc').html("");   
+                $('#msg_attributes').html("");
+                $('#msg_image').html("");
+                $('#msg_ipvcnumber').html("");
+                $('#msg_serialnumber').html("");
+                $('#msg').html("Data upload sucessful!");
+                
+              
+              
+              
             }
           });
         });
@@ -537,15 +644,31 @@ require_once('sessionMessages.php');
 <!-- Adicionar mais campos para atributos -->
 <script>
 $(document).ready(function(){
-  var i=1;
+  var i=0;
   $('#add').click(function(){
     i++;
-    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+    $('#dynamic_field').append('<tr id="rownew'+i+'"><td><input type="text" id="attributesnew[]" name="attributesnew[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_new">X</button></td></tr>');
   });
   
-  $(document).on('click', '.btn_remove', function(){
+  $(document).on('click', '.btn_remove_old', function(){
     var button_id = $(this).attr("id"); 
-    $('#row'+button_id+'').remove();
+
+    $.ajax({
+          type: 'post',
+                  url: "http://myslimsite/api/formItemEdit/RemoveAttribute/num="+button_id,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    $('#rowold'+button_id+'').remove();
+                  }
+        });
+    
+  });
+
+  $(document).on('click', '.btn_remove_new', function(){
+    var button_id = $(this).attr("id"); 
+    $('#rownew'+button_id+'').remove();
   });
 });
 </script>

@@ -29,6 +29,7 @@ require_once('../app/api/formKitEdit.php');
 require_once('../app/api/formGroupEdit.php');
 require_once('../app/api/formCatEdit.php');
 require_once('../app/api/formEstEdit.php');
+require_once('../app/api/formItemEdit.php');
 require_once('../app/api/formMsg.php');
 
 

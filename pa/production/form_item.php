@@ -391,11 +391,17 @@ require_once('sessionMessages.php');
 
 
         $("#image").change(function() {
+          var maxSize=10000000; 
           var file = this.files[0];
           var imagefile = file.type;
           var match= ["image/jpeg","image/png","image/jpg"];
+          if(this.files[0].size>maxSize){
+            alert('Por favor escolha uma imagem com menos de 10mb');
+            $("#image").val('');
+            return false;
+          }
           if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-            alert('Please select a valid image file (JPEG/JPG/PNG).');
+            alert('Por favor escolha uma imagem com uma extensão válida (JPEG/JPG/PNG).');
             $("#image").val('');
             return false;
           }
