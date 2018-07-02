@@ -201,7 +201,7 @@ require_once('sessionMessages.php');
                      
 
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
@@ -342,9 +342,30 @@ require_once('sessionMessages.php');
       }  
      });
 
+     $('#table').DataTable( {
+        "order": [[ 1, "desc" ]],
+        "columnDefs": [
+          { "orderable": false, "targets": 0 }
+        ],
+        "language": {
+          "lengthMenu": "_MENU_ Registos por página",
+          "zeroRecords": "Não foram encontrados registos",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "Não foram encontrados registos",
+          "infoFiltered": "(de _MAX_ registos no total)",
+          "search": "Pesquisar:",
+          "oPaginate": {
+            "sNext": "Página seguinte",
+            "sPrevious": "Página anterior",
+            "sFirst": "Primeira página",
+            "sLast": "Última página"
+          }
+        }
+      });
+
 
       
-     $(".botao").click(function(){ // Click to only happen on announce links
+     $('#table').on('click','.botao',function () {
 
       var v = $(this).data('id');        
       if (v != undefined && v != null) {

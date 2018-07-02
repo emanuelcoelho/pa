@@ -297,6 +297,15 @@ require_once('sessionMessages.php');
                           <span id="msg_image" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Quantidade de itens a inserir </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <input type="number" id="qtd" name="qtd" class="form-control col-md-7 col-xs-12" min="1" max ="20">
+                          <span id="msg_qtd" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
@@ -394,6 +403,7 @@ require_once('sessionMessages.php');
           var maxSize=10000000; 
           var file = this.files[0];
           var imagefile = file.type;
+          var imagename = file.name;
           var match= ["image/jpeg","image/png","image/jpg"];
           if(this.files[0].size>maxSize){
             alert('Por favor escolha uma imagem com menos de 10mb');
@@ -405,6 +415,20 @@ require_once('sessionMessages.php');
             $("#image").val('');
             return false;
           }
+          $.ajax({
+              url:'http://localhost/images/'+imagename,
+              type:'HEAD',
+              error: function()
+              {
+                  //file not exists
+              },
+              success: function()
+              {
+                  alert('Já existe uma imagem com esse nome, por favor mude o nome da sua imagem.');
+                  $("#image").val('');
+                  return false;
+              }
+          });
         });
 
 

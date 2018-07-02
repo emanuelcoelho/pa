@@ -244,7 +244,7 @@ require_once('sessionMessages.php');
                       </div>
 
                       <div class="form-group">
-                        <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
@@ -428,6 +428,27 @@ require_once('sessionMessages.php');
         });
       }  
      });
+
+     $('#table').DataTable( {
+        "order": [[ 1, "desc" ]],
+        "columnDefs": [
+          { "orderable": false, "targets": 0 }
+        ],
+        "language": {
+          "lengthMenu": "_MENU_ Registos por página",
+          "zeroRecords": "Não foram encontrados registos",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "Não foram encontrados registos",
+          "infoFiltered": "(de _MAX_ registos no total)",
+          "search": "Pesquisar:",
+          "oPaginate": {
+            "sNext": "Página seguinte",
+            "sPrevious": "Página anterior",
+            "sFirst": "Primeira página",
+            "sLast": "Última página"
+          }
+        }
+      });
       
 
         $(function() {
@@ -500,14 +521,15 @@ require_once('sessionMessages.php');
                   url: $(form).attr('action'),
                   data: formData,
                   success: function(formData) { 
-                    //$('#demo-form2').trigger("reset");
+                    location.reload();
                   }
               });
               $('#msg_descricao').html("");
               $('#msg_check').html("");
               $('#msg_limite').html("");
+              $('#msg_cat').html("");
               $('#msg').html("Upload de dados concluído!");
-              $('#demo-form2').trigger("reset");
+              //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }
           });

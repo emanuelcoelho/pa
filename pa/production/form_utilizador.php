@@ -215,8 +215,11 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="password" name="password" class="form-control col-md-7 col-xs-12" value="<?php echo $row["password"]; ?>">
+                          <input type="password" id="password" name="password" class="form-control col-md-7 col-xs-12 masked" value="<?php echo $row["password"]; ?>">
                           <span id="msg_password" name="msg" style="color:red"></span>
+                        </div>
+                        <div class="control-label ">
+                            <a  id="eye" class="fa fa-eye fa-lg pull-left"></a>
                         </div>
                       </div>
                       <div class="form-group">
@@ -325,6 +328,34 @@ require_once('sessionMessages.php');
           });
         }  
        });
+
+       function show() {
+        var p = document.getElementById('password');
+        p.setAttribute('type', 'text');
+        var g = document.getElementById('eye');
+        g.setAttribute('class', 'fa fa-eye-slash fa-lg pull-left');
+      }
+
+      function hide() {
+        var p = document.getElementById('password');
+        var g = document.getElementById('eye');
+        g.setAttribute('class', 'fa fa-eye fa-lg pull-left');
+        p.setAttribute('type', 'password');
+      }
+
+      var pwShown = 0;
+
+      document.getElementById("eye").addEventListener("click", function () {
+        if (pwShown == 0) {
+          pwShown = 1;
+          show();
+        } 
+        else 
+        {
+          pwShown = 0;
+          hide();
+        }
+      }, false);
 
     
 

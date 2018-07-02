@@ -280,7 +280,7 @@ require_once('sessionMessages.php');
                     
                       <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
                         <div class="form-group">
-                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                           
                           
                             <thead>
@@ -458,12 +458,30 @@ require_once('sessionMessages.php');
       }  
      });
 
+     $('#table').DataTable( {
+        "order": [[ 0, "desc" ]],
+        "language": {
+          "lengthMenu": "_MENU_ Registos por página",
+          "zeroRecords": "Não foram encontrados registos",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "Não foram encontrados registos",
+          "infoFiltered": "(de _MAX_ registos no total)",
+          "search": "Pesquisar:",
+          "oPaginate": {
+            "sNext": "Página seguinte",
+            "sPrevious": "Página anterior",
+            "sFirst": "Primeira página",
+            "sLast": "Última página"
+          }
+        }
+      });
+
 
 
 
 
       
-     $(".botaoadd").click(function(){ // Click to only happen on announce links
+     $('#table').on('click','.botaoadd',function () {
       var v = $(this).data('id');
       var i = $(this).attr('value');        
       var form2 = $('#formtabela');
@@ -481,7 +499,7 @@ require_once('sessionMessages.php');
      });
 
 
-      $(".botaodel").click(function(){ // Click to only happen on announce links 
+      $('#table').on('click','.botaodel',function () {
         var v = $(this).data('id'); 
         //var dataObject = { 'num': v};
         var form2 = $('#formtabela');

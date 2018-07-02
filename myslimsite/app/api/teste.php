@@ -67,11 +67,11 @@ $app->post('/api/teste/insertF', function($request) {
 
 	$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("sssiisiiiis", $marca, $modelo, $descricao, $visivel, $cat, $image_name, $serialnumber, $ipvcnumber, $kit, $estado, $obs);
+	$stmt->bind_param("sssiisiiiis", $marca, $modelo, $descricaon, $visivel, $cat, $loopName, $serialnumber, $ipvcnumber, $kit, $estado, $obs);
 
 	$marca = $request->getParsedBody()['marca'];
 	$modelo = $request->getParsedBody()['modelo'];
-	$descricao = $request->getParsedBody()['descricao'];
+	$descricaon = $request->getParsedBody()['descricao'];
 	
 	$visivel = $request->getParsedBody()['visivel'];
 	$cat = $request->getParsedBody()['desc'];
@@ -81,44 +81,70 @@ $app->post('/api/teste/insertF', function($request) {
 	$ipvcnumber = $request->getParsedBody()['ipvcnumber'];
 	$obs = $request->getParsedBody()['obs'];
 
+	$quantidade = $request->getParsedBody()['qtd'];
 
 	$image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!
-	$image_name = addslashes($_FILES['image']['name']);
 
-	$folder="/xampp/htdocs/images/";
+    
 
-	move_uploaded_file($_FILES['image']['tmp_name'], "$folder".$_FILES['image']['name']);
+		$image_name = addslashes($_FILES['image']['name']);
 
-	$stmt->execute();
+		$folder="/xampp/htdocs/images/";
 
+		$N=1;
 
-	$query1 = "SELECT `id` FROM `itens` ORDER BY `id` DESC LIMIT 1"; // Run your query
-	$result1=$mysqli->query($query1);
-	$row1 = $result1->fetch_object();
-	$num=$row1->id;
+		$newName = $N."_".$image_name;
 
+		move_uploaded_file($_FILES['image']['tmp_name'], "$folder".$newName);
 
-	$number = count($_POST["attributes"]);
-	if($number >= 1)
+		$C=1;
+
+	for($N=1; $N<=$quantidade; $N++)
 	{
-		for($i=0; $i<$number; $i++)
+		
+		$loopName = $N."_".$image_name;
+
+		$copy = $C."_".$image_name;
+
+		copy("$folder".$newName, "$folder".$loopName);
+
+		$C++;
+
+
+
+		$stmt->execute();
+
+
+		$query1 = "SELECT `id` FROM `itens` ORDER BY `id` DESC LIMIT 1"; // Run your query
+		$result1=$mysqli->query($query1);
+		$row1 = $result1->fetch_object();
+		$num=$row1->id;
+
+
+		$number = count($_POST["attributes"]);
+		if($number >= 1)
 		{
-			if(trim($_POST["attributes"][$i] != ''))
+			for($i=0; $i<$number; $i++)
 			{
+				if(trim($_POST["attributes"][$i] != ''))
+				{
 
-				$sql = "INSERT INTO `atributos`(`id_item`,`descricao`) VALUES(?,?)";
-				$stmt = $mysqli->prepare($sql);
+					$sql = "INSERT INTO `atributos`(`id_item`,`descricao`) VALUES(?,?)";
+					$stmt2 = $mysqli->prepare($sql);
 
-				$stmt->bind_param("ss", $id_item, $descricao);
+					$stmt2->bind_param("ss", $id_item, $descricao);
 
-				$id_item = $num;
-				$descricao = $request->getParsedBody()['attributes'][$i];
-				
-				$stmt->execute();
+					$id_item = $num;
+					$descricao = $request->getParsedBody()['attributes'][$i];
+					
+					$stmt2->execute();
+				}
 			}
+			echo "Data Inserted";
 		}
-		echo "Data Inserted";
 	}
+
+	
 
 	
 	  

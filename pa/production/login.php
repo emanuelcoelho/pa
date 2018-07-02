@@ -37,7 +37,7 @@
             <form action = "login_check.php" method = "post" enctype="multipart/form-data">
               <h1>Login Form</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" id="username" name="username" value=" " />
+                <input type="text" class="form-control" placeholder="Username" required="" id="username" name="username"  />
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" id="password" name="password" />

@@ -484,6 +484,7 @@ require_once('sessionMessages.php');
           var maxSize=10000000; 
           var file = this.files[0];
           var imagefile = file.type;
+          var imagename = file.name;
           var match= ["image/jpeg","image/png","image/jpg"];
           if(this.files[0].size>maxSize){
             alert('Por favor escolha uma imagem com menos de 10mb');
@@ -495,6 +496,20 @@ require_once('sessionMessages.php');
             $("#image").val('');
             return false;
           }
+          $.ajax({
+              url:'http://localhost/images/'+imagename,
+              type:'HEAD',
+              error: function()
+              {
+                  //file not exists
+              },
+              success: function()
+              {
+                  alert('Já existe uma imagem com esse nome, por favor mude o nome da sua imagem.');
+                  $("#image").val('');
+                  return false;
+              }
+          });
           
           
 

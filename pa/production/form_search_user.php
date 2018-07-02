@@ -201,7 +201,7 @@ require_once('sessionMessages.php');
                      
 
                       <div class="form-group">
-                        <table id="datatable" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
@@ -348,6 +348,24 @@ require_once('sessionMessages.php');
         });
       }  
      });
+
+     $('#table').DataTable( {
+        "language": {
+          "lengthMenu": "_MENU_ Registos por página",
+          "zeroRecords": "Não foram encontrados registos",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "Não foram encontrados registos",
+          "infoFiltered": "(de _MAX_ registos no total)",
+          "search": "Pesquisar:",
+          "oPaginate": {
+            "sNext": "Página seguinte",
+            "sPrevious": "Página anterior",
+            "sFirst": "Primeira página",
+            "sLast": "Última página"
+          }
+        }
+      });
+
 
     });
     </script>
