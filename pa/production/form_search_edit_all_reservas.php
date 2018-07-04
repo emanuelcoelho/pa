@@ -1,9 +1,10 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_user_editar.php');
-require_once('sessionMessages.php'); 
+require_once('session_reservas.php');
+require_once('sessionMessages.php');
 require_once('sessionReservas.php'); 
+
 ?>
 
 <!DOCTYPE html>
@@ -198,7 +199,7 @@ require_once('sessionReservas.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
+                    <h2>Ver histórico <small>Seleccione a reserva que pretende editar</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -207,7 +208,7 @@ require_once('sessionReservas.php');
 
                     
                     <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
 
                       <div class="form-group">
                         <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
@@ -216,19 +217,25 @@ require_once('sessionReservas.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Observação</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Observação</th>
                             </tr>
                           </tfoot>
                           <tbody>
@@ -236,13 +243,19 @@ require_once('sessionReservas.php');
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT user.id, 
-                                        user.username,
-                                        user.email,
-                                        user.numero, 
-                                        grupo.descricao AS descGroup 
-                                        FROM user 
-                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
+                              $query = "SELECT reserva.id,
+                                        reserva.data_inicio,
+                                        reserva.data_fim,
+                                        reserva.observacao,
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit,
+                                        res.username AS descReservante,
+                                        func.username AS descFuncionario                                       
+                                        FROM reserva 
+                                        INNER JOIN user as res ON reserva.id_reservante = res.id
+                                        INNER JOIN user as func ON reserva.id_funcionario = func.id
+                                        INNER JOIN kit ON reserva.id_kit = kit.id
+                                        INNER JOIN estado ON reserva.id_estado = estado.id";
                               $result=$mysqli->query($query);
                               
 
@@ -251,11 +264,15 @@ require_once('sessionReservas.php');
                                 
 
                                  echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Editar utilizador</button></td>
-                                        <td> '.$row['username'].'</td>
-                                        <td> '.$row['numero'].'</td>
-                                        <td> '.$row['email'].'</td>  
-                                        <td>'.$row['descGroup'].'</td>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" value='.$_SESSION['id'].' data-id='.$row['id'].'>Editar reserva</button>
+                                        </td>
+                                        <td> '.$row['descReservante'].'</td>
+                                        <td> '.$row['descFuncionario'].'</td>
+                                        <td> '.$row['descKit'].'</td> 
+                                        <td> '.$row['data_inicio'].'</td>
+                                        <td> '.$row['data_fim'].'</td>   
+                                        <td>'.$row['descEst'].'</td>
+                                        <td>'.$row['observacao'].'</td>
                                       </tr>';
                               }
 
@@ -366,7 +383,7 @@ require_once('sessionReservas.php');
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 4, "asc" ]],
         "columnDefs": [
           { "orderable": false, "targets": 0 }
         ],
@@ -386,16 +403,16 @@ require_once('sessionReservas.php');
         }
       });
 
+      $('#table').on('click','.botao',function () {
 
-      
-     $('#table').on('click','.botao',function () {
+        var v = $(this).data('id');        
+        if (v != undefined && v != null) {
+          window.location = '/pa/production/form_edit_all_reservas.php?var=' + v;
+        }
 
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_user.php?var=' + v;
-      }
-       
-     });
+      });
+
+
    });
     </script>
 

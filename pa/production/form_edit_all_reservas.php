@@ -1,8 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_user_editar.php');
-require_once('sessionMessages.php'); 
+require_once('session_reservas.php');
+require_once('sessionMessages.php');
 require_once('sessionReservas.php'); 
 ?>
 
@@ -14,7 +14,7 @@ require_once('sessionReservas.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -37,14 +37,7 @@ require_once('sessionReservas.php');
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-    <!-- Datatables -->
-    <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
+    
     
     
 
@@ -198,7 +191,12 @@ require_once('sessionReservas.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar utilizador <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar reservas <small>Insira as informações necessárias</small></h2>
+                    <div class="title_right">
+                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <a href="form_search_edit_all_reservas.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todas as reservas</a>
+                      </div>
+                    </div>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -206,76 +204,129 @@ require_once('sessionReservas.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2"  method="post" action="http://myslimsite/api/formResEdit/allEdit" class="form-horizontal form-label-left" >   
 
+                      <?php
+                            $id = $_GET['var'];
+                            $query2 = "SELECT reserva.id,
+                                        reserva.data_inicio,
+                                        reserva.data_fim,
+                                        reserva.observacao,
+                                        reserva.id_estado,
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit,
+                                        res.username AS descReservante,
+                                        func.username AS descFuncionario                                       
+                                        FROM reserva 
+                                        INNER JOIN user as res ON reserva.id_reservante = res.id
+                                        INNER JOIN user as func ON reserva.id_funcionario = func.id
+                                        INNER JOIN kit ON reserva.id_kit = kit.id
+                                        INNER JOIN estado ON reserva.id_estado = estado.id
+                                        WHERE reserva.id='$id' "; // Run your query
+                            $result2=$mysqli->query($query2);
+                            $row2 = $result2->fetch_assoc();
+                      ?>
+
+                      <input type="hidden" name="idres" id="idres" value="<?php echo $id; ?>">
+                      
                       <div class="form-group">
-                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT user.id, 
-                                        user.username,
-                                        user.email,
-                                        user.numero, 
-                                        grupo.descricao AS descGroup 
-                                        FROM user 
-                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Editar utilizador</button></td>
-                                        <td> '.$row['username'].'</td>
-                                        <td> '.$row['numero'].'</td>
-                                        <td> '.$row['email'].'</td>  
-                                        <td>'.$row['descGroup'].'</td>
-                                      </tr>';
-                              }
-
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="requisitante">Requisitante </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="requisitante" name="requisitante" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descReservante']; ?>" disabled>
+                          <span id="msg_requisitante" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
-                      
-                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcionario">Funcionário </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="funcionario" name="funcionario" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descFuncionario']; ?>" disabled>
+                          <span id="msg_funcionario" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kit">Kit </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="kit" name="kit" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descKit']; ?>" disabled>
+                          <span id="msg_kit" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inicio">Data de início de reserva </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="inicio" name="inicio" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['data_inicio']; ?>" disabled>
+                          <span id="msg_inicio" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fim">Data de fim de reserva </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="fim" name="fim" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['data_fim']; ?>" disabled>
+                          <span id="msg_fim" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <?php
+
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `estado` "; // Run your query
+                            $result=$mysqli->query($query);
+                            
+                            echo '<select class="form-control" id="estado" name="estado" >'; // Open your drop down box
+
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'" ';
+                               if( $row['id'] == $row2['id_estado'] )
+                               {
+                                 echo ("selected");
+                               }
+                               echo ' ">'.$row['descricao'].'</option>';
+                            }
+
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_estado" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="obs" class="form-control" name="obs"><?php echo  $row2['observacao']; ?></textarea>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <input type="hidden" name="_METHOD" value="PUT"/> 
+                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
 
                     </form>
+                    
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -324,28 +375,12 @@ require_once('sessionReservas.php');
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-    <!-- Datatables -->
-    <script src="../vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="../vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="../vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="../vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="../vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="../vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="../vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="../vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="../vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-    <script src="../vendors/jszip/dist/jszip.min.js"></script>
-    <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
-    <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
+    
 
 
     
     <script>
     $(document).ready(function(){
-
 
 
      $(".msgm").click(function(){ // Click to only happen on announce links
@@ -364,42 +399,47 @@ require_once('sessionReservas.php');
         });
       }  
      });
-
-     $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
-        "columnDefs": [
-          { "orderable": false, "targets": 0 }
-        ],
-        "language": {
-          "lengthMenu": "_MENU_ Registos por página",
-          "zeroRecords": "Não foram encontrados registos",
-          "info": "Página _PAGE_ de _PAGES_",
-          "infoEmpty": "Não foram encontrados registos",
-          "infoFiltered": "(de _MAX_ registos no total)",
-          "search": "Pesquisar:",
-          "oPaginate": {
-            "sNext": "Página seguinte",
-            "sPrevious": "Página anterior",
-            "sFirst": "Primeira página",
-            "sLast": "Última página"
-          }
-        }
-      });
-
-
+ 
+     
       
-     $('#table').on('click','.botao',function () {
+        $(function() {
+          // Get the form.
+          var form = $('#demo-form2');
+          
+          // Get the messages div.
+          var formMessages = $('#msg');
+           
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
 
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_user.php?var=' + v;
-      }
-       
-     });
-   });
+            // Stop the browser from submitting the form.
+            event.preventDefault();
+ 
+            // Serialize the form data.
+            var formData = $(form).serialize();
+            // Submit the form using AJAX.
+            $.ajax({
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) { 
+                  location.reload();
+                }
+            });
+            
+            $('#msg').html("Data upload sucessful!");
+                
+          });
+
+        });
+
+      });
     </script>
 
 
-	
+  
   </body>
 </html>

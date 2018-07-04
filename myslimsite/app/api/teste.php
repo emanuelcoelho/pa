@@ -76,12 +76,16 @@ $app->post('/api/teste/insertF', function($request) {
 	$visivel = $request->getParsedBody()['visivel'];
 	$cat = $request->getParsedBody()['desc'];
 	$estado = $request->getParsedBody()['estado'];
-	$kit=1;
 	$serialnumber = $request->getParsedBody()['serialnumber'];
 	$ipvcnumber = $request->getParsedBody()['ipvcnumber'];
 	$obs = $request->getParsedBody()['obs'];
 
 	$quantidade = $request->getParsedBody()['qtd'];
+
+	$sql = "SELECT * FROM kit WHERE descricao = 'Sem Kit' ";
+    $result = mysqli_query($mysqli,$sql);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $kit=$row['id'];
 
 	$image = addslashes(file_get_contents($_FILES['image']['tmp_name'])); //SQL Injection defence!
 

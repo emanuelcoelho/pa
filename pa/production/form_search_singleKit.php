@@ -172,25 +172,42 @@
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="index.php"><i class="fa fa-search"></i> Pesquisar </a></li>
-                  <li><a><i class="fa fa-edit"></i> Registar <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span> </a>
                     <ul class="nav child_menu">
-                      <li><a href="form_item.php">Item</a></li>
-                      <li><a href="form_categoria.php">Categoria</a></li>
-                      <li><a href="form_data.php">Data</a></li>
-                      <li><a href="form_kit.php">Kit</a></li>
-                      <li><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-pencil"></i> Editar <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="form_search_edit_kit.php">Kit</a></li>
-                      <li><a href="form_search_edit_item.php">Item</a></li>
-                      <li><a href="form_search_edit_categoria.php">Categoria</a></li>
-                      <li><a href="form_search_edit_estado.php">Estado</a></li>
-                      <li><a href="form_utilizador.php">Meu perfil</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item  </a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_grupo.php">Grupo</a></li>
                     </ul>
                   </li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_kit.php">Kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_item.php">Item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_item.php">Categoria item</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_categoria_kit.php">Categoria kit</a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
+                      <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
+                    </ul>
+                  </li>
+                  <li <?php echo $style_ver;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Pedidos pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_edit_all_reservas.php">Todas as reservas </a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_reserva.php">Reservar kit </a></li>
+                    </ul>
+                  </li>
+                  <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>
+                  <li <?php echo $style_ver_historico;?> ><a href="form_search_history_user.php"><i class="fa fa-book"></i> Histórico utilizador </a></li>
                 </ul>
               </div>
             </div>
@@ -220,42 +237,44 @@
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">3</span>
+                    <?php echo $_SESSION['numberMessages']; ?>
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <?php
+                      $id=$_SESSION['id'];
+
+                      $sql3 = "SELECT * FROM mensagem 
+                               WHERE id_utilizador = '$id' 
+                               AND lido = 0 
+                               ORDER BY data DESC 
+                               LIMIT 5  ";
+                      $result3 = mysqli_query($mysqli,$sql3);
+
+                      while ($row3 = $result3->fetch_assoc()) {
+                        $mensagem= substr($row3['mensagem'],0,40);
+                        $date = new DateTime($row3['data']);
+                                  
+                                 
+                                   echo '<li>
+                                          <a class="msgm" id='.$row3['id'].'>
+                                            <span>
+                                              <span><b>'.$row3['assunto'].'</b></span>
+                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                            </span>
+                                            <span class="message">
+                                              '.$mensagem.'
+                                            </span>
+                                          </a>
+                                        </li>';
+                                }
+
+                    ?>
                     <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
+                      <a href="form_search_messages.php" align="center">
+                        <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
-                    <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li>
-                      <a>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
+                    
                   </ul>
                 </li>
               </ul>

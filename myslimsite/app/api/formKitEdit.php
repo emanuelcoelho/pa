@@ -6,10 +6,15 @@ $app->put('/api/formKitEdit/RemoveItem/num={id}', function($request, $response, 
 	//$id = $request->getparsedBody()['num'];
 	//$id = $_POST['num'];
 	//$id = $_GET['num'];
-	$nId = 1;
+	$query = "SELECT * FROM kit WHERE descricao = 'Sem Kit' ";
+    $result = mysqli_query($mysqli,$query);
+    $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+    $kit=$row['id'];
+
+	
 	$sql = "UPDATE `itens` SET `id_kit` = ? WHERE `id` = ?";
 	$stmt = $mysqli->prepare($sql);
-	$stmt->bind_param("ii", $nId, $id);
+	$stmt->bind_param("ii", $kit, $id);
 	
 	echo $id;
 	//echo $nId;
