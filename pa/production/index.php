@@ -1,7 +1,8 @@
 <?php
   require_once('dbconnect_teste.php');
   require_once('session.php');
-  require_once('sessionMessages.php');      
+  require_once('sessionMessages.php'); 
+  require_once('sessionReservas.php');     
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +52,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo $_SESSION['username'];?></h2>
+                <h2><?php echo $_SESSION['username']; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -90,6 +91,14 @@
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_estado.php">Estado</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_user.php">Utilizador</a></li>
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
+                    </ul>
+                  </li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-archive" ></i> Reservas <span class="fa fa-chevron-down"></span><?php echo $_SESSION['reservasAviso']; ?></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Pedidos pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_all_reservas.php">Histórico reservas </a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_reserva.php">Reservar kit </a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>

@@ -35,24 +35,24 @@
         <div class="animate form login_form">
           <section class="login_content">
             <form action = "login_check.php" method = "post" enctype="multipart/form-data">
-              <h1>Login Form</h1>
+              <h1>Login</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" id="username" name="username"  />
+                <input type="text" class="form-control" placeholder="Email" required="" id="email" name="email"  />
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" id="password" name="password" />
               </div>
               <div>
-                <button class="btn btn-default submit" type="submit" value="enter" name="enter" id="enter">Log in</button>
-                <a class="reset_pass" href="#">Lost your password?</a>
+                <button class="btn btn-default submit" type="submit" value="enter" name="enter" id="enter">Entrar</button>
+                <a class="reset_pass" href="#">Recupere a sua password?</a>
                 
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
+                <p class="change_link">Ainda não tem conta?
+                  <a href="#signup" class="to_register"> Registe-se no site! </a>
                 </p>
 
                 <div class="clearfix"></div>
@@ -70,25 +70,26 @@
         <div id="register" class="animate form registration_form">
           <section class="login_content">
             <form action = "register_user.php" method = "post" enctype="multipart/form-data">
-              <h1>Create Account</h1>
+              <h1>Registo de conta</h1>
               <div>
                 <input type="text" class="form-control" placeholder="Username" required="" id="usernameReg" name="usernameReg" />
               </div>
               <div>
                 <input type="email" class="form-control" placeholder="Email" required="" id="emailReg" name="emailReg"/>
+                <span id="msg_mail" name="msg" style="color:red"></span>
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" id="passwordReg" name="passwordReg"/>
               </div>
               <div>
-                <button class="btn btn-default submit" type="submit" value="enterReg" name="enterReg" id="enterReg">submit</button>
+                <button class="btn btn-default submit" type="submit" value="enterReg" name="enterReg" id="enterReg">Registar</button>
               </div>
 
               <div class="clearfix"></div>
 
               <div class="separator">
-                <p class="change_link">Already a member ?
-                  <a href="#signin" class="to_register"> Log in </a>
+                <p class="change_link">Já tem conta no site?
+                  <a href="#signin" class="to_register"> Faça login</a>
                 </p>
 
                 <div class="clearfix"></div>
@@ -104,5 +105,8 @@
         </div>
       </div>
     </div>
+
   </body>
 </html>
+
+

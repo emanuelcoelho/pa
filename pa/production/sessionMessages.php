@@ -14,10 +14,7 @@ $_SESSION['mensagens_novas'] = $count;
 
 if($count>0)
 {
-	$_SESSION['numberMessages']='<span class="badge bg-green">  '.$_SESSION['mensagens_novas'].' </span>';
-
-
-	
+	$_SESSION['numberMessages']='<span class="badge bg-green">  '.$_SESSION['mensagens_novas'].' </span>';	
 }
 
 

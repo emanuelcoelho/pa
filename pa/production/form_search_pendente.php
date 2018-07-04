@@ -1,8 +1,9 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
-require_once('sessionMessages.php'); 
+require_once('session_reservas.php');
+require_once('sessionMessages.php');
+require_once('sessionReservas.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -189,7 +190,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Seleccione o estado que deseja editar</small></h2>
+                    <h2>Ver histórico <small>Seleccione o utilizador e qual o tipo de histórico que pretende visualizar</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -198,7 +199,7 @@ require_once('sessionMessages.php');
 
                     
                     <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
 
                       <div class="form-group">
                         <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
@@ -207,21 +208,40 @@ require_once('sessionMessages.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome Estado</th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome Estado</th>
-                            </tr> 
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
+                            </tr>
                           </tfoot>
                           <tbody>
                             <?php
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT * FROM estado ";
+                              $query = "SELECT reserva.id,
+                                        reserva.data_inicio,
+                                        reserva.data_fim,
+                                        reserva.observacao,
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit,
+                                        user.username AS descReservante                                       
+                                        FROM reserva 
+                                        INNER JOIN user ON reserva.id_reservante = user.id
+                                        INNER JOIN kit ON reserva.id_kit = kit.id
+                                        INNER JOIN estado ON reserva.id_estado = estado.id 
+                                        WHERE estado.descricao = 'Pendente'";
                               $result=$mysqli->query($query);
                               
 
@@ -229,13 +249,18 @@ require_once('sessionMessages.php');
                               while ($row = $result->fetch_assoc()) {
                                 
 
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar estado</button></td>
-                                        <td> '.$row['descricao'].'</td> 
+                                 echo '<tr>
+                                        <td><button id="button[]" type="button" class="btn btn-success botaoA" value='.$_SESSION['id'].' data-id='.$row['id'].'>Aceitar reserva</button>
+                                            <button id="button[]" type="button" class="btn btn-danger botaoD" value='.$_SESSION['id'].' data-id='.$row['id'].'>Recusar Reserva</button>
+                                        </td>
+                                        <td> '.$row['descReservante'].'</td>
+                                        <td> '.$row['descKit'].'</td> 
+                                        <td> '.$row['data_inicio'].'</td>
+                                        <td> '.$row['data_fim'].'</td>   
+                                        <td>'.$row['descEst'].'</td>
                                       </tr>';
                               }
 
-                              echo '</select>';// Close your drop down box
                             ?>
                             
                           </tbody>
@@ -343,7 +368,7 @@ require_once('sessionMessages.php');
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 3, "asc" ]],
         "columnDefs": [
           { "orderable": false, "targets": 0 }
         ],
@@ -364,15 +389,42 @@ require_once('sessionMessages.php');
       });
 
 
-      
-     $('#table').on('click','.botao',function () {
-
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_estado.php?var=' + v;
-      }
-       
+     $('#table').on('click','.botaoA',function () {
+      var v = $(this).data('id');
+      var i = $(this).attr('value');        
+      var form2 = $('#formtabela');
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formResEdit/accept/num="+v+"&num2="+i,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
+                  }
+        });        
      });
+
+
+      $('#table').on('click','.botaoD',function () {
+        var v = $(this).data('id'); 
+        var i = $(this).attr('value');
+        var form2 = $('#formtabela');
+        //var formData = $(this).serialize();
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formResEdit/refuse/num="+v+"&num2="+i,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    location.reload();
+                  }
+        });   
+      });
+
+
+
    });
     </script>
 

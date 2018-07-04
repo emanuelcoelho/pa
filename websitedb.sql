@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 27-Jun-2018 às 18:47
+-- Generation Time: 04-Jul-2018 às 23:01
 -- Versão do servidor: 10.1.30-MariaDB
 -- PHP Version: 7.2.2
 
@@ -39,8 +39,7 @@ CREATE TABLE `atributos` (
 --
 
 INSERT INTO `atributos` (`id`, `descricao`, `id_item`) VALUES
-(1, 'atributo1', 1),
-(2, 'atributo2', 1),
+(1, 'atributo1 com update', 1),
 (3, 'atributo3', 2),
 (4, 'atributo4', 2),
 (5, 'atributo 5', 3),
@@ -48,7 +47,33 @@ INSERT INTO `atributos` (`id`, `descricao`, `id_item`) VALUES
 (7, 'atributo7', 4),
 (8, 'atributo8', 4),
 (9, 'atributo9', 5),
-(10, 'atributo10', 5);
+(10, 'atributo10', 5),
+(11, 'atributo11', 6),
+(12, 'atributo12', 6),
+(13, 'teste atributo', 7),
+(15, 'atributo descriÃ§Ã£o1', 8),
+(16, 'atributo descriÃ§Ã£o2', 8),
+(33, 'novo atributo para ', 8),
+(100, '1 atributo quantidade', 35),
+(101, '2 atributo quiantidade', 35),
+(102, '1 atributo quantidade', 36),
+(103, '2 atributo quiantidade', 36),
+(104, '1 atributo quantidade', 37),
+(105, '2 atributo quiantidade', 37),
+(106, '1 atributo quantidade', 38),
+(107, '2 atributo quiantidade', 38),
+(108, '1 atributo quantidade', 39),
+(109, '2 atributo quiantidade', 39),
+(110, '1 atributo quantidade', 40),
+(111, '2 atributo quiantidade', 40),
+(112, '1 atributo quantidade', 41),
+(113, '2 atributo quiantidade', 41),
+(114, '1 atributo quantidade', 42),
+(115, '2 atributo quiantidade', 42),
+(116, '1 atributo quantidade', 43),
+(117, '2 atributo quiantidade', 43),
+(118, '1 atributo quantidade', 44),
+(119, '2 atributo quiantidade', 44);
 
 -- --------------------------------------------------------
 
@@ -71,7 +96,8 @@ INSERT INTO `categoria_item` (`id`, `descricao`) VALUES
 (3, 'Categoria item 3'),
 (4, 'Categoria item 4'),
 (5, 'Categoria item 5'),
-(6, 'Categoria item 200');
+(6, 'Categoria item 200'),
+(7, 'teste categoria');
 
 -- --------------------------------------------------------
 
@@ -114,7 +140,12 @@ INSERT INTO `estado` (`id`, `descricao`) VALUES
 (1, 'Funcional'),
 (2, 'Em arranjo'),
 (3, 'Para abate'),
-(4, 'NÃ£o funcional');
+(4, 'NÃ£o funcional'),
+(5, 'Pendente'),
+(6, 'Em atraso'),
+(7, 'Aceite'),
+(8, 'Recusado'),
+(9, 'testeestado');
 
 -- --------------------------------------------------------
 
@@ -128,18 +159,22 @@ CREATE TABLE `grupo` (
   `ver` int(11) NOT NULL,
   `reservar` int(11) NOT NULL,
   `ver_admin` int(11) NOT NULL,
-  `criar` int(11) NOT NULL,
-  `editar` int(11) NOT NULL,
+  `reservas` int(11) NOT NULL,
+  `criar_editar` int(11) NOT NULL,
   `user_ver` int(11) NOT NULL,
-  `user_editar` int(11) NOT NULL
+  `user_editar` int(11) NOT NULL,
+  `criar_msg` int(11) NOT NULL,
+  `ver_historico` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Extraindo dados da tabela `grupo`
 --
 
-INSERT INTO `grupo` (`id`, `descricao`, `ver`, `reservar`, `ver_admin`, `criar`, `editar`, `user_ver`, `user_editar`) VALUES
-(1, 'Visitante', 1, 0, 0, 0, 0, 0, 0);
+INSERT INTO `grupo` (`id`, `descricao`, `ver`, `reservar`, `ver_admin`, `reservas`, `criar_editar`, `user_ver`, `user_editar`, `criar_msg`, `ver_historico`) VALUES
+(1, 'Visitante', 1, 0, 0, 0, 1, 1, 0, 0, 0),
+(2, 'Administrador', 1, 1, 1, 1, 1, 1, 1, 1, 1),
+(3, 'teste', 1, 1, 1, 1, 1, 1, 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -167,11 +202,24 @@ CREATE TABLE `itens` (
 --
 
 INSERT INTO `itens` (`id`, `descricao`, `marca`, `modelo`, `serial_number`, `serial_ipvc`, `visivel`, `id_categoria`, `id_estado`, `id_kit`, `foto`, `observacao`) VALUES
-(1, 'descricao1', 'marca 1', 'modelo 1', 1222121, 13223231, 1, 2, 1, 2, '20180527_200909.jpg', ''),
+(1, 'descricao12', 'marca 12', 'modelo 12', 99999, 11111, 1, 3, 2, 2, '20180527_200909.jpg', 'ObservaÃ§Ã£o 1 update\r\nLinha 2 de ObservaÃ§Ã£o    '),
 (2, 'descricao2', 'marca2', 'modelo2', 432435, 65264265, 0, 2, 4, 1, 'WP_20180514_11_08_28_Pro.jpg', ''),
-(3, 'descricao3', 'marca3', 'modelo3', 54564386, 4536, 1, 5, 1, 1, 'WP_20180514_11_09_27_Pro.jpg', ''),
+(3, 'descricao3', 'marca3', 'modelo3', 54564386, 4536, 1, 5, 1, 6, 'WP_20180514_11_09_27_Pro.jpg', ''),
 (4, 'descricao4', 'marca4', 'modelo4', 32424, 542355, 1, 6, 1, 3, 'WP_20180514_11_09_22_Pro.jpg', ''),
-(5, 'descricao5', 'marca5', 'modelo5', 34241254, 2133432, 1, 3, 1, 1, 'WP_20180514_11_08_50_Pro.jpg', '');
+(5, 'descricao5', 'marca5', 'modelo5', 34241254, 2133432, 1, 3, 1, 4, 'WP_20180514_11_08_50_Pro.jpg', 'observaçao 5\r\nobservaçao 5 2\r\nobservaçao 5 3\r\nobservaçao 5 4\r\nobservaçao 5 5'),
+(6, 'descricao6', 'marca6', 'modelo6', 547664, 76876, 1, 3, 1, 1, 'WP_20180514_11_08_34_Pro.jpg', 'observacao1'),
+(7, 'descriÃ§ao7', 'marca7', 'modelo7', 12909123, 30238932, 1, 4, 2, 5, '6648-2.jpg', 'linha\r\nlinha2\r\nlinha3\r\nlinha4'),
+(8, 'descriÃ§ao8 com update de foto nova', 'marca8', 'modelo8', 2134127, 312663, 0, 3, 3, 1, '6648-2.jpg', 'teste descriÃ§ao\r\nteste descriÃ§Ã£o2\r\nteste descriÃ§Ã£o3\r\nteste descriÃ§Ã£o update'),
+(35, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '1_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(36, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '805656.jpg', 'observaÃ§Ã£o\r\nquantidade'),
+(37, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '3_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(38, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, 'finalfantasy-1509570752447-8265.jpg', 'observaÃ§Ã£o\r\nquantidade'),
+(39, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '5_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(40, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '6_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(41, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '7_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(42, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '8_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(43, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '9_teste.png', 'observaÃ§Ã£o\r\nquantidade'),
+(44, 'descriÃ§Ã£o quantidade', 'marca quantidade', 'modelo quantidade', 2313, 3123123, 1, 4, 3, 1, '10_teste.png', 'observaÃ§Ã£o\r\nquantidade');
 
 -- --------------------------------------------------------
 
@@ -194,7 +242,41 @@ CREATE TABLE `kit` (
 INSERT INTO `kit` (`id`, `descricao`, `id_categoria`, `limite_data`, `observacao`) VALUES
 (1, 'Sem Kit', 1, 0, ''),
 (2, 'kit1', 2, 30, ''),
-(3, 'kit2', 3, 20, '');
+(3, 'kit2', 3, 20, ''),
+(4, 'kit3', 4, 50, 'observacaoupdate1'),
+(5, 'kit novo', 3, 50, 'fgdsfgd'),
+(6, 'kit datatable', 3, 3, 'dsfasdf');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `mensagem`
+--
+
+CREATE TABLE `mensagem` (
+  `id` int(11) NOT NULL,
+  `assunto` varchar(100) NOT NULL,
+  `mensagem` varchar(500) NOT NULL,
+  `lido` int(11) NOT NULL,
+  `data` datetime NOT NULL,
+  `id_utilizador` int(11) NOT NULL,
+  `id_emissor` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `mensagem`
+--
+
+INSERT INTO `mensagem` (`id`, `assunto`, `mensagem`, `lido`, `data`, `id_utilizador`, `id_emissor`) VALUES
+(1, 'assunto 1', 'mensagem 1 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-01 07:31:41', 3, 3),
+(2, 'assunto 2', 'mensagem 2 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-03 09:12:33', 3, 3),
+(3, 'assunto 3', 'mensagem 3 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-05 17:32:00', 3, 3),
+(4, 'assunto 4', 'mensagem 4 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-08 10:46:09', 3, 3),
+(5, 'assunto 5', 'mensagem 5 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-20 14:24:36', 3, 3),
+(6, 'assunto 6', 'mensagem 6 \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-27 17:22:32', 3, 3),
+(7, 'assunto teste envio', ' mensagem envio teste \"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"', 0, '2018-06-30 14:18:09', 5, 3),
+(8, 'teste enter', 'boas\r\noutra linha\r\nlinha diferente\r\nultima linha, no total sao 4', 1, '2018-06-30 13:23:34', 3, 3),
+(9, 'teste linhas', 'linha\r\nmais uma linha\r\nmais duas linhas\r\n4 linhas no total', 0, '2018-06-30 17:16:36', 5, 3);
 
 -- --------------------------------------------------------
 
@@ -212,6 +294,17 @@ CREATE TABLE `reserva` (
   `data_fim` date DEFAULT NULL,
   `observacao` varchar(300) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `reserva`
+--
+
+INSERT INTO `reserva` (`id`, `id_kit`, `id_funcionario`, `id_reservante`, `id_estado`, `data_inicio`, `data_fim`, `observacao`) VALUES
+(1, 3, 9, 6, 5, '2018-07-10', '2018-07-18', ''),
+(2, 6, 4, 6, 6, '2018-07-01', '2018-07-02', ''),
+(3, 5, 4, 5, 6, '2018-07-02', '2018-07-26', ''),
+(4, 6, 9, 3, 5, '2018-07-19', '2018-07-26', 'teste'),
+(8, 6, 9, 3, 5, '2018-07-18', '2018-08-03', '');
 
 -- --------------------------------------------------------
 
@@ -234,8 +327,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `email`, `numero`, `telefone`, `id_grupo`) VALUES
-(3, 'pedro', 'pedropasse', 'pedromail@gmail.com', 10225, 999888777, 1),
-(4, 'emanuel', 'emanuelpasse', 'emanuelmail@gmail.com', 0, 0, 1);
+(3, 'pedro', 'pedropasse', 'pedromail@gmail.com', 10225, 999888777, 2),
+(4, 'emanuel', 'emanuelpasse', 'emanuelmail@gmail.com', 1, 0, 1),
+(5, 'clement', 'clementpasse', 'clementmail@gmail.com', 0, 0, 1),
+(6, 'teste', 'testepasse', 'teste@gmail.com', 0, 0, 1),
+(8, 'testenovo', 'testepasse', 'testemail@gmail.com', 0, 0, 1),
+(9, 'Sistema', 'sistemapasse', 'sistema@gmail.com', 0, 0, 2);
 
 --
 -- Indexes for dumped tables
@@ -289,6 +386,14 @@ ALTER TABLE `kit`
   ADD KEY `id_categoria` (`id_categoria`);
 
 --
+-- Indexes for table `mensagem`
+--
+ALTER TABLE `mensagem`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_utilizador` (`id_utilizador`),
+  ADD KEY `id_emissor` (`id_emissor`);
+
+--
 -- Indexes for table `reserva`
 --
 ALTER TABLE `reserva`
@@ -313,13 +418,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `atributos`
 --
 ALTER TABLE `atributos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
 
 --
 -- AUTO_INCREMENT for table `categoria_item`
 --
 ALTER TABLE `categoria_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `categoria_kit`
@@ -331,37 +436,43 @@ ALTER TABLE `categoria_kit`
 -- AUTO_INCREMENT for table `estado`
 --
 ALTER TABLE `estado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `itens`
 --
 ALTER TABLE `itens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `kit`
 --
 ALTER TABLE `kit`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `mensagem`
+--
+ALTER TABLE `mensagem`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `reserva`
 --
 ALTER TABLE `reserva`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -386,6 +497,13 @@ ALTER TABLE `itens`
 --
 ALTER TABLE `kit`
   ADD CONSTRAINT `id_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_kit` (`id`) ON DELETE SET NULL ON UPDATE SET NULL;
+
+--
+-- Limitadores para a tabela `mensagem`
+--
+ALTER TABLE `mensagem`
+  ADD CONSTRAINT `emissorkey` FOREIGN KEY (`id_emissor`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `mensagemkey` FOREIGN KEY (`id_utilizador`) REFERENCES `user` (`id`);
 
 --
 -- Limitadores para a tabela `reserva`
