@@ -49,7 +49,7 @@
           die();
         }else{
 
-          $sql2 = "SELECT * FROM grupo WHERE id = '$group' ";
+          $sql2 = "SELECT * FROM grupo WHERE id = '$grupo' ";
           $result2 = mysqli_query($mysqli,$sql2);
           $row2 = mysqli_fetch_array($result2,MYSQLI_ASSOC);
 
@@ -62,6 +62,33 @@
           $_SESSION['user_editar'] = $row2['user_editar'];
           $_SESSION['criar_msg'] = $row2['criar_msg'];
           $_SESSION['ver_historico'] = $row2['ver_historico'];
+
+          $sql3 = "SELECT * FROM user WHERE username = 'Sistema'";
+          $result3 = mysqli_query($mysqli,$sql3);
+          $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
+          $funcionario=$row3['id'];
+
+
+          $query4 = "INSERT INTO `mensagem` (`assunto`,`mensagem`, `lido`,`data`, `id_utilizador`,`id_emissor`) VALUES (?, ?, ?, ?, ?,?)";
+
+          $stmt4 = $mysqli->prepare($query4);
+
+          $stmt4->bind_param("ssisii", $assunto, $mensagem, $lido, $data, $idDestinatario, $funcionario);
+
+          $data=date("Y-m-d H:i:s");
+          echo $data;
+          $lido=0;
+
+          $idDestinatario = $row['id'];
+
+          $assunto = "Bem-vindo!";
+          $mensagem = "Caro ".$myusername.". 
+          Se deseja usufruir de mais funcionalidades da nossa plataforma por favor complete o seu perfil com o seu contacto e número mecatrónico!
+          Para editar o seu perfil por favor carregue no seu nome, no canto superior direito, e depois escolha a opção <b>Editar informações</b>!
+          Depois de completar o seu perfil entre em contacto com o email <b>mail@mail.ipvc.pt</b>, onde envia algumas informações como o seu mail registado, o seu número mecatrónico e o seu username para poder ter acesso a mais privilégios!";
+          
+
+          $stmt4->execute();
 
 
 

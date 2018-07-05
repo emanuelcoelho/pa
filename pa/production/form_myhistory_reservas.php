@@ -1,9 +1,10 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_ver_historico.php');
-require_once('sessionMessages.php');
+require_once('session_reservas.php');
+require_once('sessionMessages.php'); 
 require_once('sessionReservas.php'); 
+
 ?>
 
 <!DOCTYPE html>
@@ -122,6 +123,9 @@ require_once('sessionReservas.php');
           </div>
         </div>
 
+
+
+
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
@@ -191,14 +195,14 @@ require_once('sessionReservas.php');
         <!-- /top navigation -->
 
 
-        <?php $id = $_GET['var']; 
-        $query1 = "SELECT *
-                  FROM user
-                  WHERE id = '$id'";
-        $result1=$mysqli->query($query1);
-        $row1 = $result1->fetch_assoc();
+        <?php $id = $_SESSION['id']; 
+          $query1 = "SELECT *
+                    FROM user
+                    WHERE id = '$id'";
+          $result1=$mysqli->query($query1);
+          $row1 = $result1->fetch_assoc();
 
-        $utilizador = $row1['username'];
+          $utilizador = $row1['username'];
 
 
         ?>
@@ -211,14 +215,7 @@ require_once('sessionReservas.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-
-                    <h2>Histórico de mensagens de <?php echo $utilizador ?> <small>Seleccione a mensagem que pretende visualizar</small> </h2>
-
-                    <div class="title_right">
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_history_user.php" id="button" type="button"  class="btn btn-primary botao" >Voltar ao histórico de utilizadores</a>
-                      </div>
-                    </div>
+                    <h2>Histórico de reservas de <?php echo $utilizador ?> <small></small> </h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -227,7 +224,7 @@ require_once('sessionReservas.php');
 
                     
                     <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
 
                       <div class="form-group">
                         <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
@@ -236,55 +233,74 @@ require_once('sessionReservas.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Data</th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
-                              <th class="text-center">Assunto</th>
-                              <th class="text-center">Mensagem</th>
+                              <th class="text-center">Observação</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Data</th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
-                              <th class="text-center">Assunto</th>
-                              <th class="text-center">Mensagem</th>
-                            </tr> 
+                              <th class="text-center">Observação</th>
+                            </tr>
                           </tfoot>
                           <tbody>
                             <?php
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT *
-                                        FROM mensagem
-                                        WHERE id_utilizador = '$id' 
-                                        ORDER BY data DESC";
+                              $query = "SELECT reserva.id,
+                                        reserva.data_inicio,
+                                        reserva.data_fim,
+                                        reserva.observacao,
+                                        reserva.id_reservante,
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit,
+                                        res.username AS descReservante,
+                                        func.username AS descFuncionario                                       
+                                        FROM reserva 
+                                        INNER JOIN user as res ON reserva.id_reservante = res.id
+                                        INNER JOIN user as func ON reserva.id_funcionario = func.id
+                                        INNER JOIN kit ON reserva.id_kit = kit.id
+                                        INNER JOIN estado ON reserva.id_estado = estado.id
+                                        WHERE reserva.id_reservante='$id' ";
                               $result=$mysqli->query($query);
                               
 
                               // Loop through the query results, outputing the options one by one
                               while ($row = $result->fetch_assoc()) {
-                                $mensagem= substr($row['mensagem'],0,40);
-                                $date = new DateTime($row['data']);
+                                
 
-                                        echo '<tr>
-                                                <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>
-                                                <td> '.date_format($date, 'Y-m-d H:i').'</b></td>';
-                                 
-                                        if($row['lido']==0)
-                                        {
-                                          echo '<td>Por ler</td>';
-                                        }
-                                        if($row['lido']==1)
-                                        {
-                                          echo '<td>Lida</td>';
-                                        }
-                                        echo '<td>'.$row['assunto'].'</td>
-                                              <td>'.$mensagem.'</td> 
-                                            </tr>';
-                                        
+                                 echo '<tr>';
+                                 if($row['descEst']=="Pendente")
+                                 {
+                                  echo '<td><button id="button[]" type="button" class="btn btn-danger botao" value='.$_SESSION['id'].' data-id='.$row['id'].'>Cancelar pedido</button>
+                                  </td>';
+                                 }
+                                 else
+                                 {
+                                  echo '<td></td>';
+                                 }
+                                  echo'<td> '.$row['descReservante'].'</td>
+                                        <td> '.$row['descFuncionario'].'</td>
+                                        <td> '.$row['descKit'].'</td> 
+                                        <td> '.$row['data_inicio'].'</td>
+                                        <td> '.$row['data_fim'].'</td>   
+                                        <td>'.$row['descEst'].'</td>
+                                        <td>'.$row['observacao'].'</td>
+                                      </tr>';
                               }
+
                             ?>
                             
                           </tbody>
@@ -392,7 +408,7 @@ require_once('sessionReservas.php');
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 4, "asc" ]],
         "columnDefs": [
           { "orderable": false, "targets": 0 }
         ],
@@ -412,17 +428,22 @@ require_once('sessionReservas.php');
         }
       });
 
-      
-     $('#table').on('click','.botao',function () {
+      $('#table').on('click','.botao',function () {
+        var v = $(this).data('id');       
+        var form2 = $('#formtabela');
+          $.ajax({
+            type: 'put',
+                    url: "http://myslimsite/api/formResEdit/cancel/num="+v,
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function(data) { 
+                      location.reload();
+                    }
+          });        
+      });
 
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
 
-        window.location.href = "/pa/production/form_history_message.php?var=" + v;
-
-      }
-       
-     });
    });
     </script>
 

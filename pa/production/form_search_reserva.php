@@ -216,7 +216,8 @@ require_once('session_reservar.php');
                               // Assume $db is a PDO object
                               $query = "SELECT DISTINCT categoria_kit.id, categoria_kit.descricao 
                                         FROM categoria_kit, kit 
-                                        WHERE categoria_kit.id = kit.id_categoria "; // Run your query
+                                        WHERE categoria_kit.id = kit.id_categoria 
+                                        AND categoria_kit.id > 1 "; // Run your query
                               $result=$mysqli->query($query);
                               $final=[];
                               echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box

@@ -14,6 +14,14 @@
   $style_user_editar = "";
   $style_criar_msg="";
   $style_ver_historico="";
+  $style_menu_criar="";
+  $style_menu_editar="";
+
+  if($_SESSION['criar_editar']==0 && $_SESSION['user_editar']==0)
+  {
+    $style_menu_criar = "style='display:none'";
+    $style_menu_editar= "style='display:none'";
+  }
 
 
   if($_SESSION['ver']==0)

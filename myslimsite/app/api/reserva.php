@@ -1,6 +1,7 @@
 <?php 
 
 	// criar nova entrada na tabela teste com ligaçao a teste_fkey (ligaçao chave estrangeira)  (SELECT `id` FROM `teste_fkey` WHERE `descricao` = '$desc')
+	//preenche tabela
 	$app->post('/api/teste/reserva1', function($request, $response, $args) {
 		
 		require_once('dbconnect_teste.php');
@@ -76,7 +77,7 @@
 
 
 
-
+	//cria nova reserva com estado pendente
 	$app->post('/api/teste/reserva2/{id}', function($request, $response, $args) {
 		
 		require_once('dbconnect_teste.php');
@@ -110,6 +111,43 @@
 	
 		
 		$stmt->execute();
+
+
+		//depois de criar reserva manda notificação ao utilizador
+
+		$query1 = "SELECT `id` FROM `reserva` ORDER BY `id` DESC LIMIT 1"; // Run your query
+		$result1=$mysqli->query($query1);
+		$row1 = $result1->fetch_object();
+		$num=$row1->id;
+
+		$query5 = "SELECT user.username,
+			   kit.descricao AS kitDesc,
+		       reserva.id,
+		       reserva.id_reservante,
+		       reserva.data_inicio
+		       FROM reserva
+		       INNER JOIN user ON reserva.id_reservante = user.id
+		       INNER JOIN kit ON reserva.id_kit = kit.id 
+		       WHERE reserva.id = '$num'";
+		$result5 = mysqli_query($mysqli,$query5);
+		$row5 = mysqli_fetch_array($result5,MYSQLI_ASSOC);
+		$destinatario = $row5['username'];
+		$kit=$row5['kitDesc'];
+
+		$query = "INSERT INTO `mensagem` (`assunto`,`mensagem`, `lido`,`data`, `id_utilizador`,`id_emissor`) VALUES (?, ?, ?, ?, ?,?)";
+
+		$stmt2 = $mysqli->prepare($query);
+
+		$stmt2->bind_param("ssisii", $assunto, $mensagem, $lido, $data, $reservante, $func);
+
+		$data=date("Y-m-d H:i:s");
+		$lido=0;
+
+		$assunto = "Notificação da sua reserva!";
+		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kit."</b> foi enviado com sucesso, por favor aguarde pela avaliação de um funcionário.";
+		
+
+		$stmt2->execute();
 	
 		
 	});
