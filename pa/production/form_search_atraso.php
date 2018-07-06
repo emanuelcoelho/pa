@@ -198,7 +198,7 @@ require_once('sessionReservas.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ver reservas pendentes <small></small></h2>
+                    <h2>Ver reservas em atraso <small>Seleccione a reserva que pretende visualizar os detalhes</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -217,6 +217,7 @@ require_once('sessionReservas.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
@@ -227,6 +228,7 @@ require_once('sessionReservas.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Requisitante</th>
+                              <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
@@ -244,12 +246,14 @@ require_once('sessionReservas.php');
                                         reserva.observacao,
                                         estado.descricao AS descEst,
                                         kit.descricao AS descKit,
-                                        user.username AS descReservante                                       
+                                        user.username AS descReservante,
+                                        func.username AS descFunc                                       
                                         FROM reserva 
                                         INNER JOIN user ON reserva.id_reservante = user.id
+                                        INNER JOIN user AS func ON reserva.id_funcionario = func.id
                                         INNER JOIN kit ON reserva.id_kit = kit.id
                                         INNER JOIN estado ON reserva.id_estado = estado.id 
-                                        WHERE estado.descricao = 'Pendente'";
+                                        WHERE estado.descricao = 'Em atraso'";
                               $result=$mysqli->query($query);
                               
 
@@ -258,10 +262,10 @@ require_once('sessionReservas.php');
                                 
 
                                  echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-success botaoA" value='.$_SESSION['id'].' data-id='.$row['id'].'>Aceitar reserva</button>
-                                            <button id="button[]" type="button" class="btn btn-danger botaoD" value='.$_SESSION['id'].' data-id='.$row['id'].'>Recusar Reserva</button>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" value='.$_SESSION['id'].' data-id='.$row['id'].'>Editar reserva</button>
                                         </td>
                                         <td> '.$row['descReservante'].'</td>
+                                        <td> '.$row['descFunc'].'</td>
                                         <td> '.$row['descKit'].'</td> 
                                         <td> '.$row['data_inicio'].'</td>
                                         <td> '.$row['data_fim'].'</td>   
@@ -397,38 +401,13 @@ require_once('sessionReservas.php');
       });
 
 
-     $('#table').on('click','.botaoA',function () {
-      var v = $(this).data('id');
-      var i = $(this).attr('value');        
-      var form2 = $('#formtabela');
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formResEdit/accept/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });        
-     });
+     $('#table').on('click','.botao',function () {
 
+        var v = $(this).data('id');        
+        if (v != undefined && v != null) {
+          window.location = '/pa/production/form_edit_atraso_reservas.php?var=' + v;
+        }
 
-      $('#table').on('click','.botaoD',function () {
-        var v = $(this).data('id'); 
-        var i = $(this).attr('value');
-        var form2 = $('#formtabela');
-        //var formData = $(this).serialize();
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formResEdit/refuse/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });   
       });
 
 

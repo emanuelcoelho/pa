@@ -2,7 +2,7 @@
 require_once('dbconnect_teste.php');
 require_once('session.php');
 require_once('session_reservas.php');
-require_once('sessionMessages.php');
+require_once('sessionMessages.php'); 
 require_once('sessionReservas.php'); 
 ?>
 
@@ -14,7 +14,7 @@ require_once('sessionReservas.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -190,6 +190,13 @@ require_once('sessionReservas.php');
         </div>
         <!-- /top navigation -->
 
+        <?php
+          $id = $_GET['var'];
+          $query = "SELECT * FROM `user` WHERE `id`='$id' "; // Run your query
+          $result = $mysqli->query($query);
+          $row = $result->fetch_assoc();
+        ?>
+
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
@@ -198,7 +205,12 @@ require_once('sessionReservas.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ver reservas pendentes <small></small></h2>
+                    <h2>Informaçoes de <?php echo $row['username'] ?> <small>Insira as informações necessárias</small></h2>
+                    <div class="title_right">
+                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <a href="<?php echo $_SESSION['paginaAnterior']; ?>" id="button" type="button"  class="btn btn-primary botao" >Voltar a página anterior</a>
+                      </div>
+                    </div>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -206,86 +218,95 @@ require_once('sessionReservas.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
+                    <form id="demo-form2"  class="form-horizontal form-label-left" >
 
+                      
+
+                      
+                      
                       <div class="form-group">
-                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Requisitante</th>
-                              <th class="text-center">Kit</th>
-                              <th class="text-center">Data inicial</th>
-                              <th class="text-center">Data final</th>
-                              <th class="text-center">Estado</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Requisitante</th>
-                              <th class="text-center">Kit</th>
-                              <th class="text-center">Data inicial</th>
-                              <th class="text-center">Data final</th>
-                              <th class="text-center">Estado</th>
-                            </tr>
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT reserva.id,
-                                        reserva.data_inicio,
-                                        reserva.data_fim,
-                                        reserva.observacao,
-                                        estado.descricao AS descEst,
-                                        kit.descricao AS descKit,
-                                        user.username AS descReservante                                       
-                                        FROM reserva 
-                                        INNER JOIN user ON reserva.id_reservante = user.id
-                                        INNER JOIN kit ON reserva.id_kit = kit.id
-                                        INNER JOIN estado ON reserva.id_estado = estado.id 
-                                        WHERE estado.descricao = 'Pendente'";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-success botaoA" value='.$_SESSION['id'].' data-id='.$row['id'].'>Aceitar reserva</button>
-                                            <button id="button[]" type="button" class="btn btn-danger botaoD" value='.$_SESSION['id'].' data-id='.$row['id'].'>Recusar Reserva</button>
-                                        </td>
-                                        <td> '.$row['descReservante'].'</td>
-                                        <td> '.$row['descKit'].'</td> 
-                                        <td> '.$row['data_inicio'].'</td>
-                                        <td> '.$row['data_fim'].'</td>   
-                                        <td>'.$row['descEst'].'</td>
-                                      </tr>';
-                              }
-
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" disabled>
+                          <span id="msg_username" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row['email'] ?>" disabled>
+                          <span id="msg_email" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="password" id="password" name="password" class="form-control col-md-4 col-xs-12 masked" value="<?php echo $row['password'] ?>" disabled>
+                          <span id="msg_password" name="msg" style="color:red"></span>
+                        </div>
+                        <div class="control-label">
+                            <a  id="eye" class="fa fa-eye fa-lg pull-left"></a>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1 value="<?php echo $row['numero'] ?>" disabled>
+                          <span id="msg_number" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row['telefone'] ?>" disabled>
+                          <span id="msg_phonenumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Grupo </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                      
+                          <?php
+                                    
+                            // Assume $db is a PDO object
+                            $query2 = "SELECT * FROM `grupo` "; // Run your query
+                            $result2=$mysqli->query($query2);
+                           
+                            echo '<select class="form-control" id="desc" name="desc" disabled >'; // Open your drop down box
+                            // Loop through the query results, outputing the options one by one
+                            while ($row2 = $result2->fetch_assoc()) 
+                            {
+                               echo '<option value="'.$row2['id'].'" '; 
+                               if($row2['id'] == $row['id_grupo'] )
+                               {
+                                  echo("selected");
+                               }; 
+                               echo '   >'.$row2['descricao'].'</option>';
+                            }
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_cat" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
-                      
-                      
 
-                    </form>
+
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -375,68 +396,43 @@ require_once('sessionReservas.php');
       }  
      });
 
-     $('#table').DataTable( {
-        "order": [[ 3, "asc" ]],
-        "columnDefs": [
-          { "orderable": false, "targets": 0 }
-        ],
-        "language": {
-          "lengthMenu": "_MENU_ Registos por página",
-          "zeroRecords": "Não foram encontrados registos",
-          "info": "Página _PAGE_ de _PAGES_",
-          "infoEmpty": "Não foram encontrados registos",
-          "infoFiltered": "(de _MAX_ registos no total)",
-          "search": "Pesquisar:",
-          "oPaginate": {
-            "sNext": "Página seguinte",
-            "sPrevious": "Página anterior",
-            "sFirst": "Primeira página",
-            "sLast": "Última página"
-          }
+      function show() {
+        var p = document.getElementById('password');
+        p.setAttribute('type', 'text');
+        var g = document.getElementById('eye');
+        g.setAttribute('class', 'fa fa-eye-slash fa-lg pull-left');
+      }
+
+      function hide() {
+        var p = document.getElementById('password');
+        var g = document.getElementById('eye');
+        g.setAttribute('class', 'fa fa-eye fa-lg pull-left');
+        p.setAttribute('type', 'password');
+      }
+
+      var pwShown = 0;
+
+      document.getElementById("eye").addEventListener("click", function () {
+        if (pwShown == 0) {
+          pwShown = 1;
+          show();
+        } 
+        else 
+        {
+          pwShown = 0;
+          hide();
         }
+      }, false);
+
+  
+      
+     
+      
+        
       });
-
-
-     $('#table').on('click','.botaoA',function () {
-      var v = $(this).data('id');
-      var i = $(this).attr('value');        
-      var form2 = $('#formtabela');
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formResEdit/accept/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });        
-     });
-
-
-      $('#table').on('click','.botaoD',function () {
-        var v = $(this).data('id'); 
-        var i = $(this).attr('value');
-        var form2 = $('#formtabela');
-        //var formData = $(this).serialize();
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formResEdit/refuse/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
-        });   
-      });
-
-
-
-   });
     </script>
 
 
-	
+  
   </body>
 </html>
