@@ -2,9 +2,9 @@
 require_once('dbconnect_teste.php');
 require_once('session.php');
 require_once('session_ver.php');
-require_once('sessionMessages.php'); 
-require_once('sessionMessagesVer.php');
-require_once('sessionReservas.php');   
+require_once('sessionReservas.php'); 
+require_once('sessionMessages.php');
+require_once('sessionMessagesVer.php');   
 ?>
 
 <!DOCTYPE html>

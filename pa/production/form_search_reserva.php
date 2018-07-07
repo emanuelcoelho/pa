@@ -1,8 +1,8 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('sessionMessages.php'); 
-require_once('sessionReservas.php');
+require_once('sessionReservas.php'); 
+require_once('sessionMessages.php');
 require_once('session_reservar.php');
 ?>
 

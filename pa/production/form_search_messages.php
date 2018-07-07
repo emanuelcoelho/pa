@@ -2,8 +2,8 @@
 require_once('dbconnect_teste.php');
 require_once('session.php');
 require_once('session_ver.php');
-require_once('sessionMessages.php');
 require_once('sessionReservas.php'); 
+require_once('sessionMessages.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -245,7 +245,7 @@ require_once('sessionReservas.php');
 
                               // Loop through the query results, outputing the options one by one
                               while ($row = $result->fetch_assoc()) {
-                                $mensagem= substr($row['mensagem'],0,40);
+                                $mensagem= substr($row['mensagem'],0,50);
                                 $date = new DateTime($row['data']);
 
                                  
@@ -256,7 +256,7 @@ require_once('sessionReservas.php');
                                                 <td><b> '.date_format($date, 'Y-m-d H:i').'</b></td>
                                                 <td><b>Por ler</b></td>
                                                 <td><b> '.$row['assunto'].'</b></td>
-                                                <td><b> '.$mensagem.' </b></td> 
+                                                <td><b> '.$mensagem.'... </b></td> 
                                               </tr>';
                                         }
                                         if($row['lido']==1)
@@ -266,7 +266,7 @@ require_once('sessionReservas.php');
                                                 <td> '.date_format($date, 'Y-m-d H:i').'</td>
                                                 <td>Lida</td>
                                                 <td> '.$row['assunto'].'</td>
-                                                <td> '.$mensagem.'</td> 
+                                                <td> '.$mensagem.'...</td> 
                                               </tr>';
                                         }
                                         

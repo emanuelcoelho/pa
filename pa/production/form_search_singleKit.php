@@ -2,8 +2,8 @@
   require_once('dbconnect_teste.php');
   require_once('session.php');
   require_once('sessionMessages.php'); 
-  require_once('sessionReservas.php');
-  require_once('session_reservar.php');
+  require_once('sessionReservas.php'); 
+  require_once('sessionMessages.php');
 ?>
 
 <!DOCTYPE html>
@@ -108,6 +108,7 @@
     
     <title> Projecto PA </title>
 
+    
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -124,17 +125,18 @@
     <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- starrr -->
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
-    <!-- bootstrap-daterangepicker -->
-    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-    <link rel="stylesheet" href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+    
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">    
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <!--Jquery Ui -->
+    <link rel="stylesheet" href="../vendors/jquery-ui-1.12.1.custom/jquery-ui.css">
+
      
 
     
@@ -438,41 +440,20 @@
                           </table>
                         </form>
                         <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2/<?php echo $id ?>" method="POST">
+                          
                           <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Escolha a Data para levantar </label> 
-                            <div class="row calendar-exibit">
-                              <div class="container">
-                                <div class="row">
-                                  <div class='col-sm-6'>
-                                    <div class="form-group">
-                                      <div class='input-group date' id='datetimepicker1'>
-                                        <input type='text' class="form-control" id="calendario1" name="calendario1"/>
-                                        <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span></span>
-                                      </div>
-                                    </div>
-                                  </div> 
-                                </div>
-                              </div>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" readonly="readonly">
+                              <span id="msg_inicio" name="msg" style="color:red"></span>
                             </div>
                           </div>
 
                           <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12"> Escolha a Data para entrega </label> 
-                            <div class="row calendar-exibit">
-                              <div class="container">
-                                <div class="row">
-                                  <div class='col-sm-6'>
-                                    <div class="form-group">
-                                      <div class='input-group date' id='datetimepicker2'>
-                                        <input type='text' class="form-control"  id="calendario2" name="calendario2" />
-                                        <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span></span>
-                                      </div>
-                                    </div>
-                                  </div> 
-                                </div>
-                              </div>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar </label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" readonly="readonly">
+                              <span id="msg_fim" name="msg" style="color:red"></span>
                             </div>
                           </div>
 
@@ -516,6 +497,8 @@
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery Ui -->
+    <script src="../vendors/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../vendors/bootstrap/js/transition.js"></script>
@@ -569,56 +552,66 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-  <script  src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-  <script  src="../vendors/bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
-  <script  src="../vendors/moment/min/moment-with-locales.js"></script>
-
-    
-    <script type="text/javascript">
-            $(function () {      
-                $('#datetimepicker1').datetimepicker({
-                    format: 'L',
-                    minDate: moment(),
-                });
-            });
-           
-
-        </script>
 
 
-    <script type="text/javascript">
-            $(function () {
-             
-                $('#datetimepicker2').datetimepicker({
-                    format: 'L',
-                    minDate: moment(),
-                });
-            });
-        </script>
+    <?php 
 
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-        $('#datetimepicker2').datetimepicker({
-            useCurrent: false //Important! See issue #1075
-        });
-        $("#datetimepicker1").on("dp.change", function (e) {
+      $data=date("Y-m-d");
+
+      //echo $data; 
+
+      $sql = "SELECT reserva.id,
+                reserva.data_inicio,
+                reserva.data_fim,
+                reserva.id_kit,
+                estado.descricao AS descEst
+                FROM reserva 
+                INNER JOIN estado ON reserva.id_estado = estado.id 
+                WHERE (reserva.id_kit = '$id' AND estado.descricao = 'Em progresso' AND reserva.data_fim>='$data')
+                OR (reserva.id_kit = '$id' AND estado.descricao = 'Aceite' AND reserva.data_fim>='$data')
+                OR (reserva.id_kit = '$id' AND estado.descricao = 'Pendente' AND reserva.data_fim>='$data')";
+      $result = mysqli_query($mysqli,$sql);
+      $count = mysqli_num_rows($result);
+
+      $i=0;
+      $n=0;
+
+
+      if($count>=1)
+      {
+        while ($row = $result->fetch_assoc()) {
+          
+         // echo "<br> Data inicial do ciclo ".$i.": ".$row['data_inicio'];
+         // echo "<br> Data final do ciclo ".$i.": ".$row['data_fim']; 
+          $inicio[]=date('Y-m-d', strtotime($row['data_inicio']));
+          $final=date('Y-m-d', strtotime($row['data_fim']));
+         // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
+          
+
+          while($inicio[$n]<$final)
+          {
             
-            $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker1").on("dp.change", function (e) {
-          var max = document.getElementById('limite').value;
-          var m = parseInt(max);
-          var teste=new Date(e.date);
-          var todayDate = teste.getDate();
-          var t = new Date(new Date().setDate(todayDate + m));
+            $inicio[] = date('Y-m-d', strtotime($inicio[$n]. ' + 1 days'));
+            $n++;
+            //echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
+          }
+          $n++;
+          //echo "<br>";
+          $i++;  
+        }
+        
 
-          $("#datetimepicker1").on("dp.change", function (e) {
-            $('#datetimepicker2').data("DateTimePicker").maxDate(t);
-        });
-        });
-    });
-</script>
+      }
+      else if($count==0)
+      {
+          $inicio[]=$date;
+      }
+
+
+      ?>
+
+
+
 
 
     <script>
@@ -655,49 +648,108 @@
     </script>
 
 
-      <script>
+    <script>
+      $(document).ready(function(){
 
+        var arrayFromPHP = <?php echo json_encode($inicio); ?>;
+        var limite=parseInt($("#limite").val());
 
+        $( function() {
+          $( "#from_date" ).datepicker();
+          $( "#to_date" ).datepicker();
+        } );
 
-        $(document).ready(function(){
-          $(function() {
+        $("#from_date").datepicker({
+            beforeShowDay: function(date){
 
-            // Get the form.
-            var form = $('#formData');
+              if (!$.datepicker.noWeekends(date)[0])
+              return [false, '', '']; 
 
-            // Get the messages div.
-            var formMessages = $('#msg');
+              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+              return [ arrayFromPHP.indexOf(string) == -1 ]
 
-            // Set up an event listener for the contact form.
-            $(form).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
+            },
+            minDate: 2, 
+            onSelect: function(selectedDate) {
+              var date = new Date($("#from_date").val());
+              date.setDate(date.getDate() + limite);
 
-              // Serialize the form data.
-              var formData = $(form).serialize();
+              $("#to_date").datepicker("option", "minDate", selectedDate);
 
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'POST',
-                  url: $(form).attr('action'),
-                  data: formData,
-                  success: function(response) { 
-                    $("#tbody").html(response);
+              //alert("Limite: "+limite+"! Data selecionada: "+selectedDate+"! Data limite: "+date);
 
+              $("#to_date").datepicker("option", "maxDate", date);
+              $("#to_date").val('');
+            },
+            dateFormat: "yy-mm-dd"
+          });      
+
+          $("#to_date").datepicker({
+            beforeShowDay: function(date){
+
+              if (!$.datepicker.noWeekends(date)[0])
+              return [false, '', ''];     
+
+              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+              return [ arrayFromPHP.indexOf(string) == -1 ] 
+            },
+            minDate: 2,
+            dateFormat: "yy-mm-dd",
+            onSelect: function(chosenDate) {
+
+              if ($("#from_date").val()!="" && $("#to_datete").val()!="") {
+                  var date1 = $("#from_date").val();
+                  var date2 = $("#to_date").val();
+
+                  for (var k = 0; k < arrayFromPHP.length; k++) {
+                    var date = arrayFromPHP[k];
+                      if (date1 <= date && date <= date2) {
+                          alert("The range contains not selectable dates.");
+                          $("#to_date").val('');
+                          return false;
+                      }
                   }
-              });
-            
-            });
+
+              }
+
+            }
+
           });
+
+
+        $(function() {
+
+          // Get the form.
+          var form = $('#formData');
+
+          // Get the messages div.
+          var formMessages = $('#msg');
+
+          // Set up an event listener for the contact form.
+          $(form).submit(function(event) {
+          // Stop the browser from submitting the form.
+          event.preventDefault();
+
+            // Serialize the form data.
+            var formData = $(form).serialize();
+
+            // Submit the form using AJAX.
+            $.ajax({
+                type: 'POST',
+                url: $(form).attr('action'),
+                data: formData,
+                success: function(response) { 
+                  $("#tbody").html(response);
+
+                }
+            });
+
+          });
+
         });
-        </script>
-  
 
-
-
-
-
-
+      });
+      </script>
   </body>
   
 </html>
