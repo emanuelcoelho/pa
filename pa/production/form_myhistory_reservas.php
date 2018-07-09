@@ -233,7 +233,7 @@ require_once('sessionMessages.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Requisitante</th>
-                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
@@ -245,7 +245,7 @@ require_once('sessionMessages.php');
                             <tr>
                               <th></th>
                               <th class="text-center">Requisitante</th>
-                              <th class="text-center">Funcionario</th>
+                              <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>

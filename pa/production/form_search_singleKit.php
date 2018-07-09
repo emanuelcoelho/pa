@@ -12,92 +12,93 @@
 
   <style>
 
-#myImg {
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-#myImg:hover {opacity: 0.7;}
-
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-/* Modal Content (image) */
-.modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-}
-
-/* Caption of Modal Image */
-#caption {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    text-align: center;
-    color: #ccc;
-    padding: 10px 0;
-    height: 150px;
-}
-
-/* Add Animation */
-.modal-content, #caption {    
-    -webkit-animation-name: zoom;
-    -webkit-animation-duration: 0.6s;
-    animation-name: zoom;
-    animation-duration: 0.6s;
-}
-
-@-webkit-keyframes zoom {
-    from {-webkit-transform:scale(0)} 
-    to {-webkit-transform:scale(1)}
-}
-
-@keyframes zoom {
-    from {transform:scale(0)} 
-    to {transform:scale(1)}
-}
-
-/* The Close Button */
-.close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #f1f1f1;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-    .modal-content {
-        width: 100%;
+    #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
     }
-}
-</style>
+
+    #myImg:hover {opacity: 0.7;}
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    /* Caption of Modal Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    /* Add Animation */
+    .modal-content, #caption {    
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+        from {-webkit-transform:scale(0)} 
+        to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+        from {transform:scale(0)} 
+        to {transform:scale(1)}
+    }
+
+    /* The Close Button */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 700px){
+        .modal-content {
+            width: 100%;
+        }
+    }
+
+  </style>
 
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -356,7 +357,7 @@
                     
                       <form id="formtabela"  class="form-horizontal form-label-left" action="" method="">
                         <div class="form-group">
-                          <table id="datatable-checkbox" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
                           
                           
                             <thead>
@@ -439,12 +440,12 @@
                             </tbody>
                           </table>
                         </form>
-                        <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2/<?php echo $id ?>" method="POST">
+                        <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2" method="POST" enctype="multipart/form-data">
                           
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" readonly="readonly">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" name="from_date" readonly>
                               <span id="msg_inicio" name="msg" style="color:red"></span>
                             </div>
                           </div>
@@ -452,7 +453,7 @@
                           <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" readonly="readonly">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" name="to_date" readonly>
                               <span id="msg_fim" name="msg" style="color:red"></span>
                             </div>
                           </div>
@@ -461,9 +462,10 @@
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label1">  </label> 
 
                         </div>
+                          <input type="hidden" name="idkit" id="idkit" value="<?php echo $id; ?>">
                           <input type="hidden" name="idres" id="idres" value="<?php echo $_SESSION['id']; ?>">
-                          <input type="hidden" name="_METHOD" value="POST"/> 
-                          <button type="submit" class="btn btn-success" style="font-size: 40px;display:block;margin-left: auto;margin-right: auto">Requisitar</button>        
+                          <button type="submit" class="btn btn-success" style="font-size: 40px;display:block;margin-left: auto;margin-right: auto">Requisitar</button>
+                          <span id="msg" name="msg" class="col-md-12 col-sm-12 col-xs-12 form-group" align="center"></span>        
                         </div>
 
                       </form>
@@ -669,7 +671,8 @@
               return [ arrayFromPHP.indexOf(string) == -1 ]
 
             },
-            minDate: 2, 
+            minDate: 2,
+            dateFormat: "yy-mm-dd", 
             onSelect: function(selectedDate) {
               var date = new Date($("#from_date").val());
               date.setDate(date.getDate() + limite);
@@ -680,8 +683,7 @@
 
               $("#to_date").datepicker("option", "maxDate", date);
               $("#to_date").val('');
-            },
-            dateFormat: "yy-mm-dd"
+            }
           });      
 
           $("#to_date").datepicker({
@@ -717,6 +719,24 @@
           });
 
 
+          $('#table').DataTable( {
+            "language": {
+              "lengthMenu": "_MENU_ Registos por página",
+              "zeroRecords": "Não foram encontrados registos",
+              "info": "Página _PAGE_ de _PAGES_",
+              "infoEmpty": "Não foram encontrados registos",
+              "infoFiltered": "(de _MAX_ registos no total)",
+              "search": "Pesquisar:",
+              "oPaginate": {
+                "sNext": "Página seguinte",
+                "sPrevious": "Página anterior",
+                "sFirst": "Primeira página",
+                "sLast": "Última página"
+              }
+            }
+          });
+
+
         $(function() {
 
           // Get the form.
@@ -727,22 +747,53 @@
 
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
-          // Stop the browser from submitting the form.
-          event.preventDefault();
+            // Stop the browser from submitting the form.
+            event.preventDefault();
 
-            // Serialize the form data.
-            var formData = $(form).serialize();
+            var message1 = $('#from_date').val();  
+            var message2 = $('#to_date').val();  
 
-            // Submit the form using AJAX.
-            $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: formData,
-                success: function(response) { 
-                  $("#tbody").html(response);
+            if(message1 == '' || message2 == '' )  
+            {  
 
-                }
-            });
+              if( message1 == '' )  
+              {  
+                $('#msg_inicio').html("Deve preencher este campo de forma válida!");
+              }
+              else
+              {
+                $('#msg_inicio').html("");
+              }
+
+              if( message2 == '' )  
+              {  
+                $('#msg_fim').html("Deve preencher este campo de forma válida!");
+              }
+              else
+              {
+                $('#msg_fim').html("");
+              }              
+                   
+            }  
+            else  
+            {  
+
+              // Serialize the form data.
+              var formData = $(form).serialize();
+
+              // Submit the form using AJAX.
+              $.ajax({
+                  type: 'POST',
+                  url: $(form).attr('action'),
+                  data: formData,
+                  success: function(response) { 
+                   location.reload();
+                  }
+              });
+              $('#msg_inicio').html("");
+              $('#msg_fim').html("");
+              $('#msg').html("Reserva criada com sucesso!");
+            }
 
           });
 

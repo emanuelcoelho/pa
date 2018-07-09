@@ -347,7 +347,7 @@ require_once('sessionMessages.php');
                           ?>
 
                          </table>
-                         <button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button>
+                         <button type="button" name="add" id="add" class="btn btn-success">Adicionar atributos</button>
                          <span id="msg_attributes" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -378,7 +378,7 @@ require_once('sessionMessages.php');
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
                           <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <button type="submit" class="btn btn-success">Submeter</button>                          
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
                         </div>
                       </div>
@@ -649,7 +649,7 @@ require_once('sessionMessages.php');
                 $('#msg_image').html("");
                 $('#msg_ipvcnumber').html("");
                 $('#msg_serialnumber').html("");
-                $('#msg').html("Data upload sucessful!");
+                $('#msg').html("Item editado com sucesso!");
                 
               
               

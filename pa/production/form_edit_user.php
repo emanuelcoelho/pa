@@ -248,7 +248,7 @@ require_once('sessionMessages.php');
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecatrónico </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1 value="<?php echo $row['numero'] ?>">
                           <span id="msg_number" name="msg" style="color:red"></span>
@@ -293,7 +293,7 @@ require_once('sessionMessages.php');
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
                           <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <button type="submit" class="btn btn-success">Submeter</button>                          
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
                         </div>
                       </div>
@@ -514,7 +514,7 @@ require_once('sessionMessages.php');
                   }
               });
               $('#msg_descricao').html("");
-              $('#msg').html("Upload de dados concluído!");
+              $('#msg').html("Utilizador editado com sucesso!");
               //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }

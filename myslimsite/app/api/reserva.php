@@ -78,7 +78,7 @@
 
 
 	//cria nova reserva com estado pendente
-	$app->post('/api/teste/reserva2/{id}', function($request, $response, $args) {
+	$app->post('/api/teste/reserva2', function($request, $response, $args) {
 		
 		require_once('dbconnect_teste.php');
 
@@ -93,7 +93,7 @@
 		$estado=$row['id'];
 		
 		
-		$id = $request->getAttribute('id');
+		$id = $request->getParsedBody()['idkit'];
 
 		$reservante = $request->getParsedBody()['idres'];
 
@@ -102,6 +102,10 @@
 		$date2 = $request->getParsedBody()['to_date'];
 		$date1=date("Y-m-d", strtotime($date1));
 		$date2=date("Y-m-d", strtotime($date2));
+
+		echo $date1;
+		echo $date2;
+		
 
 		$query = "INSERT INTO `reserva` (`id_kit`,`id_reservante`, `id_estado`, `data_inicio`, `data_fim`, `id_funcionario`) VALUES (?, ?, ?, ?, ?, ?)";
 

@@ -279,7 +279,7 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" class="btn btn-success">Submeter</button>
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12"></span>
                         </div>
                       </div>
@@ -413,7 +413,7 @@ require_once('sessionMessages.php');
                   processData:false
               });
                $('#msg_descricao').html("");
-              $('#msg').html("Data upload sucessful!");
+              $('#msg').html("Grupo criado com sucesso!");
               $('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }

@@ -241,9 +241,9 @@ require_once('sessionMessages.php');
                       
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (500 chars max) : </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (1000 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="mensagem" class="form-control" name="mensagem" maxlength="500"> </textarea>
+                          <textarea id="mensagem" class="form-control" name="mensagem" maxlength="1000"> </textarea>
                           <span id="msg_mensagem" name="msg" style="color:red"></span>
                         </div>
                         
@@ -251,7 +251,7 @@ require_once('sessionMessages.php');
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button> 
-                          <button type="submit" class="btn btn-success">Submit</button>                          
+                          <button type="submit" class="btn btn-success">Enviar</button>                          
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
                         </div>
                       </div>
@@ -421,7 +421,7 @@ require_once('sessionMessages.php');
               });
               $('#msg_assunto').html("");
               $('#msg_mensagem').html("");
-              $('#msg').html("Upload de dados concluído!");
+              $('#msg').html("Mensagem enviada!");
               //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }
@@ -434,19 +434,3 @@ require_once('sessionMessages.php');
   
   </body>
 </html>
-
-<!-- Adicionar mais campos para atributos -->
-<script>
-$(document).ready(function(){
-  var i=1;
-  $('#add').click(function(){
-    i++;
-    $('#dynamic_field').append('<tr id="row'+i+'"><td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
-  });
-  
-  $(document).on('click', '.btn_remove', function(){
-    var button_id = $(this).attr("id"); 
-    $('#row'+button_id+'').remove();
-  });
-});
-</script>

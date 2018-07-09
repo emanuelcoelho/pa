@@ -297,21 +297,6 @@ require_once('sessionMessages.php');
                               // Loop through the query results, outputing the options one by one
                               while ($row = $result->fetch_assoc()) {
                                 
-                                /*$querycat = "SELECT * FROM `teste_fkey` WHERE `id`='$row[id_categoria]'"; // Run your query
-                                $resultcat=$mysqli->query($querycat);
-                                $rowcat = $resultcat->fetch_assoc();
-
-                                $querykit = "SELECT * FROM `teste_kit` WHERE `id`='$row[id_kit]'"; // Run your query
-                                $resultkit=$mysqli->query($querykit);
-                                $rowkit = $resultkit->fetch_assoc();
-
-                                $queryest = "SELECT * FROM `teste_estado` WHERE `id`='$row[id_estado]'"; // Run your query
-                                $resultest=$mysqli->query($queryest);
-                                $rowest = $resultest->fetch_assoc();
-                                <td>'.$rowcat['descricao'].'</td> 
-                                        <td>'.$rowkit['descricao'].'</td> 
-                                        <td>'.$rowest['descricao'].'</td> 
-                                */
                                  echo '<tr> 
                                         <td><input type="checkbox" id="itens" name="itens[]" class="flat" value='.$row['id'].'  />&nbsp;</td>
                                         <td> '.$row['marca'].'</td> 
@@ -336,7 +321,7 @@ require_once('sessionMessages.php');
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
                           <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button name="submit" type="submit" class="btn btn-success">Submit</button>
+                          <button name="submit" type="submit" class="btn btn-success">Submeter</button>
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
 
                         </div>
@@ -537,7 +522,7 @@ require_once('sessionMessages.php');
               $('#msg_check').html("");
               $('#msg_limite').html("");
               $('#msg_cat').html("");
-              $('#msg').html("Upload de dados concluído!");
+              $('#msg').html("Kit criado com sucesso!");
               //$('#demo-form2').trigger("reset");
               //$('#descricao').val('');
             }
