@@ -80,7 +80,12 @@ require_once('sessionMessages.php');
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php"><i class="fa fa-search"></i>Pesquisar utilizador</a></li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-search" ></i> Pesquisar <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kit</a></li>
+                    </ul>
+                  </li>
                   <li <?php echo $style_menu_criar;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
@@ -196,7 +201,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar estado <small>Insira as informações necessárias</small></h2>
+                    <h2>Editar estado <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
                         <a href="form_search_edit_estado.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os estados</a>
@@ -221,7 +226,7 @@ require_once('sessionMessages.php');
                       <input type="hidden" name="idest" id="idest" value="<?php echo $row2['id'] ?>">
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>">
                           <span id="msg_descricao" name="msg" style="color:red"></span>  

@@ -69,7 +69,12 @@ require_once('sessionMessages.php');
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php"><i class="fa fa-search"></i>Pesquisar utilizador</a></li>
+                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-search" ></i> Pesquisar <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kit</a></li>
+                    </ul>
+                  </li>
                   <li <?php echo $style_menu_criar;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
@@ -185,7 +190,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Registo item <small>Insira as informações necessárias</small></h2>
+                    <h2>Registo item <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -194,21 +199,21 @@ require_once('sessionMessages.php');
                     <form id="demo-form2"  action="http://myslimsite/api/formItem/insertItem" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
                           <span id="msg_descricao" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12">
                           <span id="msg_marca" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12">
                           <span id="msg_modelo" name="msg" style="color:red"></span>
@@ -216,14 +221,14 @@ require_once('sessionMessages.php');
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1">
                           <span id="msg_serialnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1">
                           <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
@@ -298,18 +303,24 @@ require_once('sessionMessages.php');
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                           <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12" />
                           <span id="msg_image" name="msg" style="color:red"></span>
                         </div>
+                        <div class="control-label">
+                            <a  data-toggle="tooltip" title="A imagem tem de ter uma extensão válida (JPEG/JPG/PNG) e também tem como limite 10 mb! " class="fa fa-info fa-lg pull-left"></a>
+                        </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Quantidade de itens a inserir </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Quantidade de itens a inserir <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <input type="number" id="qtd" name="qtd" class="form-control col-md-7 col-xs-12" min="1" max ="20">
                           <span id="msg_qtd" name="msg" style="color:red"></span>
+                        </div>
+                        <div class="control-label">
+                            <a  data-toggle="tooltip" title="Tem de indicar a quantidade de itens deseja criar com esta informação, tem como limite 20 itens!" class="fa fa-info fa-lg pull-left"></a>
                         </div>
                       </div>
 
@@ -384,6 +395,8 @@ require_once('sessionMessages.php');
     <script>
       $(document).ready(function(){
 
+      $('[data-toggle="tooltip"]').tooltip();
+
 
 
      $(".msgm").click(function(){ // Click to only happen on announce links
@@ -452,17 +465,17 @@ require_once('sessionMessages.php');
             event.preventDefault();
 
             var message1 = $('#marca').val();  
-            var message2 = $('#descricao').val();  
-              
+            var message2 = $('#descricao').val();      
             var message4 = $('#visivel').val();  
             var message5 = $('#desc').val();  
             var message6 = $('#image').val();
             var message7 = $('#serialnumber').val();
             var message8 = $('#ipvcnumber').val();
-            var message9 = $('#modelo').val();  
+            var message9 = $('#modelo').val();
+            var message10 = $('#qtd').val();  
 
 
-            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '1' || message6 == '' || message7 == '' || message8 == '' || message9 == '' )  
+            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '1' || message6 == '' || message7 == '' || message8 == '' || message9 == '' || message10 == '' )  
             {  
 
               if( message1 == '' )  
@@ -536,6 +549,15 @@ require_once('sessionMessages.php');
               {
                 $('#msg_modelo').html("");
               }
+
+              if( message10 == '' )  
+              {  
+                $('#msg_qtd').html("Deve preencher este campo de forma válida! Ex: 5");
+              }
+              else
+              {
+                $('#msg_qtd').html("");
+              }
               
                    
             }  
@@ -562,6 +584,7 @@ require_once('sessionMessages.php');
               $('#msg_image').html("");
               $('#msg_ipvcnumber').html("");
               $('#msg_serialnumber').html("");
+              $('#msg_qtd').html("");
               $('#msg').html("Item criado com sucesso!");
               $('#demo-form2').trigger("reset");
               //$('#descricao').val('');
