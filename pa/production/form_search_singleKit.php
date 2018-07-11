@@ -175,12 +175,8 @@
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span> </a>
-                    <ul class="nav child_menu">
-                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
-                    </ul>
-                  </li>
-                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php"><i class="fa fa-search"></i>Pesquisar utilizador</a></li>
+                  <li <?php echo $style_menu_criar;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
                       <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item  </a></li>
@@ -190,7 +186,7 @@
                       <li <?php echo $style_user_editar;?> ><a href="form_grupo.php">Grupo</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_ver;?> ><a ><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_menu_editar;?> ><a ><i class="fa fa-pencil" ></i> Editar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_kit.php">Kit</a></li>
                       <li <?php echo $style_criar_editar;?> ><a href="form_search_edit_item.php">Item</a></li>
@@ -201,16 +197,18 @@
                       <li <?php echo $style_user_editar;?> ><a href="form_search_edit_group.php">Grupo</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_ver;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservar;?> ><a href="form_search_reserva.php"><i class="fa fa-archive"></i> Reservar kit </a></li>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Pedidos pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_decorrer.php">Reservas aceites/em progresso </a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_edit_all_reservas.php">Todas as reservas </a></li>
-                      <li <?php echo $style_reservas;?> ><a href="form_search_reserva.php">Reservar kit </a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_criar_msg;?> ><a href="form_search_send_messages.php"><i class="fa fa-send"></i> Enviar mensagem </a></li>
                   <li <?php echo $style_ver_historico;?> ><a href="form_search_history_user.php"><i class="fa fa-book"></i> Histórico utilizador </a></li>
+                  <li <?php echo $style_reservar;?> ><a href="form_myhistory_reservas.php"><i class="fa fa-book"></i> Meu histórico </a></li>
                 </ul>
               </div>
             </div>
@@ -659,21 +657,21 @@
 
         $("#from_date").datepicker({
           monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-            "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-            monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-            "Jul","Ago","Set","Out","Nov","Dez" ],
-            dayNames: [
-              "Domingo",
-              "Segunda-feira",
-              "Terça-feira",
-              "Quarta-feira",
-              "Quinta-feira",
-              "Sexta-feira",
-              "Sábado"
-            ],
-            dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            weekHeader: "Sem",
+          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
+          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
+          "Jul","Ago","Set","Out","Nov","Dez" ],
+          dayNames: [
+            "Domingo",
+            "Segunda-feira",
+            "Terça-feira",
+            "Quarta-feira",
+            "Quinta-feira",
+            "Sexta-feira",
+            "Sábado"
+          ],
+          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          weekHeader: "Sem",
             beforeShowDay: function(date){
 
               if (!$.datepicker.noWeekends(date)[0])

@@ -200,7 +200,7 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/teste/insertCatItem" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                    <form id="demo-form2" action="http://myslimsite/api/formCat/insertCatItem" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>

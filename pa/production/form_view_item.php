@@ -1,9 +1,10 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_ver.php');
+require_once('session_ver_admin.php');
 require_once('sessionReservas.php'); 
-require_once('sessionMessages.php');  
+require_once('sessionMessages.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ require_once('sessionMessages.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -196,7 +197,12 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar categoria de item <small>Insira as informações necessárias</small></h2>
+                    <h2>Informações item <small></small></h2>
+                    <div class="title_right">
+                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <a href="<?php echo $_SESSION['paginaAnterior']; ?>" id="button" type="button"  class="btn btn-primary botao" >Voltar a página anterior</a>
+                      </div>
+                    </div>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -204,62 +210,169 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2"   class="form-horizontal form-label-left" >   
 
+                      <?php
+                            $id = $_GET['var'];
+                            $query2 = "SELECT * FROM `itens` WHERE `itens`.`id`='$id' "; // Run your query
+                            $result2=$mysqli->query($query2);
+                            $row2 = $result2->fetch_assoc();
+                      ?>
+
+                      
                       <div class="form-group">
-                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome Categoria</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome Categoria</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT * FROM categoria_item WHERE id>1";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar categoria</button></td>
-                                        <td> '.$row['descricao'].'</td> 
-                                      </tr>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>" disabled>
+                          <span id="msg_descricao" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['marca'] ?>" disabled>
+                          <span id="msg_marca" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['modelo'] ?>" disabled>
+                          <span id="msg_modelo" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_number'] ?>" disabled>
+                          <span id="msg_serialnumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_ipvc'] ?>" disabled>
+                          <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <?php
+
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `categoria_item` "; // Run your query
+                            $result=$mysqli->query($query);
+                            
+                            echo '<select class="form-control" id="desc" name="desc" disabled>'; // Open your drop down box
+
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'" ';
+                               if( $row['id'] == $row2['id_categoria'] )
+                               {
+                                 echo ("selected");
+                               }
+                               echo ' ">'.$row['descricao'].'</option>';
+                            }
+
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_desc" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                         
+                          <?php
+
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `estado` "; // Run your query
+                            $result=$mysqli->query($query);
+                            
+                            echo '<select class="form-control" id="estado" name="estado" disabled>'; // Open your drop down box
+
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<option value="'.$row['id'].'" ';
+                               if( $row['id'] == $row2['id_estado'] )
+                               {
+                                 echo ("selected");
+                               }
+                               echo ' ">'.$row['descricao'].'</option>';
+                            }
+
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_estado" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12"> 
+                         <table class="table table-bordered" id="dynamic_field">
+                          <?php
+                            $id=$row2['id'];
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `atributos` WHERE `id_item`= '$id' "; // Run your query
+                            $result=$mysqli->query($query);
+
+                            while ($row = $result->fetch_assoc()) {
+                               echo '<tr  id="rowold'.$row['id'].'">
+                                      <td><input type="text" id="attributesold[]" name="attributesold[]" placeholder="" class="form-control name_list" value="'.$row['descricao'].'" disabled>
+                                      </td>
+                                    </tr>';        
+                            }
+                          ?>
+
+                         </table>
+                         
+                         <span id="msg_attributes" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+
                       
 
-                    </form>
+                      <?php $link="../../images/".$row2['foto'];?>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
+
+                        <div class="col-md-6 col-sm-6 col-xs-12"> 
+                          <?php 
+                          $link="../../images/".$row2['foto'];
+                          echo '<img class="myImg" src="'.$link.'" id="img" style="display: block; width:100%; max-width:400px; margin-left: auto; margin-right: auto">'
+                        ?>
+                          
+                          <span id="msg_image" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+                      
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      
+
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -348,39 +461,10 @@ require_once('sessionMessages.php');
       }  
      });
 
-     $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
-        "columnDefs": [
-          { "orderable": false, "targets": 0 }
-        ],
-        "language": {
-          "lengthMenu": "_MENU_ Registos por página",
-          "zeroRecords": "Não foram encontrados registos",
-          "info": "Página _PAGE_ de _PAGES_",
-          "infoEmpty": "Não foram encontrados registos",
-          "infoFiltered": "(de _MAX_ registos no total)",
-          "search": "Pesquisar:",
-          "oPaginate": {
-            "sNext": "Página seguinte",
-            "sPrevious": "Página anterior",
-            "sFirst": "Primeira página",
-            "sLast": "Última página"
-          }
-        }
       });
-
-      
-     $('#table').on('click','.botao',function () {
-      var v = $(this).data('id');        
-      if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_categoria_item.php?var=' + v;
-      }
-       
-     });
-   });
     </script>
 
 
-	
+  
   </body>
 </html>

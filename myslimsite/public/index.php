@@ -6,22 +6,20 @@ require '../vendor/autoload.php';
 
 $app = new \Slim\App;
 
-/*
-$app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-    $name = $args['name'];
-    $response->getBody()->write("Hello, $name");
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, SELECT, POST, PUT, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+header('Content-Type: application/x-www-form-urlencoded');
 
-    return $response;
-}); 
-*/
-
+//lixo
 require_once('../app/api/books.php');
 require_once('../app/api/genres.php');
 //API para inserir
-require_once('../app/api/teste.php');
 require_once('../app/api/formEst.php');
 require_once('../app/api/formKit.php');
 require_once('../app/api/formGroup.php');
+require_once('../app/api/formItem.php');
+require_once('../app/api/formCat.php');
 //API para editar
 require_once('../app/api/formUserEdit.php');
 require_once('../app/api/formMessageEdit.php');

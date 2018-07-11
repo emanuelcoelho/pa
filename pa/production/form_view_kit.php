@@ -1,7 +1,7 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_ver.php');
 require_once('sessionReservas.php'); 
 require_once('sessionMessages.php');  
 ?>
@@ -14,7 +14,7 @@ require_once('sessionMessages.php');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> Projecto PA </title>
 
     <!-- Bootstrap -->
@@ -196,7 +196,12 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar categoria de item <small>Insira as informações necessárias</small></h2>
+                    <h2>Informações kit <small></small></h2>
+                    <div class="title_right">
+                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <a href="form_search_view_kit.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os kits</a>
+                      </div>
+                    </div>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -204,62 +209,151 @@ require_once('sessionMessages.php');
                     <br />
 
                     
-                    <form id="demo-form2" class="form-horizontal form-label-left" >
-                     
+                    <form id="demo-form2"  class="form-horizontal form-label-left" >
 
+                      <?php
+                            $id = $_GET['var'];
+                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
+                            $result2=$mysqli->query($query2);
+                            $row2 = $result2->fetch_assoc();
+
+                            $_SESSION['paginaAnterior'] = 'form_view_kit.php?var='.$id;
+                      ?>
+
+                      <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
+                      
                       <div class="form-group">
-                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome Categoria</th>
-                            </tr>
-                          </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th class="text-center">Nome Categoria</th>
-                            </tr> 
-                          </tfoot>
-                          <tbody>
-                            <?php
-
-                              // Assume $db is a PDO object
-                              
-                              $query = "SELECT * FROM categoria_item WHERE id>1";
-                              $result=$mysqli->query($query);
-                              
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                
-
-                                 echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar categoria</button></td>
-                                        <td> '.$row['descricao'].'</td> 
-                                      </tr>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            
-                          </tbody>
-                        </table>
-                        
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>" disabled>
+                          <span id="msg_descricao" name="msg" style="color:red"></span>  
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                      
+                          <?php
+                                    
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `categoria_kit` "; // Run your query
+                            $result=$mysqli->query($query);
+                           
+                            echo '<select class="form-control" id="desc" name="desc" disabled >'; // Open your drop down box
+                            // Loop through the query results, outputing the options one by one
+                            while ($row = $result->fetch_assoc()) 
+                            {
+                               echo '<option value="'.$row['id'].'" '; 
+                               if($row['id'] == $row2['id_categoria'] )
+                               {
+                                  echo("selected");
+                               }; 
+                               echo '   >'.$row['descricao'].'</option>';
+                            }
+                            echo '</select>';// Close your drop down box
+                          ?>
+                          <span id="msg_cat" name="msg" style="color:red"></span>
+                        </div>
                       </div>
 
-                      
-                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['limite_data'] ?>" disabled>
+                          <span id="msg_limite" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
 
-                    </form>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <textarea id="obs"  class="form-control" name="obs" disabled><?php echo $row2['observacao'] ?></textarea>
+                        </div>
+                      </div>
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      <form id="formtabela"  class="form-horizontal form-label-left" action="" >
+                        <div class="form-group">
+                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                          
+                          
+                            <thead>
+                              <tr>
+                                <th></th>
+                                <th class="text-center">Descrição</th>
+                                <th class="text-center">Kit</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Categoria</th>
+                              </tr>
+                            </thead>
+                            <tfoot>
+                              <tr>
+                                <th></th>
+                                <th class="text-center">Descrição</th>
+                                <th class="text-center">Kit</th>
+                                <th class="text-center">Estado</th>
+                                <th class="text-center">Categoria</th>
+                              </tr> 
+                            </tfoot>
+                            <tbody>
+                              <?php
+                                
+                                // Assume $db is a PDO object
+                                
+                                $query = "SELECT itens.id, 
+                                          itens.marca,
+                                          itens.modelo,
+                                          itens.descricao,
+                                          itens.id_kit,
+                                          categoria_item.descricao AS descCat, 
+                                          estado.descricao AS descEst,
+                                          kit.descricao AS descKit
+                                          FROM itens 
+                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
+                                          INNER JOIN kit ON itens.id_kit = kit.id
+                                          INNER JOIN estado ON itens.id_estado = estado.id 
+                                          WHERE itens.id_kit='$id' AND itens.visivel=1
+                                          ORDER BY itens.id_kit DESC";
+                                $result=$mysqli->query($query);
+                                
+                                // Loop through the query results, outputing the options one by one
+                                while ($row = $result->fetch_assoc()) {
+                                  
+                                 
+                                   echo '<tr>  
+                                          <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Informações item</button></td>
+                                          <td> '.$row['descricao'].'</td>
+                                          <td> '.$row['descKit'].'</td>
+                                          <td> '.$row['descEst'].'</td> 
+                                          <td>'.$row['descCat'].'</td>
+                                        </tr>';
+                                }
+                                echo '</select>';// Close your drop down box
+                              ?>
+                              
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </form>
+
+                      
+                     
+
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+
+        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -369,18 +463,20 @@ require_once('sessionMessages.php');
         }
       });
 
-      
      $('#table').on('click','.botao',function () {
+
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_categoria_item.php?var=' + v;
+          window.location = '/pa/production/form_view_item.php?var=' + v;
       }
        
      });
-   });
+
+
+      });
     </script>
 
 
-	
+  
   </body>
 </html>

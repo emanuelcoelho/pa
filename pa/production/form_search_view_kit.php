@@ -1,9 +1,9 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('session_criar_editar.php');
+require_once('session_ver.php');
 require_once('sessionReservas.php'); 
-require_once('sessionMessages.php');  
+require_once('sessionMessages.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -196,7 +196,7 @@ require_once('sessionMessages.php');
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar categoria de item <small>Insira as informações necessárias</small></h2>
+                    <h2>Ver kit <small>Pesquise pelo kit</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -214,13 +214,17 @@ require_once('sessionMessages.php');
                           <thead>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome Categoria</th>
+                              <th class="text-center">Nome kit</th>
+                              <th class="text-center">Categoria</th>
+                              <th class="text-center">Limite data</th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
                               <th></th>
-                              <th class="text-center">Nome Categoria</th>
+                              <th class="text-center">Nome kit</th>
+                              <th class="text-center">Categoria</th>
+                              <th class="text-center">Limite data</th>
                             </tr> 
                           </tfoot>
                           <tbody>
@@ -228,7 +232,13 @@ require_once('sessionMessages.php');
 
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT * FROM categoria_item WHERE id>1";
+                              $query = "SELECT kit.id, 
+                                        kit.descricao AS descKit, 
+                                        categoria_kit.descricao AS descCat, 
+                                        kit.limite_data 
+                                        FROM kit 
+                                        INNER JOIN categoria_kit ON kit.id_categoria = categoria_kit.id 
+                                        WHERE kit.id>1";
                               $result=$mysqli->query($query);
                               
 
@@ -237,8 +247,10 @@ require_once('sessionMessages.php');
                                 
 
                                  echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar categoria</button></td>
-                                        <td> '.$row['descricao'].'</td> 
+                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Informações kit</button></td>
+                                        <td>'.$row['descKit'].'</td> 
+                                        <td>'.$row['descCat'].'</td>
+                                        <td>'.$row['limite_data'].'</td>
                                       </tr>';
                               }
 
@@ -331,6 +343,7 @@ require_once('sessionMessages.php');
     $(document).ready(function(){
 
 
+
      $(".msgm").click(function(){ // Click to only happen on announce links
 
       var v = $(this).attr("id");        
@@ -369,11 +382,13 @@ require_once('sessionMessages.php');
         }
       });
 
+
       
      $('#table').on('click','.botao',function () {
+
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/pa/production/form_edit_categoria_item.php?var=' + v;
+          window.location = '/pa/production/form_view_kit.php?var=' + v;
       }
        
      });
