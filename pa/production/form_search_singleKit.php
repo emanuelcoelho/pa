@@ -297,7 +297,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ver kit <small>Reserva aqui o seu kit</small></h2>
+                    <h2>Ver kit <small>Reserve aqui o seu kit (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -446,7 +446,7 @@
                         <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2" method="POST" enctype="multipart/form-data">
                           
                           <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar <span style="color:red">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" name="from_date" readonly>
                               <span id="msg_inicio" name="msg" style="color:red"></span>
@@ -454,7 +454,7 @@
                           </div>
 
                           <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar </label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar <span style="color:red">*</span></label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                               <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" name="to_date" readonly>
                               <span id="msg_fim" name="msg" style="color:red"></span>
