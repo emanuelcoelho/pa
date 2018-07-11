@@ -359,10 +359,22 @@ require_once('session_reservar.php');
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+
+    <script>
+
+      function myFunction(el) {
+        var v = $(el).attr('data-id');        
+        if (v != undefined && v != null) {
+          window.location = '/pa/production/form_search_singleKit.php?var=' + v;
+        }
+      }
+
+    </script>
     
     <script>
 
       $(document).ready(function(){
+
 
 
         $( function() {
@@ -371,7 +383,22 @@ require_once('session_reservar.php');
         } );
 
         $("#from_date").datepicker({
-
+          monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
+          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
+          "Jul","Ago","Set","Out","Nov","Dez" ],
+          dayNames: [
+            "Domingo",
+            "Segunda-feira",
+            "Terça-feira",
+            "Quarta-feira",
+            "Quinta-feira",
+            "Sexta-feira",
+            "Sábado"
+          ],
+          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          weekHeader: "Sem",
             minDate: 2,
             dateFormat: "yy-mm-dd", 
             onSelect: function(selectedDate) {
@@ -383,6 +410,22 @@ require_once('session_reservar.php');
           });      
 
           $("#to_date").datepicker({
+            monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
+          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
+          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
+          "Jul","Ago","Set","Out","Nov","Dez" ],
+          dayNames: [
+            "Domingo",
+            "Segunda-feira",
+            "Terça-feira",
+            "Quarta-feira",
+            "Quinta-feira",
+            "Sexta-feira",
+            "Sábado"
+          ],
+          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+          weekHeader: "Sem",
             minDate: 2,
             dateFormat: "yy-mm-dd"
           });
