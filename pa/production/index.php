@@ -67,11 +67,7 @@
                 <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a><i class="fa fa-search"></i> Pesquisar <span class="fa fa-chevron-down"></span> </a>
-                    <ul class="nav child_menu">
-                      <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizador</a></li>
-                    </ul>
-                  </li>
+                  <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php"><i class="fa fa-search"></i>Pesquisar utilizador</a></li>
                   <li <?php echo $style_menu_criar;?> ><a ><i class="fa fa-edit" ></i> Registar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
@@ -98,6 +94,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Pedidos pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
+                      <li <?php echo $style_reservas;?> ><a href="form_search_decorrer.php">Reservas aceites/em progresso </a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_edit_all_reservas.php">Todas as reservas </a></li>
                     </ul>
                   </li>

@@ -7,8 +7,8 @@
 		require_once('dbconnect_teste.php');
 
 		$cat = $request->getParsedBody()['desc'];
-		$date1 = $request->getParsedBody()['calendario1'];
-		$date2 = $request->getParsedBody()['calendario2'];
+		$date1 = $request->getParsedBody()['from_date'];
+		$date2 = $request->getParsedBody()['to_date'];
 
 		$date1=date("Y-m-d", strtotime($date1));
 		$date2=date("Y-m-d", strtotime($date2));

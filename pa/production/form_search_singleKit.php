@@ -1,9 +1,9 @@
 <?php 
   require_once('dbconnect_teste.php');
   require_once('session.php');
-  require_once('sessionMessages.php'); 
   require_once('sessionReservas.php'); 
   require_once('sessionMessages.php');
+  require_once('session_reservar.php');
 ?>
 
 <!DOCTYPE html>
@@ -513,10 +513,6 @@
     <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="../vendors/moment/min/moment.min.js"></script>
-    <script src="../vendors/moment/moment.js"></script>
-    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap-wysiwyg -->
     <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
     <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>

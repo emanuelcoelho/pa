@@ -1,15 +1,14 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
+require_once('session_reservas.php');
 require_once('sessionReservas.php'); 
-require_once('sessionMessages.php');
-require_once('session_reservar.php');
+require_once('sessionMessages.php'); 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
@@ -34,6 +33,8 @@ require_once('session_reservar.php');
     <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- starrr -->
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <!-- Datatables -->
@@ -42,9 +43,13 @@ require_once('session_reservar.php');
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-    <!--Jquery Ui -->
-    <link rel="stylesheet" href="../vendors/jquery-ui-1.12.1.custom/jquery-ui.css">
+     
 
+    
+    
+
+
+    
   </head>
 
   <body class="nav-md">
@@ -177,7 +182,6 @@ require_once('session_reservar.php');
                         <b><u>Ver todas as mensagens</u></b>
                       </a>
                     </li>
-                    
                   </ul>
                 </li>
               </ul>
@@ -187,14 +191,14 @@ require_once('session_reservar.php');
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" action="" method="get" class="form-horizontal form-label-left">
+        <div class="right_col" role="main">
           <div class="">
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Reservar Kit <small>Escolha o kit para reservar</small></h2>
+                    <h2>Ver reservas pendentes <small></small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -202,91 +206,80 @@ require_once('session_reservar.php');
                     <br />
 
                     
-                    <form id="demo-form2" action="http://myslimsite/api/teste/reserva1" method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
-                     
+                    <form id="demo-form2" class="form-horizontal form-label-left" >
+                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
+
                       <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">                         
-                            <?php
-
-                              // Assume $db is a PDO object
-                              $query = "SELECT DISTINCT categoria_kit.id, categoria_kit.descricao 
-                                        FROM categoria_kit, kit 
-                                        WHERE categoria_kit.id = kit.id_categoria 
-                                        AND categoria_kit.id > 1 "; // Run your query
-                              $result=$mysqli->query($query);
-                              $final=[];
-                              echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                echo '<option value="'.$row['id'].'">'.$row['descricao'].'</option>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            <span id="msg_cat" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" name="from_date" readonly>
-                            <span id="msg_inicio" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" name="to_date" readonly>
-                            <span id="msg_fim" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-
-
-                        
-                        <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button> 
-                          <button name="submit" type="submit" class="btn btn-success">Submeter</button>
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-
-                        </div>
-                      </div>
-                      </form>          
-                      
-                      <div class="form-group" id="demo-form1">
-                        <table id="table" class="table table-striped table-bordered bulk_action text-center dt-responsive nowrap" cellspacing="0" width="100%">
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
-                              <tr>
-                                <th></th>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
+                            </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th></th>
+                              <th class="text-center">Requisitante</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Data inicial</th>
+                              <th class="text-center">Data final</th>
+                              <th class="text-center">Estado</th>
+                            </tr>
+                          </tfoot>
+                          <tbody>
+                            <?php
+
+                              // Assume $db is a PDO object
+                              
+                              $query = "SELECT reserva.id,
+                                        reserva.data_inicio,
+                                        reserva.data_fim,
+                                        reserva.observacao,
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit,
+                                        user.username AS descReservante                                       
+                                        FROM reserva 
+                                        INNER JOIN user ON reserva.id_reservante = user.id
+                                        INNER JOIN kit ON reserva.id_kit = kit.id
+                                        INNER JOIN estado ON reserva.id_estado = estado.id 
+                                        WHERE estado.descricao = 'Aceite'
+                                        OR estado.descricao = 'Em progresso'";
+                              $result=$mysqli->query($query);
+                              
+
+                              // Loop through the query results, outputing the options one by one
+                              while ($row = $result->fetch_assoc()) {
                                 
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Categoria</th>
 
-                              </tr>
-                            </thead>
-                            <tfoot>
-                              <tr>
-                                <th></th>
-                               
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Categoria</th>
+                                 echo '<tr>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" value='.$_SESSION['id'].' data-id='.$row['id'].'>Editar reserva</button>
+                                        </td>
+                                        <td> '.$row['descReservante'].'</td>
+                                        <td> '.$row['descKit'].'</td> 
+                                        <td> '.$row['data_inicio'].'</td>
+                                        <td> '.$row['data_fim'].'</td>   
+                                        <td>'.$row['descEst'].'</td>
+                                      </tr>';
+                              }
 
-                              </tr> 
-                            </tfoot>
-                            <tbody id="tbody">
-                        
+                            ?>
+                            
                           </tbody>
                         </table>
-                       
+                        
                       </div>
+
+                      
+                      
+
+                    </form>
                   </div>
                 </div>
               </div>
@@ -308,12 +301,8 @@ require_once('session_reservar.php');
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
-        <!-- jQuery Ui -->
-    <script src="../vendors/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../vendors/bootstrap/js/transition.js"></script>
-    <script src="../vendors/bootstrap/js/collapse.js"></script>
     <!-- FastClick -->
     <script src="../vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
@@ -322,6 +311,9 @@ require_once('session_reservar.php');
     <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
     <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
     <!-- bootstrap-wysiwyg -->
     <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
     <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
@@ -359,94 +351,67 @@ require_once('session_reservar.php');
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+
     
     <script>
-
-      $(document).ready(function(){
-
-
-        $( function() {
-          $( "#from_date" ).datepicker();
-          $( "#to_date" ).datepicker();
-        } );
-
-        $("#from_date").datepicker({
-
-            minDate: 2,
-            dateFormat: "yy-mm-dd", 
-            onSelect: function(selectedDate) {
-
-              $("#to_date").datepicker("option", "minDate", selectedDate);
-
-              $("#to_date").val('');
-            }
-          });      
-
-          $("#to_date").datepicker({
-            minDate: 2,
-            dateFormat: "yy-mm-dd"
-          });
+    $(document).ready(function(){
 
 
-          $('#table').DataTable( {
-            "language": {
-              "lengthMenu": "_MENU_ Registos por página",
-              "zeroRecords": "Não foram encontrados registos",
-              "info": "Página _PAGE_ de _PAGES_",
-              "infoEmpty": "Não foram encontrados registos",
-              "infoFiltered": "(de _MAX_ registos no total)",
-              "search": "Pesquisar:",
-              "oPaginate": {
-                "sNext": "Página seguinte",
-                "sPrevious": "Página anterior",
-                "sFirst": "Primeira página",
-                "sLast": "Última página"
-              }
-            }
-          });
 
+     $(".msgm").click(function(){ // Click to only happen on announce links
 
-        $(function() {
-
-          // Get the form.
-          var form = $('#demo-form2');
-
-          // Get the messages div.
-          var formMessages = $('#msg');
-
-          $("#tbody").fadeIn(1000);
-
-          var teste;
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-
-            // Serialize the form data.
-            var formData = $(form).serialize();
-
-            // Submit the form using AJAX.
-            $.ajax({
-            type: 'POST',
-            url: $(form).attr('action'),
-            data: formData,
-            dataType: "html",
-            success: function(response) 
-            { 
-              $("#tbody").html(response);
-            }
-
-          });
-
-          });
-
-
+      var v = $(this).attr("id");        
+      if (v != undefined && v != null) {
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
+                  }
         });
+      }  
+     });
+
+     $('#table').DataTable( {
+        "order": [[ 3, "asc" ]],
+        "columnDefs": [
+          { "orderable": false, "targets": 0 }
+        ],
+        "language": {
+          "lengthMenu": "_MENU_ Registos por página",
+          "zeroRecords": "Não foram encontrados registos",
+          "info": "Página _PAGE_ de _PAGES_",
+          "infoEmpty": "Não foram encontrados registos",
+          "infoFiltered": "(de _MAX_ registos no total)",
+          "search": "Pesquisar:",
+          "oPaginate": {
+            "sNext": "Página seguinte",
+            "sPrevious": "Página anterior",
+            "sFirst": "Primeira página",
+            "sLast": "Última página"
+          }
+        }
+      });
+
+      $('#table').on('click','.botao',function () {
+
+        var v = $(this).data('id');        
+        if (v != undefined && v != null) {
+          window.location = '/pa/production/form_edit_decorrer.php?var=' + v;
+        }
 
       });
 
+
+
+
+   });
     </script>
+
+
 	
   </body>
 </html>
