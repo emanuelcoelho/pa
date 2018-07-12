@@ -77,45 +77,39 @@
 
 
 
-	//cria nova reserva com estado pendente
+	// cria nova reserva com estado pendente
 	$app->post('/api/teste/reserva2', function($request, $response, $args) {
 		
 		require_once('dbconnect_teste.php');
-
+		// recolhe id de funcionario "sistema"
 		$sql = "SELECT * FROM user WHERE username = 'Sistema' ";
 		$result = mysqli_query($mysqli,$sql);
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$func=$row['id'];
 
+		// recolhe id de estado "pendente"
 		$sql = "SELECT * FROM estado WHERE descricao = 'Pendente' ";
 		$result = mysqli_query($mysqli,$sql);
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$estado=$row['id'];
 		
-		
+		// recolhe informações do form
 		$id = $request->getParsedBody()['idkit'];
 
 		$reservante = $request->getParsedBody()['idres'];
 
-		//echo $reservante;
 		$date1 = $request->getParsedBody()['from_date'];
 		$date2 = $request->getParsedBody()['to_date'];
 		$date1=date("Y-m-d", strtotime($date1));
 		$date2=date("Y-m-d", strtotime($date2));
-
-		echo $date1;
-		echo $date2;
-		
 
 		$query = "INSERT INTO `reserva` (`id_kit`,`id_reservante`, `id_estado`, `data_inicio`, `data_fim`, `id_funcionario`) VALUES (?, ?, ?, ?, ?, ?)";
 
 		$stmt = $mysqli->prepare($query);
 	
 		$stmt->bind_param("iiissi", $id, $reservante, $estado, $date1, $date2, $func);
-	
 		
 		$stmt->execute();
-
 
 		//depois de criar reserva manda notificação ao utilizador
 
@@ -144,16 +138,16 @@
 
 		$stmt2->bind_param("ssisii", $assunto, $mensagem, $lido, $data, $reservante, $func);
 
+		// data da mensagem é sempre a data actual
 		$data=date("Y-m-d H:i:s");
+		
+		// lido = 0 indica que a mensagem vai com o estado "por ler"
 		$lido=0;
 
-		$assunto = "Notificação da sua reserva!";
+		$assunto = "Notificação da reserva!";
 		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kit."</b> foi enviado com sucesso, por favor aguarde pela avaliação de um funcionário.";
 		
 
 		$stmt2->execute();
-	
-		
 	});
-
 ?>

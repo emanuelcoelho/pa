@@ -1,43 +1,36 @@
 <?php
-
-$app->post('/api/formCat/insertCatKit', function($request, $response, $args) {
-
-	require_once('dbconnect_teste.php');
 	
+	// insere nova categoria de kit na bd
+	$app->post('/api/formCat/insertCatKit', function($request, $response, $args) {
 
-	$query = "INSERT INTO `categoria_kit` (`descricao`) VALUES (?)";
+		require_once('dbconnect_teste.php');
+		
+		$query = "INSERT INTO `categoria_kit` (`descricao`) VALUES (?)";
 
-	$stmt = $mysqli->prepare($query);
+		$stmt = $mysqli->prepare($query);
 
-	$stmt->bind_param("s", $descricao);
+		$stmt->bind_param("s", $descricao);
 
-	$descricao = $request->getParsedBody()['descricao'];
-	
+		// recolhe informação do form
+		$descricao = $request->getParsedBody()['descricao'];
+		
+		$stmt->execute();  
+	});
 
-	$stmt->execute();
-	
-	echo $descricao;  
-});
+	// insere nova categoria de item na bd
+	$app->post('/api/formCat/insertCatItem', function($request) {
 
-$app->post('/api/formCat/insertCatItem', function($request) {
+		require_once('dbconnect_teste.php');
+		
+		$query = "INSERT INTO `categoria_item` (`descricao`) VALUES (?)";
 
-	require_once('dbconnect_teste.php');
-	
+		$stmt = $mysqli->prepare($query);
 
-	$query = "INSERT INTO `categoria_item` (`descricao`) VALUES (?)";
+		$stmt->bind_param("s", $descricao);
 
-	$stmt = $mysqli->prepare($query);
-
-	$stmt->bind_param("s", $descricao);
-
-	$descricao = $request->getParsedBody()['descricao'];
-	
-
-	$stmt->execute();
-	
-	echo $descricao;
-	  
-});
-
-
+		// recolhe informação do form
+		$descricao = $request->getParsedBody()['descricao'];
+		
+		$stmt->execute();		  
+	});
 ?>

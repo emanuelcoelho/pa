@@ -298,6 +298,11 @@
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Ver kit <small>Reserve aqui o seu kit (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
+                     <div class="title_right">
+                        <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                          <a href="form_search_reserva.php" id="button" type="button"  class="btn btn-primary botao" >Voltar para pesquisa de kits</a>
+                        </div>
+                      </div>
                     
                     <div class="clearfix"></div>
                   </div>

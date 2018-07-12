@@ -1,10 +1,9 @@
 <?php 
 require_once('dbconnect_teste.php');
 require_once('session.php');
-require_once('sessionUpdate.php');
-require_once('session_user_editar.php');
+require_once('session_ver.php');
 require_once('sessionReservas.php'); 
-require_once('sessionMessages.php'); 
+require_once('sessionMessages.php');   
 ?>
 
 <!DOCTYPE html>
@@ -197,117 +196,32 @@ require_once('sessionMessages.php');
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Sobre</h3>
+              </div>
+            </div>
+
             <div class="clearfix"></div>
+           
+
             <div class="row">
-              <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Editar utilizador <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
-                    <div class="title_right">
-                      <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_user.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os utilizadores</a>
-                      </div>
-                    </div>
+                    <h2> Informações e contactos <small>  </small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
+                    <h2><p><b>Contacto do funcionário:</b> funcionariomail@gmail.com <br><br>
 
+                    <b>Telef:</b> +351 258 819 700 <br>
+                    <b>Tlm:</b> +351 965 919 660 <br><br>
+
+                    <b>Site:</b> www.estg.ipvc.pt <br>  
+                    <b>E-mail:</b> direcao@estg.ipvc.pt <br> </p></h2>
                     
-                    <form id="demo-form2" action="http://myslimsite/api/formEditUser/update" method="post"  class="form-horizontal form-label-left" >
-
-                      <?php
-                            $id = $_GET['var'];
-                            $query = "SELECT * FROM `user` WHERE `id`='$id' "; // Run your query
-                            $result = $mysqli->query($query);
-                            $row = $result->fetch_assoc();
-                      ?>
-
-                      <input type="hidden" name="iduser" id="iduser" value="<?php echo $row['id'] ?>">
-                      
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador <span style="color:red">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" >
-                          <span id="msg_username" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail <span style="color:red">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row['email'] ?>">
-                          <span id="msg_email" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span style="color:red">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="password" name="password" class="form-control col-md-4 col-xs-12 masked" value="<?php echo $row['password'] ?>">
-                          <span id="msg_password" name="msg" style="color:red"></span>
-                        </div>
-                        <div class="control-label">
-                            <a  id="eye" class="fa fa-eye fa-lg pull-left"></a>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecatrónico <span style="color:red">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1 value="<?php echo $row['numero'] ?>">
-                          <span id="msg_number" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="phonenumber" name="phonenumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row['telefone'] ?>">
-                          <span id="msg_phonenumber" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Grupo </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                      
-                          <?php
-                                    
-                            // Assume $db is a PDO object
-                            $query2 = "SELECT * FROM `grupo` "; // Run your query
-                            $result2=$mysqli->query($query2);
-                           
-                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-                            // Loop through the query results, outputing the options one by one
-                            while ($row2 = $result2->fetch_assoc()) 
-                            {
-                               echo '<option value="'.$row2['id'].'" '; 
-                               if($row2['id'] == $row['id_grupo'] )
-                               {
-                                  echo("selected");
-                               }; 
-                               echo '   >'.$row2['descricao'].'</option>';
-                            }
-                            echo '</select>';// Close your drop down box
-                          ?>
-                          <span id="msg_cat" name="msg" style="color:red"></span>
-                        </div>
-                      </div>
-
-
-
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="reset">Reset</button>
-                          <input type="hidden" name="_METHOD" value="PUT"/> 
-                          <button type="submit" class="btn btn-success">Submeter</button>                          
-                          <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-                        </div>
-                      </div>
-
-                      <div class="ln_solid"></div>
-
-
-                      </form>
-                    
-                      
-                    <!--</form>-->
                   </div>
                 </div>
               </div>
@@ -316,6 +230,7 @@ require_once('sessionMessages.php');
         </div>
 
 
+        
         
         <!-- /page content -->
 
@@ -387,8 +302,6 @@ require_once('sessionMessages.php');
     <script>
     $(document).ready(function(){
 
-
-
      $(".msgm").click(function(){ // Click to only happen on announce links
 
       var v = $(this).attr("id");        
@@ -406,127 +319,11 @@ require_once('sessionMessages.php');
       }  
      });
 
-      function show() {
-        var p = document.getElementById('password');
-        p.setAttribute('type', 'text');
-        var g = document.getElementById('eye');
-        g.setAttribute('class', 'fa fa-eye-slash fa-lg pull-left');
-      }
-
-      function hide() {
-        var p = document.getElementById('password');
-        var g = document.getElementById('eye');
-        g.setAttribute('class', 'fa fa-eye fa-lg pull-left');
-        p.setAttribute('type', 'password');
-      }
-
-      var pwShown = 0;
-
-      document.getElementById("eye").addEventListener("click", function () {
-        if (pwShown == 0) {
-          pwShown = 1;
-          show();
-        } 
-        else 
-        {
-          pwShown = 0;
-          hide();
-        }
-      }, false);
-
-  
-      
-     
-      
-        $(function() {
-          // Get the form.
-          var form = $('#demo-form2');
-          
-          // Get the messages div.
-          var formMessages = $('#msg');
-           
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message1 = $('#username').val();  
-            var message2 = $('#email').val();  
-            var message3 = $('#password').val(); 
-            var message4 = $('#number').val(); 
-
-            
-
-            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' )  
-            {  
-
-              if( message1 == '' )  
-              {  
-                $('#msg_username').html("Deve preencher este campo de forma válida! Ex: Pedro");
-              }
-              else
-              {
-                $('#msg_username').html("");
-              }
-
-              if( message2 == '' )  
-              {  
-                $('#msg_email').html("Deve preencher este campo de forma válida! Ex: emailteste@hotmail.com");
-              }
-              else
-              {
-                $('#msg_email').html("");
-              }
-
-              if( message3 == '' )  
-              {  
-                $('#msg_password').html("Deve preencher este campo de forma válida! Ex: palavrapasse");
-              }
-              else
-              {
-                $('#msg_password').html("");
-              }
-
-              if( message4 == '' )  
-              {  
-                $('#msg_number').html("Deve preencher este campo de forma válida! Ex: 10225");
-              }
-              else
-              {
-                $('#msg_number').html("");
-              }
-                   
-            }  
-            else  
-            {  
-              // Serialize the form data.
-              var formData = $(form).serialize();
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    alert(data);                    
-                    location.reload();
-                   
-                  }
-              });
-              $('#msg_descricao').html("");
-              
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
-            }
-          });
-        });
-      });
+    });
     </script>
 
 
   
   </body>
 </html>
+

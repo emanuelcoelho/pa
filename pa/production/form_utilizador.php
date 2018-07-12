@@ -197,7 +197,7 @@ require_once('sessionMessages.php');
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/formEditProfile/update" method="post">
+                    <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/formEditUser/updateProfile" method="post">
 
                       <?php 
 
@@ -444,14 +444,15 @@ require_once('sessionMessages.php');
                   cache: false,
                   processData:false,
                   success: function(data) { 
-                    
+                    alert(data);                    
                     location.reload();
+                   
                   }
               });
               $('#msg_username').html("");
               $('#msg_email').html("");
               $('#msg_number').html(""); 
-              $('#msg').html("Perfil editado com sucesso!");
+
             }
           });
 
