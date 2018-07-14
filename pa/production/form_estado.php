@@ -344,12 +344,11 @@
                   type: 'POST',
                   url: $(form).attr('action'),
                   data: formData,
-                  success: function(formData) { 
-
+                  success: function(data) { 
+                    alert(data);
                   }
               });
               $('#msg_desc').html("");
-              $('#msg').html("Estado criado com sucesso!");
               $('#demo-form2').trigger("reset");
             }
           });

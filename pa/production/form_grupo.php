@@ -420,10 +420,12 @@
                   data: new FormData(this),
                   contentType: false,
                   cache: false,
-                  processData:false
+                  processData:false,
+                  success: function(data) {
+                    alert(data); 
+                  }
               });
                $('#msg_descricao').html("");
-              $('#msg').html("Grupo criado com sucesso!");
               $('#demo-form2').trigger("reset");
             }
           });

@@ -613,13 +613,13 @@
                   cache: false,
                   processData:false,
                   success: function(data) { 
+                    alert(data);
                     location.reload();
                   }
               });
               $('#msg_descricao').html("");
               $('#msg_check').html("");
               $('#msg_limite').html("");
-              $('#msg').html("Kit editado com sucesso!");
             }
           });
         });

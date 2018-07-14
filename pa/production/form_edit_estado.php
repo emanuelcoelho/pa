@@ -399,11 +399,11 @@
                   cache: false,
                   processData:false,
                   success: function(data) { 
+                    alert(data);
                     location.reload();
                   }
               });
               $('#msg_descricao').html("");
-              $('#msg').html("Estado editado com sucesso!");
             }
           });
         });

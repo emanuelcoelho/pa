@@ -549,7 +549,8 @@
                   type: 'post',
                   url: $(form).attr('action'),
                   data: formData,
-                  success: function(formData) { 
+                  success: function(data) { 
+                    alert(data);
                     location.reload();
                   }
               });
@@ -557,7 +558,6 @@
               $('#msg_check').html("");
               $('#msg_limite').html("");
               $('#msg_cat').html("");
-              $('#msg').html("Kit criado com sucesso!");
             }
           });
 

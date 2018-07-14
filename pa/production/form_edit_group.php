@@ -476,12 +476,12 @@
                   contentType: false,
                   cache: false,
                   processData:false,
-                  success: function(data) { 
+                  success: function(data) {
+                    alert(data); 
                     location.reload();
                   }
               });
               $('#msg_descricao').html("");
-              $('#msg').html("Grupo editado com sucesso!");
             }
           });
         });

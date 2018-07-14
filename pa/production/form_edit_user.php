@@ -364,7 +364,7 @@
     <!-- Select2 -->
     <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
     <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+    
     <!-- Autosize -->
     <script src="../vendors/autosize/dist/autosize.min.js"></script>
     <!-- jQuery autocomplete -->

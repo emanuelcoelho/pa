@@ -400,13 +400,11 @@
                   cache: false,
                   processData:false,
                   success: function(data) { 
+                    alert(data);
                     location.reload();
                   }
               });
               $('#msg_descricao').html("");
-              $('#msg').html("Categoria editada com sucesso!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
             }
           });
         });

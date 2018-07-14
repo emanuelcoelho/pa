@@ -50,11 +50,49 @@
 		$id = $request->getParsedBody()['idkit'];
 		$obs = $request->getParsedBody()['obs'];
 
-		// altera informações do kit na bd
-		$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
-		$stmt = $mysqli->prepare($sql);
-		$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
+		// passa a descricao para letras minusculas
+		$comp = strtolower($descricao);
 
-		$stmt->execute();	
+		// compara descricao para verificar se escreveu sem kit
+		if($comp=='sem kit' )
+		{
+
+			// verifica se existe algum kit com descricao "sem kit" e id diferente
+			$query = "SELECT * FROM kit WHERE descricao = 'sem kit' AND id!='$id'";
+			$result = mysqli_query($mysqli,$query);
+			$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+			$count = mysqli_num_rows($result);
+			// se não encontrar outro kit com nome "sem kit" actualiza bd e manda alerta
+			if ($count<=0)
+			{
+				// altera informações do kit na bd
+				$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
+				$stmt = $mysqli->prepare($sql);
+				$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
+
+				$stmt->execute();	
+
+				echo "Kit editado com sucesso!";
+			}
+			else if ($count>=1)
+			{
+				// se encontra algum kit com a descricao "sem kit" não actualiza bd
+				echo "Não pode criar um kit com esse nome!";
+			}	
+		}
+		else
+		{
+
+			// altera informações do kit na bd
+			$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
+			$stmt = $mysqli->prepare($sql);
+			$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
+
+			$stmt->execute();	
+
+			echo "Kit editado com sucesso!";
+		}
+
+		
 	});
 ?>
