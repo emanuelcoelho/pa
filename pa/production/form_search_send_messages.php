@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -225,20 +225,22 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Username</th>
                               <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Username</th>
                               <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
+                              <th></th>
                             </tr>
                           </tfoot>
                           <tbody>
@@ -261,11 +263,12 @@
                                 
 
                                  echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'>Enviar mensagem</button></td>
+                                        
                                         <td> '.$row['username'].'</td>
                                         <td> '.$row['numero'].'</td> 
                                         <td> '.$row['email'].'</td>  
                                         <td>'.$row['descGroup'].'</td>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" data-id='.$row['id'].'><i class="fa fa-send"></i></button></td>
                                       </tr>';
                               }
 
@@ -376,9 +379,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "desc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 4 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

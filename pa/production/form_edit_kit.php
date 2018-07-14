@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -211,7 +211,7 @@
                     <h2>Editar kit <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_edit_kit.php" id="button" type="button"  class="btn btn-primary botao" >Voltar a todos os kits</a>
+                        <a href="form_search_edit_kit.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
                     
@@ -307,22 +307,24 @@
                           
                             <thead>
                               <tr>
-                                <th></th>
+                                
                                 <th class="text-center">Marca</th>
                                 <th class="text-center">Modelo</th>
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Categoria</th>
+                                <th></th>
                               </tr>
                             </thead>
                             <tfoot>
                               <tr>
-                                <th></th>
+                                
                                 <th class="text-center">Marca</th>
                                 <th class="text-center">Modelo</th>
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Categoria</th>
+                                <th></th>
                               </tr> 
                             </tfoot>
                             <tbody>
@@ -356,22 +358,23 @@
                                   
                                  
                                    echo '<tr> 
-                                          <td><button type="button" id="button[]"  '; 
-                                          if($row['id_kit'] == $row2['id'] )
-                                          {
-                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
-                                            
-                                          }
-                                          else if ($row['id_kit'] != $row2['id'] ) 
-                                          {
-                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
-                                          }; 
-                                          echo '  
+                                             
                                           <td> '.$row['marca'].'</td>
                                           <td> '.$row['modelo'].'</td>
                                           <td> '.$row['descKit'].'</td>
                                           <td> '.$row['descEst'].'</td> 
                                           <td>'.$row['descCat'].'</td>
+                                          <td><button type="button" id="button[]"  '; 
+                                          if($row['id_kit'] == $row2['id'] )
+                                          {
+                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'"><i class="fa fa-minus-square"></i></button></td>');
+                                            
+                                          }
+                                          else if ($row['id_kit'] != $row2['id'] ) 
+                                          {
+                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'"><i class="fa fa-plus-square"></i></button> </td>');
+                                          };
+                                          echo'
                                         </tr>';
                                 }
                                 echo '</select>';// Close your drop down box
@@ -487,6 +490,9 @@
 
      $('#table').DataTable( {
         "order": [[ 0, "desc" ]],
+        "columnDefs": [
+          { "orderable": false, "targets": 5 }
+        ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",
           "zeroRecords": "Não foram encontrados registos",

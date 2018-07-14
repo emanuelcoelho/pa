@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -253,13 +253,8 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <h2><p><b>Contacto do funcionário:</b> <?php echo $funcmail; ?><br><br>
-
-                    <b>Telef:</b> +351 258 819 700 <br>
-                    <b>Tlm:</b> +351 965 919 660 <br><br>
-
-                    <b>Site:</b> www.estg.ipvc.pt <br>  
-                    <b>E-mail:</b> direcao@estg.ipvc.pt <br> </p></h2>
+                    <h2><b><i class="fa fa-file-pdf-o"></i><a href="download1.php">&nbsp;&nbsp;Manuel de Utilizador.pdf</a>
+                    <h2><b><i class="fa fa-file-pdf-o" <?php echo $style_ver_admin;?> ></i><a <?php echo $style_ver_admin;?> href="download2.php">&nbsp;&nbsp;Manuel de Administrador.pdf</a>
 
                   </div>
 

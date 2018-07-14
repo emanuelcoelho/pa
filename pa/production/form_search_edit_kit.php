@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -225,18 +225,20 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
+                              <th></th>
                             </tr> 
                           </tfoot>
                           <tbody>
@@ -265,10 +267,11 @@
                                 
 
                                  echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Editar kit</button></td>
+                                        
                                         <td> '.$row['descKit'].'</td> 
                                         <td>'.$row['descCat'].'</td>
                                         <td>'.$row['limite_data'].'</td>
+                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'"><i class="fa fa-pencil"></i></button></td>
                                       </tr>';
                               }
 
@@ -380,9 +383,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "desc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 3 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

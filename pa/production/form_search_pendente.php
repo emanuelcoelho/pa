@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -225,22 +225,24 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Requisitante</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Requisitante</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
+                              <th></th>
                             </tr>
                           </tfoot>
                           <tbody>
@@ -268,14 +270,15 @@
                                 
 
                                  echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-success botaoA" value='.$_SESSION['id'].' data-id='.$row['id'].'>Aceitar reserva</button>
-                                            <button id="button[]" type="button" class="btn btn-danger botaoD" value='.$_SESSION['id'].' data-id='.$row['id'].'>Recusar Reserva</button>
-                                        </td>
+                                       
                                         <td> '.$row['descReservante'].'</td>
                                         <td> '.$row['descKit'].'</td> 
                                         <td> '.$row['data_inicio'].'</td>
                                         <td> '.$row['data_fim'].'</td>   
                                         <td>'.$row['descEst'].'</td>
+                                        <td><button id="button[]" type="button" class="btn btn-success botaoA" value='.$_SESSION['id'].' data-id='.$row['id'].'><i class="fa fa-check"></i></button>
+                                        <button id="button[]" type="button" class="btn btn-danger botaoD" value='.$_SESSION['id'].' data-id='.$row['id'].'><i class="fa fa-close"></i></button>
+                                        </td>
                                       </tr>';
                               }
 
@@ -386,9 +389,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 3, "asc" ]],
+        "order": [[ 2, "asc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 5 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

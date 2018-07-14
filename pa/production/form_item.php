@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> Projecto PA </title>
+    <title> IPVC Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>Projecto PA</span></a>
+              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -297,7 +297,7 @@
                          <table class="table table-bordered" id="dynamic_field">
                           <tr>
                             <td><input type="text" id="attributes[]" name="attributes[]" placeholder="" class="form-control name_list" /></td>
-                            <td><button type="button" name="add" id="add" class="btn btn-success">Adicionar campos</button></td>
+                            <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus-square"></i></button></td>
                           </tr>
                          </table>
                          <span id="msg_attributes" name="msg" style="color:red"></span>
