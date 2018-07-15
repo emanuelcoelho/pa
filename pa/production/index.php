@@ -47,7 +47,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
+              <a href="index.php" class="site_title"><img src="logo_branco.png" style="width:50px;height:45px;"></a>
             </div>
 
             <div class="clearfix"></div>
@@ -188,8 +188,14 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main">
-          
+        <div class="right_col" role="main" >
+        
+            <img src="logo_cores_desc.png" style="width:900px;height:200px;position:absolute;
+              top:30%;
+              left:33%;
+              right:0;
+              bottom:0;" >    
+                        
         </div>
         <!-- /page content -->
 

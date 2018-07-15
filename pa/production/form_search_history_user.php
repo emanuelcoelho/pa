@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
+              <a href="index.php" class="site_title"><img src="logo_branco.png" style="width:50px;height:45px;"></a>
             </div>
 
             <div class="clearfix"></div>
@@ -268,7 +268,7 @@
                                         <td> '.$row['numero'].'</td> 
                                         <td> '.$row['email'].'</td>  
                                         <td>'.$row['descGroup'].'</td>
-                                        <td><button id="button[]" type="button" class="btn btn-primary botaoM" data-id='.$row['id'].'><i class="fa fa-send"></i></button>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botaoM" data-id='.$row['id'].'><i class="fa fa-envelope"></i></button>
                                             <button id="button[]" type="button" class="btn btn-primary botaoR" data-id='.$row['id'].'><i class="fa fa-archive"></i></button>
                                         </td>
                                       </tr>';

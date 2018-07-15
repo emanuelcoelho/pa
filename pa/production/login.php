@@ -45,7 +45,7 @@
               </div>
               <div>
                 <button class="btn btn-default submit" type="submit" value="enter" name="enter" id="enter">Entrar</button>
-                <a class="reset_pass" >Recupere a sua password?</a>
+                <a class="reset_pass" >Recupere a sua password</a>
                 
               </div>
 
@@ -60,7 +60,9 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-book"></i> IPVC Reservas</h1>
+                  <img src="logo_cores_desc.png" style="width:275px;height:35px;">
+                  <br>
+                  <br>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
               </div>

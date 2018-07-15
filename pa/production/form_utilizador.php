@@ -54,7 +54,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
+              <a href="index.php" class="site_title"><img src="logo_branco.png" style="width:50px;height:45px;"></a>
             </div>
 
             <div class="clearfix"></div>

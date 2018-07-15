@@ -63,7 +63,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-book"></i> <span>IPVC Reservas</span></a>
+              <a href="index.php" class="site_title"><img src="logo_branco.png" style="width:50px;height:45px;"></a>
             </div>
 
             <div class="clearfix"></div>
@@ -208,7 +208,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Enviar mensagem <small>Insira as informações necessárias</small></h2>
+                    <h2>Enviar mensagem <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
                         <a href="form_search_send_messages.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
@@ -242,7 +242,7 @@
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Assunto (25 chars max)</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Assunto (25 chars max) <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="assunto" name="assunto" class="form-control col-md-7 col-xs-12" maxlength="25">
                           <span id="msg_assunto" name="msg" style="color:red"></span>
@@ -251,7 +251,7 @@
                       
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (1000 chars max)</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (1000 chars max) <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <textarea id="mensagem" class="form-control" name="mensagem" maxlength="1000"> </textarea>
                           <span id="msg_mensagem" name="msg" style="color:red"></span>
