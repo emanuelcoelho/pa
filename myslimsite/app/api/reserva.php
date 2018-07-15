@@ -87,12 +87,12 @@
 		// Loop through the query results, outputing the options one by one
 		while ($row = $result->fetch_assoc()) {
 			echo '<tr> 
-					<td><button id="button[]" type="button" onclick="myFunction(this)" class="btn btn-primary botao" data-id="'.$row['id'].'">Selecionar kit</button></td>
+					
 
 					<td> '.$row['descricao'].'</td>
 					<td> '.$row['contagem'].'</td>
 					<td>'.$row['descCat'].'</td>
-
+					<td><button id="button[]" type="button" onclick="myFunction(this)" class="btn btn-primary botao" data-id="'.$row['id'].'"><i class="fa fa-external-link-square"></i></button></td>
 					</tr>';
 			echo  $row['id'];
 

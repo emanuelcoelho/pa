@@ -92,7 +92,7 @@
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -225,18 +225,20 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
+ 
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
+                              <th></th>
                             </tr> 
                           </tfoot>
                           <tbody>
@@ -265,10 +267,11 @@
                                 
 
                                  echo '<tr> 
-                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Informações kit</button></td>
+                                        
                                         <td>'.$row['descKit'].'</td> 
                                         <td>'.$row['descCat'].'</td>
                                         <td>'.$row['limite_data'].'</td>
+                                        <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'"><i class="fa fa-info"></i></button></td>
                                       </tr>';
                               }
 
@@ -380,9 +383,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "desc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 3 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

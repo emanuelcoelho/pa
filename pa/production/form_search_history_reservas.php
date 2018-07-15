@@ -92,7 +92,7 @@
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -247,7 +247,7 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Requisitante</th>
                               <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
@@ -255,11 +255,11 @@
                               <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center">Observação</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
                               <th class="text-center">Requisitante</th>
                               <th class="text-center">Funcionário</th>
                               <th class="text-center">Kit</th>
@@ -267,6 +267,7 @@
                               <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center">Observação</th>
+                              <th></th>
                             </tr>
                           </tfoot>
                           <tbody>
@@ -297,8 +298,7 @@
                                 
 
                                  echo '<tr>
-                                        <td><button id="button[]" type="button" class="btn btn-primary botao" value='.$_SESSION['id'].' data-id='.$row['id'].'>Ver reserva</button>
-                                        </td>
+                                        
                                         <td> '.$row['descReservante'].'</td>
                                         <td> '.$row['descFuncionario'].'</td>
                                         <td> '.$row['descKit'].'</td> 
@@ -306,6 +306,8 @@
                                         <td> '.$row['data_fim'].'</td>   
                                         <td>'.$row['descEst'].'</td>
                                         <td>'.$row['observacao'].'</td>
+                                        <td><button id="button[]" type="button" class="btn btn-primary botao" value='.$_SESSION['id'].' data-id='.$row['id'].'><i class="fa fa-folder-open"></i></button>
+                                        </td>
                                       </tr>';
                               }
 
@@ -416,9 +418,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 4, "asc" ]],
+        "order": [[ 3, "asc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 7 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

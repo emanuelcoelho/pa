@@ -87,7 +87,7 @@
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -272,22 +272,22 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                               <tr>
-                                <th></th>
+                              
                                 
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Stock</th>
                                 <th class="text-center">Categoria</th>
-
+                                <th></th>
                               </tr>
                             </thead>
                             <tfoot>
                               <tr>
-                                <th></th>
+                                
                                
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Stock</th>
                                 <th class="text-center">Categoria</th>
-
+                                <th></th>
                               </tr> 
                             </tfoot>
                             <tbody id="tbody">
@@ -441,6 +441,10 @@
 
 
           $('#table').DataTable( {
+            "order": [[ 0, "desc" ]],
+        "columnDefs": [
+          { "orderable": false, "targets": 3 }
+        ],
             "language": {
               "lengthMenu": "_MENU_ Registos por página",
               "zeroRecords": "Não foram encontrados registos",

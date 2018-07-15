@@ -92,7 +92,7 @@
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -269,7 +269,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['limite_data'] ?>">
+                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['limite_data'] ?>" min="0">
                           <span id="msg_limite" name="msg" style="color:red"></span>
                         </div>
                         <div class="control-label">
@@ -367,12 +367,12 @@
                                           <td><button type="button" id="button[]"  '; 
                                           if($row['id_kit'] == $row2['id'] )
                                           {
-                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'"><i class="fa fa-minus-square"></i></button></td>');
+                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'"><i class="fa fa-minus-square"></i></button><font style="font-size:0px">apagar</font></td>');
                                             
                                           }
                                           else if ($row['id_kit'] != $row2['id'] ) 
                                           {
-                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'"><i class="fa fa-plus-square"></i></button> </td>');
+                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'"><i class="fa fa-plus-square"></i></button><font style="font-size:0px">inserir</font> </td>');
                                           };
                                           echo'
                                         </tr>';
@@ -439,7 +439,7 @@
     <!-- Select2 -->
     <script src="../vendors/select2/dist/js/select2.full.min.js"></script>
     <!-- Parsley -->
-    <script src="../vendors/parsleyjs/dist/parsley.min.js"></script>
+
     <!-- Autosize -->
     <script src="../vendors/autosize/dist/autosize.min.js"></script>
     <!-- jQuery autocomplete -->
@@ -489,10 +489,8 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 0, "desc" ]],
-        "columnDefs": [
-          { "orderable": false, "targets": 5 }
-        ],
+        "order": [[ 5, "asc" ]],
+  
         "language": {
           "lengthMenu": "_MENU_ Registos por página",
           "zeroRecords": "Não foram encontrados registos",

@@ -92,7 +92,7 @@
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i><?php echo $_SESSION['reservasAviso']; ?> Reservas <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -245,20 +245,22 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Data</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center">Assunto</th>
                               <th class="text-center">Mensagem</th>
+                              <th></th>
                             </tr>
                           </thead>
                           <tfoot>
                             <tr>
-                              <th></th>
+                              
                               <th class="text-center">Data</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center">Assunto</th>
                               <th class="text-center">Mensagem</th>
+                              <th></th>
                             </tr> 
                           </tfoot>
                           <tbody>
@@ -279,9 +281,7 @@
                                 $date = new DateTime($row['data']);
 
                                         echo '<tr>
-                                                <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Abrir mensagem</button></td>
-                                                <td> '.date_format($date, 'Y-m-d H:i').'</b></td>';
-                                 
+                                            <td> '.date_format($date, 'Y-m-d H:i').'</b></td>';
                                         if($row['lido']==0)
                                         {
                                           echo '<td>Por ler</td>';
@@ -292,19 +292,14 @@
                                         }
                                         echo '<td>'.$row['assunto'].'</td>
                                               <td>'.$mensagem.'...</td> 
+                                              <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'"><i class="fa fa-envelope"></i></button></td>
                                             </tr>';
-                                        
                               }
                             ?>
                             
                           </tbody>
                         </table>
-                        
                       </div>
-
-                      
-                      
-
                     </form>
                   </div>
                 </div>
@@ -402,9 +397,9 @@
      });
 
      $('#table').DataTable( {
-        "order": [[ 1, "desc" ]],
+        "order": [[ 0, "desc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 0 }
+          { "orderable": false, "targets": 4 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",
