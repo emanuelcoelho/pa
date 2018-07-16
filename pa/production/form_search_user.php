@@ -231,14 +231,7 @@
                               <th class="text-center">Grupo</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                            </tr>
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 

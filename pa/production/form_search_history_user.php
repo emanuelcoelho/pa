@@ -230,19 +230,10 @@
                               <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
-                              <th></th>
+                              <th class="text-center">Mensagens/Reservas</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                              <th></th>
-                            </tr>
-                          </tfoot>
+                        
                           <tbody>
                             <?php
 

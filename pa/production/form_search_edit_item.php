@@ -235,24 +235,10 @@
                                 <th class="text-center">Visivel</th>
                                 <th class="text-center">Serial</th>
                                 <th class="text-center" >Serial IPVC</th>
-                                <th></th>
+                                <th class="text-center">Editar</th>
                               </tr>
                             </thead>
-                            <tfoot>
-                              <tr>
-
-                                
-                                <th class="text-center">Marca</th>
-                                <th class="text-center">Modelo</th>
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Estado</th>
-                                <th class="text-center">Categoria</th>
-                                <th class="text-center">Visivel</th>
-                                <th class="text-center">Serial</th>
-                                <th class="text-center" >Serial IPVC</th>
-                                <th></th>
-                              </tr> 
-                            </tfoot>
+                            
                             <tbody>
                               <?php
                                 

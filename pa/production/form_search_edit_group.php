@@ -227,16 +227,10 @@
                             <tr>
                               
                               <th class="text-center">Nome grupo</th>
-                              <th></th>
+                              <th class="text-center">Editar</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              
-                              <th class="text-center">Nome grupo</th>
-                              <th></th>
-                            </tr> 
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 

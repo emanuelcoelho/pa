@@ -5,12 +5,19 @@
 		
 		require_once('dbconnect_teste.php');
 
-		$cat = $request->getParsedBody()['desc'];
+		
 		$date1 = $request->getParsedBody()['from_date'];
 		$date2 = $request->getParsedBody()['to_date'];
 
 		$date1=date("Y-m-d", strtotime($date1));
 		$date2=date("Y-m-d", strtotime($date2));
+
+		$d1= strtotime($date1);
+		$d2= strtotime($date2);
+		
+		$secs = $d2 - $d1;// == <seconds between the two times>
+		$days = $secs / 86400;
+		
 
 		// recolhe id de categoria kit "sem kit"
 		$sql = "SELECT * FROM categoria_kit WHERE descricao = 'Sem categoria'";
@@ -18,12 +25,7 @@
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$semcat=$row['id'];
 
-		if($cat!=$semcat){
-			$sqlcat=" b.id_categoria = $cat";
-		}
-		else{
-			$sqlcat=" b.id_categoria != $semcat";
-		}
+
 
 		// recolhe id de estado "pendente"
 		$sql = "SELECT * FROM estado WHERE descricao = 'Pendente'";
@@ -51,9 +53,7 @@
 
         // verifica os kits que estao ocupados    data_inicio <= date1 <= data_fim OU date1 <= data_inicio <= date2 OU id_estado = em atraso
         $query="SELECT * FROM reserva 
-			WHERE (id_estado='$pendente' AND data_inicio<='$date1' AND data_fim>='$date1') 
-			OR (id_estado='$pendente' AND data_inicio>='$date1' AND data_inicio<='$date2')
-            OR (id_estado='$progresso' AND data_inicio<='$date1' AND data_fim>='$date1') 
+			WHERE (id_estado='$progresso' AND data_inicio<='$date1' AND data_fim>='$date1') 
 			OR (id_estado='$progresso' AND data_inicio>='$date1' AND data_inicio<='$date2')
             OR (id_estado='$aceite' AND data_inicio<='$date1' AND data_fim>='$date1') 
 			OR (id_estado='$aceite' AND data_inicio>='$date1' AND data_inicio<='$date2')
@@ -73,9 +73,11 @@
 		$query = "SELECT count(b.descricao) as contagem, 
 				  b.id as id, 
 				  b.descricao as descricao, 
-				  c.descricao as descCat 
+				  c.descricao as descCat,
+				  b.observacao
 				  FROM  kit b, categoria_kit c  
-				  WHERE $sqlcat  
+				  WHERE b.id_categoria != $semcat  
+				  and b.limite_data >= $days
 				  and b.id NOT IN (".implode(',',$teste).")
 				  and b.id_categoria=c.id
 				  GROUP BY b.descricao 
@@ -90,9 +92,9 @@
 					
 
 					<td> '.$row['descricao'].'</td>
-					<td> '.$row['contagem'].'</td>
-					<td>'.$row['descCat'].'</td>
-					<td><button id="button[]" type="button" onclick="myFunction(this)" class="btn btn-primary botao" data-id="'.$row['id'].'"><i class="fa fa-external-link-square"></i></button></td>
+					<td> '.$row['descCat'].'</td>
+					<td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
+					<td><button id="button[]" type="button" onclick="myFunction(this)" class="btn btn-primary botao" data-id="'.$row['id'].'">Reservar</button></td>
 					</tr>';
 			echo  $row['id'];
 
@@ -104,7 +106,9 @@
 
 
 	// cria nova reserva com estado pendente
-	$app->post('/api/teste/reserva2', function($request, $response, $args) {
+	$app->post('/api/teste/reserva2/num={id}', function($request, $response, $args) {
+
+		$idkit = $request->getAttribute('id');
 		
 		require_once('dbconnect_teste.php');
 		// recolhe id de funcionario "sistema"
@@ -120,7 +124,7 @@
 		$estado=$row['id'];
 		
 		// recolhe informações do form
-		$id = $request->getParsedBody()['idkit'];
+		//$id = $request->getParsedBody()['idkit'];
 
 		$reservante = $request->getParsedBody()['idres'];
 
@@ -129,11 +133,12 @@
 		$date1=date("Y-m-d", strtotime($date1));
 		$date2=date("Y-m-d", strtotime($date2));
 
+
 		$query = "INSERT INTO `reserva` (`id_kit`,`id_reservante`, `id_estado`, `data_inicio`, `data_fim`, `id_funcionario`) VALUES (?, ?, ?, ?, ?, ?)";
 
 		$stmt = $mysqli->prepare($query);
 	
-		$stmt->bind_param("iiissi", $id, $reservante, $estado, $date1, $date2, $func);
+		$stmt->bind_param("iiissi", $idkit, $reservante, $estado, $date1, $date2, $func);
 		
 		$stmt->execute();
 

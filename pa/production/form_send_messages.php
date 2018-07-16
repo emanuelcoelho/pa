@@ -211,7 +211,7 @@
                     <h2>Enviar mensagem <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                        <a href="form_search_send_messages.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
+                        <a href="<?php echo $_SESSION['pageMessage']; ?>" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
                     

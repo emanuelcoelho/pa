@@ -213,31 +213,8 @@
 
                     
                     <form id="demo-form2" action="http://myslimsite/api/teste/reserva1" method="POST" class="form-horizontal form-label-left" enctype="multipart/form-data">
-                     
-                      <div class="form-group">
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
-                          <div class="col-md-6 col-sm-6 col-xs-12">                         
-                            <?php
-
-                              // Assume $db is a PDO object
-                              $query = "SELECT DISTINCT categoria_kit.id, categoria_kit.descricao 
-                                        FROM categoria_kit, kit 
-                                        WHERE categoria_kit.id = kit.id_categoria"; // Run your query
-                              $result=$mysqli->query($query);
-                              $final=[];
-                              echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-                                echo '<option value="'.$row['id'].'">'.$row['descricao'].'</option>';
-                              }
-
-                              echo '</select>';// Close your drop down box
-                            ?>
-                            <span id="msg_cat" name="msg" style="color:red"></span>
-                          </div>
-                        </div>
-
+                     <input type="hidden" name="idres" id="idres" value="<?php echo $_SESSION['id']; ?>">
+                      
                         <div class="form-group">
                           <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar <span style="color:red">*</span></label>
                           <div class="col-md-6 col-sm-6 col-xs-12">
@@ -275,21 +252,12 @@
                               
                                 
                                 <th class="text-center">Kit</th>
-                                <th class="text-center">Stock</th>
                                 <th class="text-center">Categoria</th>
+                                <th class="text-center">Observação</th>
                                 <th></th>
                               </tr>
                             </thead>
-                            <tfoot>
-                              <tr>
-                                
-                               
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Stock</th>
-                                <th class="text-center">Categoria</th>
-                                <th></th>
-                              </tr> 
-                            </tfoot>
+                            
                             <tbody id="tbody">
                         
                           </tbody>
@@ -369,21 +337,30 @@
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
 
-    <script>
-
-      function myFunction(el) {
-        var v = $(el).attr('data-id');        
-        if (v != undefined && v != null) {
-          window.location = '/pa/production/form_search_singleKit.php?var=' + v;
-        }
-      }
-
-    </script>
     
+
     <script>
 
       $(document).ready(function(){
 
+        $(".msgm").click(function(){ // Click to only happen on announce links
+
+      var v = $(this).attr("id");        
+      if (v != undefined && v != null) {
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
+                  }
+        });
+      }  
+     });
+
+  
 
 
         $( function() {
@@ -408,33 +385,35 @@
           dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
           dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
           weekHeader: "Sem",
-            minDate: 2,
-            dateFormat: "yy-mm-dd", 
-            onSelect: function(selectedDate) {
+          beforeShowDay: $.datepicker.noWeekends,
+          minDate: 2,
+          dateFormat: "yy-mm-dd", 
+          onSelect: function(selectedDate) {
 
-              $("#to_date").datepicker("option", "minDate", selectedDate);
+            $("#to_date").datepicker("option", "minDate", selectedDate);
 
-              $("#to_date").val('');
-            }
-          });      
+            $("#to_date").val('');
+          }
+        });      
 
           $("#to_date").datepicker({
             monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-          "Jul","Ago","Set","Out","Nov","Dez" ],
-          dayNames: [
-            "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-          ],
-          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          weekHeader: "Sem",
+            "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
+            monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
+            "Jul","Ago","Set","Out","Nov","Dez" ],
+            dayNames: [
+              "Domingo",
+              "Segunda-feira",
+              "Terça-feira",
+              "Quarta-feira",
+              "Quinta-feira",
+              "Sexta-feira",
+              "Sábado"
+            ],
+            dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+            dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
+            weekHeader: "Sem",
+            beforeShowDay: $.datepicker.noWeekends,
             minDate: 2,
             dateFormat: "yy-mm-dd"
           });
@@ -531,6 +510,32 @@
     });
 
     </script>
-	
+	    
+    <script>
+      function myFunction(el) {
+        var v = $(el).attr('data-id');        
+        if (v != undefined && v != null) {
+         // window.location = '/pa/production/form_search_singleKit.php?var=' + v;
+           var form = $('#demo-form2');
+
+       // var v = $(this).data('id'); 
+        //var dataObject = { 'num': v};
+        //var form2 = $('#formtabela');
+        var formData = $(form).serialize();
+        $.ajax({
+          type: 'post',
+                  url: "http://myslimsite/api/teste/reserva2/num="+v,
+                  data: formData,
+                  dataType: "html",
+                  success: function(data) { 
+                    location.reload();
+                  }
+        });
+        }
+      }
+
+
+      
+    </script>
   </body>
 </html>

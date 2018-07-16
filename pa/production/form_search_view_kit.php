@@ -229,18 +229,10 @@
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
-                              <th></th>
+                              <th class="text-center">Informação</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
- 
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                              <th></th>
-                            </tr> 
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 
@@ -409,7 +401,7 @@
 
       var v = $(this).data('id');        
       if (v != undefined && v != null) {
-          window.location = '/pa/production/form_view_kit.php?var=' + v;
+          window.location = '/pa/production/form_search_singlekit.php?var=' + v;
       }
        
      });

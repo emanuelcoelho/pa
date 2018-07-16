@@ -253,8 +253,8 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <h2><b><i class="fa fa-file-pdf-o"></i><a href="download1.php">&nbsp;&nbsp;Manuel de Utilizador.pdf</a>
-                    <h2><b><i class="fa fa-file-pdf-o" <?php echo $style_ver_admin;?> ></i><a <?php echo $style_ver_admin;?> href="download2.php">&nbsp;&nbsp;Manuel de Administrador.pdf</a>
+                    <h2><b><i class="fa fa-file-pdf-o"></i><a href="download1.php">&nbsp;&nbsp;Manual de Utilizador.pdf</a>
+                    <h2><b><i class="fa fa-file-pdf-o" <?php echo $style_ver_admin;?> ></i><a <?php echo $style_ver_admin;?> href="download2.php">&nbsp;&nbsp;Manual de Administrador.pdf</a>
 
                   </div>
 

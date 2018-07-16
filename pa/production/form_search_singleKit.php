@@ -304,10 +304,10 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Ver kit <small>Reserve aqui o seu kit (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
+                    <h2>Ver kit </h2>
                      <div class="title_right">
                         <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
-                          <a href="form_search_reserva.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
+                          <a href="form_search_view_kit.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                         </div>
                       </div>
                     
@@ -387,18 +387,7 @@
                                 <th>Foto</th>
                               </tr>
                             </thead>
-                            <tfoot>
-                              <tr>
-                                
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                                <th>Observações</th>
-                                <th>Foto</th>
-                              </tr> 
-                            </tfoot>
+                            
                             <tbody>
                               <?php
                                 
@@ -455,36 +444,7 @@
                             </tbody>
                           </table>
                         </form>
-                        <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2" method="POST" enctype="multipart/form-data">
-                          
-                          <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar <span style="color:red">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" name="from_date" readonly>
-                              <span id="msg_inicio" name="msg" style="color:red"></span>
-                            </div>
-                          </div>
-
-                          <div class="form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar <span style="color:red">*</span></label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                              <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" name="to_date" readonly>
-                              <span id="msg_fim" name="msg" style="color:red"></span>
-                            </div>
-                          </div>
-
-
-                          <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label1">  </label> 
-
-                        </div>
-                          <input type="hidden" name="idkit" id="idkit" value="<?php echo $id; ?>">
-                          <input type="hidden" name="idres" id="idres" value="<?php echo $_SESSION['id']; ?>">
-                          <button type="submit" class="btn btn-success" style="font-size: 40px;display:block;margin-left: auto;margin-right: auto">Requisitar</button>
-                          <span id="msg" name="msg" class="col-md-12 col-sm-12 col-xs-12 form-group" align="center"></span>        
-                        </div>
-
-                      </form>
-
+                        
                     <!--</form>-->
                   </div>
                 </div>
@@ -663,6 +623,24 @@
 
     <script>
       $(document).ready(function(){
+
+
+        $(".msgm").click(function(){ // Click to only happen on announce links
+
+      var v = $(this).attr("id");        
+      if (v != undefined && v != null) {
+        $.ajax({
+          type: 'put',
+                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+                  contentType: false,
+                  cache: false,
+                  processData:false,
+                  success: function(data) { 
+                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
+                  }
+        });
+      }  
+     });
 
         var arrayFromPHP = <?php echo json_encode($inicio); ?>;
         var limite=parseInt($("#limite").val());

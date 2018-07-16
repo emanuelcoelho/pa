@@ -275,20 +275,10 @@
                               <th>Marca</th>
                               <th>Modelo</th>
                               <th>Categoria</th>
-                              <th>Kit</th>
                               <th>Estado</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              <th></th>
-                              <th>Marca</th>
-                              <th>Modelo</th>
-                              <th>Categoria</th>
-                              <th>Kit</th>
-                              <th>Estado</th>
-                            </tr> 
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 
@@ -322,7 +312,6 @@
                                         <td> '.$row['marca'].'</td> 
                                         <td>'.$row['modelo'].'</td>
                                         <td>'.$row['descCat'].'</td> 
-                                        <td>'.$row['descKit'].'</td> 
                                         <td>'.$row['descEst'].'</td>
                                       </tr>';
                               }

@@ -230,19 +230,10 @@
                               <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
-                              <th></th>
+                              <th class="text-center">Editar</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                             
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                              <th></th>
-                            </tr>
-                          </tfoot>
+                        
                           <tbody>
                             <?php
 
@@ -381,7 +372,7 @@
      $('#table').DataTable( {
         "order": [[ 0, "desc" ]],
         "columnDefs": [
-          { "orderable": false, "targets": 1 }
+          { "orderable": false, "targets": 4 }
         ],
         "language": {
           "lengthMenu": "_MENU_ Registos por página",

@@ -247,6 +247,7 @@
                           <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row['email'] ?>" disabled>
                           <span id="msg_email" name="msg" style="color:red"></span>
                         </div>
+                        <button id="button[]" type="button" class="btn btn-primary botao" data-id="<?php echo $row['id']; ?>" <?php echo $style_criar_msg;?>>Enviar mensagem</button>
                       </div>
                       
                       <div class="form-group">
@@ -284,6 +285,8 @@
                                echo '   >'.$row2['descricao'].'</option>';
                             }
                             echo '</select>';// Close your drop down box
+
+                            $_SESSION['pageMessage'] = 'form_info_user.php?var='.$id;
                           ?>
                           <span id="msg_cat" name="msg" style="color:red"></span>
                         </div>
@@ -378,7 +381,14 @@
     <script>
     $(document).ready(function(){
 
+       $(".botao").click(function(){
 
+        var i = $(this).data('id');        
+        if (i != undefined && i != null) {
+          window.location = "/pa/production/form_send_messages.php?var=" + i;
+        }
+
+      });
 
      $(".msgm").click(function(){ // Click to only happen on announce links
 

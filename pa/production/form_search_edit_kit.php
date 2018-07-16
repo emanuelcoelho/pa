@@ -229,18 +229,10 @@
                               <th class="text-center">Nome kit</th>
                               <th class="text-center">Categoria</th>
                               <th class="text-center">Limite data</th>
-                              <th></th>
+                              <th class="text-center">Editar</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              
-                              <th class="text-center">Nome kit</th>
-                              <th class="text-center">Categoria</th>
-                              <th class="text-center">Limite data</th>
-                              <th></th>
-                            </tr> 
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 

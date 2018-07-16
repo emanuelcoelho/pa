@@ -194,7 +194,7 @@
               top:30%;
               left:30%;
               right:0;
-              bottom:0;" >    
+              bottom:0;" width="900" >    
                         
         </div>
         <!-- /page content -->

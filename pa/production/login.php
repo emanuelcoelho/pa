@@ -60,7 +60,7 @@
                 <br />
 
                 <div>
-                  <img src="logo_cores_desc.png" style="width:275px;height:35px;">
+                  <img src="logo_cores_desc.png" style="width:275px;height:90px;">
                   <br>
                   <br>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
@@ -99,7 +99,9 @@
                 <br />
 
                 <div>
-                  <h1><i class="fa fa-book"></i> IPVC Reservas</h1>
+                  <img src="logo_cores_desc.png" style="width:275px;height:90px;">
+                  <br>
+                  <br>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
               </div>

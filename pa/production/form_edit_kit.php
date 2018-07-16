@@ -313,20 +313,10 @@
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Categoria</th>
-                                <th></th>
+                                <th class="text-center">Adicionar/Remover</th>
                               </tr>
                             </thead>
-                            <tfoot>
-                              <tr>
-                                
-                                <th class="text-center">Marca</th>
-                                <th class="text-center">Modelo</th>
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Estado</th>
-                                <th class="text-center">Categoria</th>
-                                <th></th>
-                              </tr> 
-                            </tfoot>
+                           
                             <tbody>
                               <?php
                                 
@@ -537,7 +527,7 @@
         //var formData = $(this).serialize();
         $.ajax({
           type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
+                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num=3",
                   contentType: false,
                   cache: false,
                   processData:false,

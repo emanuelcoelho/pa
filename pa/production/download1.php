@@ -1,5 +1,5 @@
 <?php
-$filename = 'Manuel de Utilizador.pdf'; // of course find the exact filename....        
+$filename = 'Manual de Utilizador.pdf'; // of course find the exact filename....        
 header('Pragma: public');
 header('Expires: 0');
 header('Cache-Control: must-revalidate, post-check=0, pre-check=0');

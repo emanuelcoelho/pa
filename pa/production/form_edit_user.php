@@ -5,6 +5,8 @@
   require_once('session.php');
   // actualiza as SESSION com informações novas do utilizador caso tenha editado o próprio perfil
   require_once('sessionUpdate.php');
+  // actualiza as SESSION com permissões do utilizador
+  require_once('sessionUpdateGroup.php');
   // verifica se tem permissão para editar utilizadores e grupos
   require_once('session_user_editar.php');
   // numero de reservas pendentes e em atraso, tambem actualiza reservas em progresso para em atraso se for necessario
@@ -237,7 +239,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" >
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" <?php if(strtolower($row['username']) == "sistema") { echo "readonly"; } ?> >
                           <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>

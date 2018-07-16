@@ -255,21 +255,10 @@
                               <th class="text-center">Data final</th>
                               <th class="text-center">Estado</th>
                               <th class="text-center">Observação</th>
-                              <th></th>
+                              <th class="text-center">Abrir Reserva</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              <th class="text-center">Requisitante</th>
-                              <th class="text-center">Funcionário</th>
-                              <th class="text-center">Kit</th>
-                              <th class="text-center">Data inicial</th>
-                              <th class="text-center">Data final</th>
-                              <th class="text-center">Estado</th>
-                              <th class="text-center">Observação</th>
-                              <th></th>
-                            </tr>
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 

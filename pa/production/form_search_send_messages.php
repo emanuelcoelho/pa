@@ -186,6 +186,8 @@
                                         </li>';
                                 }
 
+                                $_SESSION['pageMessage'] = 'form_search_send_messages.php';
+
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -230,19 +232,10 @@
                               <th class="text-center">Número Mecatrónico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
-                              <th></th>
+                              <th class="text-center">Enviar Mensagem</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
-                              <th></th>
-                            </tr>
-                          </tfoot>
+                          
                           <tbody>
                             <?php
 

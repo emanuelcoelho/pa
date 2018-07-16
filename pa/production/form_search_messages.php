@@ -230,19 +230,10 @@
                               <th class="text-center">Estado</th>
                               <th class="text-center">Assunto</th>
                               <th class="text-center">Mensagem</th>
-                              <th></th>
+                              <th class="text-center">Abrir Mensagem</th>
                             </tr>
                           </thead>
-                          <tfoot>
-                            <tr>
-                              
-                              <th class="text-center">Data</th>
-                              <th class="text-center">Estado</th>
-                              <th class="text-center">Assunto</th>
-                              <th class="text-center">Mensagem</th>
-                              <th></th>
-                            </tr> 
-                          </tfoot>
+                       
                           <tbody>
                             <?php
 
