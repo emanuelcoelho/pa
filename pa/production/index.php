@@ -190,9 +190,9 @@
         <!-- page content -->
         <div class="right_col" role="main" >
         
-            <img src="logo_cores_desc.png" style="width:900px;height:200px;position:absolute;
+            <img src="logo_cores_desc.png" style="position:absolute;
               top:30%;
-              left:33%;
+              left:30%;
               right:0;
               bottom:0;" >    
                         
