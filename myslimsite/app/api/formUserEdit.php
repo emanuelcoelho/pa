@@ -1,5 +1,4 @@
 <?php 
-
 	// editar informações de utilizador
 	$app->put('/api/formEditUser/update', function($request, $response, $args) {
 		
@@ -13,6 +12,7 @@
 		$phone = $request->getParsedBody()['phonenumber'];
 		$grupo = $request->getParsedBody()['desc'];
 		$id = $request->getParsedBody()['iduser'];
+		$nome = $request->getParsedBody()['nome'];
 
 		// passa o username para letras minusculas
 		$comp = strtolower($username);
@@ -37,9 +37,9 @@
 				// se não encontrar outro username com nome sistema actualiza bd e manda alerta
 				if ($count<=0){
 
-					$sql = "UPDATE `user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
+					$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
 					$stmt = $mysqli->prepare($sql);
-					$stmt->bind_param("sssiiii", $username, $password, $email, $number, $phone, $grupo, $id);
+					$stmt->bind_param("ssssiiii", $nome, $username, $password, $email, $number, $phone, $grupo, $id);
 
 					$stmt->execute();
 					echo "Utilizador editado com sucesso!";
@@ -55,9 +55,9 @@
 			{
 				// se username for diferente de sistema actualiza a bd automaticamente
 
-				$sql = "UPDATE `user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
+				$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
-				$stmt->bind_param("sssiiii", $username, $password, $email, $number, $phone, $grupo, $id);
+				$stmt->bind_param("ssssiiii", $nome, $username, $password, $email, $number, $phone, $grupo, $id);
 
 				$stmt->execute();
 				echo "Utilizador editado com sucesso!";
@@ -82,6 +82,7 @@
 		$number = $request->getParsedBody()['number'];
 		$phone = $request->getParsedBody()['phonenumber'];
 		$id = $request->getParsedBody()['iduser'];
+		$nome = $request->getParsedBody()['nome'];
 
 		// passa o username para letras minusculas
 		$comp = strtolower($username);
@@ -106,9 +107,9 @@
 				// se não encontrar outro username com nome sistema actualiza bd e manda alerta
 				if ($count<=0){
 
-					$sql = "UPDATE `user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
+					$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
 					$stmt = $mysqli->prepare($sql);
-					$stmt->bind_param("sssiii", $username, $password, $email, $number, $phone, $id);
+					$stmt->bind_param("ssssiii", $nome, $username, $password, $email, $number, $phone, $id);
 
 					$stmt->execute();
 					echo "Utilizador editado com sucesso!";
@@ -122,10 +123,10 @@
 			else
 			{
 				// se username for diferente de sistema actualiza a bd automaticamente
-
-				$sql = "UPDATE `user` SET `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
+				$mysqli->query("SET NAMES utf8");
+				$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
-				$stmt->bind_param("sssiii", $username, $password, $email, $number, $phone, $id);
+				$stmt->bind_param("ssssiii", $nome, $username, $password, $email, $number, $phone, $id);
 
 				$stmt->execute();
 				echo "Utilizador editado com sucesso!";

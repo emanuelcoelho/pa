@@ -1,4 +1,5 @@
 <?php
+header ('Content-type: text/html; charset=utf-8');
   // ligaçao a bd
   require_once('dbconnect_teste.php');
   // define as permissoes e verifica se tem sessao iniciada
@@ -56,7 +57,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo $_SESSION['username']; ?></h2>
+                <h2><?php echo utf8_encode($_SESSION['username']); ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -76,6 +77,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
@@ -128,7 +130,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo $_SESSION['username']; ?>
+                    <?php echo utf8_encode($_SESSION['username']); ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

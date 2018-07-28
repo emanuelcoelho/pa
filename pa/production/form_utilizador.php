@@ -218,9 +218,17 @@
                       <input type="hidden" name="iduser" id="iduser" value="<?php echo $row['id'] ?>">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nome">Nome de utilizador <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row["username"] ?>" <?php if(strtolower($row['username']) == "sistema") { echo "readonly"; } ?>>
+                          <input type="text" id="nome" name="nome" class="form-control col-md-7 col-xs-12" value="<?php echo $row['nome'] ?>">
+                          <span id="msg_nome" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username de utilizador <span style="color:red">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo utf8_encode($row["username"]);  ?>" <?php if(strtolower($row['username']) == "sistema") { echo "readonly"; } ?>>
                           <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -242,7 +250,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecatrónico <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecanográfico <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1  value="<?php echo $row["numero"]; ?>">
                           <span id="msg_number" name="msg" style="color:red"></span>
@@ -394,10 +402,11 @@
             var message1 = $('#username').val();  
             var message2 = $('#email').val();  
             var message3 = $('#password').val();
-            var message4 = $('#number').val();     
+            var message4 = $('#number').val();
+            var message5 = $('#nome').val();      
 
 
-            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' )  
+            if(message1 == '' || message2 == '' || message3 == '' || message4 == '' || message5 == '' )  
             {  
 
               if( message1 == '' )  
@@ -434,6 +443,15 @@
               else
               {
                 $('#msg_number').html("");
+              }
+
+              if( message5 == '' )  
+              {  
+                $('#msg_nome').html("Deve preencher este campo de forma válida! Ex: Pedro Silva");
+              }
+              else
+              {
+                $('#msg_nome').html("");
               }
                    
             }  

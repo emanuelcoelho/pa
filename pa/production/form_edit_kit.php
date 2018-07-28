@@ -527,7 +527,7 @@
         //var formData = $(this).serialize();
         $.ajax({
           type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num=3",
+                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
                   contentType: false,
                   cache: false,
                   processData:false,

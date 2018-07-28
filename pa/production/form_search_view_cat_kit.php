@@ -3,12 +3,12 @@
   require_once('dbconnect_teste.php');
   // define as permissoes e verifica se tem sessao iniciada
   require_once('session.php');
-  // verifica se tem permissão para ver utilizadores
-  require_once('session_user_ver.php');
+  // verifica se tem permissão para ver
+  require_once('session_ver.php');
   // numero de reservas pendentes e em atraso, tambem actualiza reservas em progresso para em atraso se for necessario
   require_once('sessionReservas.php'); 
   // numero de mensagens
-  require_once('sessionMessages.php');
+  require_once('sessionMessages.php');  
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +82,7 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-               <h3>Navegação</h3>
+                <h3>Navegação</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i> Home </a></li>
                   <li <?php echo $style_reservar;?> ><a href="form_search_reserva.php"><i class="fa fa-archive"></i> Reservar kit </a></li>
@@ -90,9 +90,10 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
-                  <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
+                  <li <?php echo $style_reservas;?> ><a><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_reservas;?> ><a href="form_search_pendente.php">Reservas pendentes <?php echo $_SESSION['pendenteAviso']; ?></a></li>
                       <li <?php echo $style_reservas;?> ><a href="form_search_atraso.php">Reservas em atraso <?php echo $_SESSION['atrasoAviso']; ?></a></li>
@@ -103,7 +104,7 @@
                   <li <?php echo $style_menu_criar;?> ><a ><i class="fa fa-edit" ></i> Criar <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li <?php echo $style_criar_editar;?> ><a href="form_item.php">Item</a></li>
-                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item  </a></li>
+                      <li <?php echo $style_criar_editar;?> ><a href="form_categoria_item.php">Categoria item</a></li>
                       <li <?php echo $style_criar_editar;?> ><a href="form_kit.php">Kit</a></li>
                       <li <?php echo $style_criar_editar;?> ><a href="form_categoria_kit.php">Categoria kit</a></li>      
                       <li <?php echo $style_criar_editar;?> ><a href="form_estado.php">Estado</a></li>
@@ -208,7 +209,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Pesquisar utilizadores <small></small></h2>
+                    <h2>Ver categorias <small>Pesquise pela categoria</small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
@@ -225,27 +226,25 @@
                         <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              <th class="text-center">Nome</th>
-                              <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecanográfico</th>
-                              <th class="text-center">Email</th>
-                              <th class="text-center">Grupo</th>
+                              
+                              <th class="text-center">Descrição</th>
                             </tr>
                           </thead>
                           
                           <tbody>
                             <?php
 
+                              // recolhe id do kit "sem kit"
+                              $sql3 = "SELECT * FROM categoria_kit WHERE descricao = 'Sem categoria'";
+                              $result3 = mysqli_query($mysqli,$sql3);
+                              $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
+                              $nokit=$row3['id'];
+
                               // Assume $db is a PDO object
                               
-                              $query = "SELECT user.id,
-                                        user.nome, 
-                                        user.username,
-                                        user.email,
-                                        user.numero, 
-                                        grupo.descricao AS descGroup 
-                                        FROM user 
-                                        INNER JOIN grupo ON user.id_grupo = grupo.id";
+                              $query = "SELECT *
+                                        FROM categoria_kit 
+                                        WHERE id!='$nokit'";
                               $result=$mysqli->query($query);
                               
 
@@ -253,12 +252,9 @@
                               while ($row = $result->fetch_assoc()) {
                                 
 
-                                 echo '<tr>
-                                        <td> '.utf8_encode($row['nome']).'</td>
-                                        <td> '.utf8_encode($row['username']).'</td>
-                                        <td> '.$row['numero'].'</td> 
-                                        <td> '.$row['email'].'</td>  
-                                        <td>'.$row['descGroup'].'</td>
+                                 echo '<tr> 
+                                        
+                                        <td>'.$row['descricao'].'</td> 
                                       </tr>';
                               }
 
@@ -344,8 +340,12 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
+
+    
     <script>
     $(document).ready(function(){
+
+
 
      $(".msgm").click(function(){ // Click to only happen on announce links
 
@@ -382,8 +382,11 @@
       });
 
 
-    });
+      
+
+   });
     </script>
+
 
 	
   </body>

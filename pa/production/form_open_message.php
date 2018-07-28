@@ -244,21 +244,7 @@
 
 
                       
-                        <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>
-
-
-                  <!--  <div class="col-md-8 col-lg-8 col-sm-7">
-                     
-                      
-                        <h2><p><?php echo $row['mensagem']; ?></p></h2>
-                      
-
-                      <blockquote class="blockquote-reverse">
-                        <p><?php echo $row['mensagem']; ?></p>
-                      </blockquote>
-                    </div>
-                  -->
-                    
+                        <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>                    
                     
                   </div>
                 </div>

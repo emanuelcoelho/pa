@@ -229,7 +229,7 @@
                             <tr>
                               
                               <th class="text-center">Username</th>
-                              <th class="text-center">Número Mecatrónico</th>
+                              <th class="text-center">Número Mecanográfico</th>
                               <th class="text-center">Email</th>
                               <th class="text-center">Grupo</th>
                               <th class="text-center">Enviar Mensagem</th>

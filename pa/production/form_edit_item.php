@@ -92,6 +92,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
@@ -243,7 +244,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['marca'] ?>">
                           <span id="msg_marca" name="msg" style="color:red"></span>
@@ -251,7 +252,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['modelo'] ?>">
                           <span id="msg_modelo" name="msg" style="color:red"></span>
@@ -259,17 +260,17 @@
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_number'] ?>">
+                          <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row2['serial_number'] ?>">
                           <span id="msg_serialnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['serial_ipvc'] ?>">
+                          <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12"  value="<?php echo $row2['serial_ipvc'] ?>">
                           <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
@@ -562,7 +563,6 @@
 
             var message1 = $('#marca').val();  
             var message2 = $('#descricao').val();  
-              
             var message4 = $('#visivel').val();  
             var message5 = $('#desc').val();  
             var message6 = $('#image').val();
@@ -579,17 +579,8 @@
             ?> 
 
 
-            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '<?php echo $semcat; ?>' || message7 == '' || message8 == '' || message9 == '' )  
+            if( message2 == '' ||  message4 == '' || message5 == '<?php echo $semcat; ?>' )  
             {  
-
-              if( message1 == '' )  
-              {  
-                $('#msg_marca').html("Deve preencher este campo de forma válida! Ex: Canon");
-              }
-              else
-              {
-                $('#msg_marca').html("");
-              }
 
               if( message2 == '' )  
               {  
@@ -609,42 +600,13 @@
                 $('#msg_visivel').html("");
               }
 
-              if( message5 == '1' )  
+              if( message5 == '<?php echo $semcat; ?>' )  
               {  
                 $('#msg_desc').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
               }
               else
               {
                 $('#msg_desc').html("");
-              }
-
-
-
-              if( message7 == '' )  
-              {  
-                $('#msg_serialnumber').html("Deve preencher este campo de forma válida! Ex: 1002392");
-              }
-              else
-              {
-                $('#msg_serialnumber').html("");
-              }
-
-              if( message8 == '' )  
-              {  
-                $('#msg_ipvcnumber').html("Deve preencher este campo de forma válida! Ex: 293");
-              }
-              else
-              {
-                $('#msg_ipvcnumber').html("");
-              }
-
-              if( message9 == '' )  
-              {  
-                $('#msg_modelo').html("Deve preencher este campo de forma válida! Ex: 500D");
-              }
-              else
-              {
-                $('#msg_modelo').html("");
               }
               
               

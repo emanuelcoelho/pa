@@ -3,8 +3,8 @@
   require_once('dbconnect_teste.php');
   // define as permissoes e verifica se tem sessao iniciada
   require_once('session.php');
-  // verifica se tem permissão para reservar kits
-  require_once('session_reservar.php');
+  // verifica se tem permissão para ver
+  require_once('session_ver.php');
   // numero de reservas pendentes e em atraso, tambem actualiza reservas em progresso para em atraso se for necessario
   require_once('sessionReservas.php'); 
   // numero de mensagens

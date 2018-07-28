@@ -215,7 +215,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Informaçoes de <?php echo $row['username'] ?> <small>Insira as informações necessárias</small></h2>
+                    <h2>Informaçoes de <?php echo $row['username'] ?> <small></small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
                         <a href="<?php echo $_SESSION['paginaAnterior']; ?>" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
@@ -232,10 +232,16 @@
 
                       
 
-                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nome">Nome de utilizador </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="nome" name="nome" class="form-control col-md-7 col-xs-12" value="<?php echo $row['nome'] ?>" disabled>
+                          <span id="msg_nome" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Nome de utilizador </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username de utilizador </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="username" name="username" class="form-control col-md-7 col-xs-12" value="<?php echo $row['username'] ?>" disabled>
                           <span id="msg_username" name="msg" style="color:red"></span>
@@ -251,7 +257,7 @@
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número de aluno </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecanográfico </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1 value="<?php echo $row['numero'] ?>" disabled>
                           <span id="msg_number" name="msg" style="color:red"></span>

@@ -213,14 +213,14 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="marca" name="marca" class="form-control col-md-7 col-xs-12">
                           <span id="msg_marca" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="modelo" name="modelo" class="form-control col-md-7 col-xs-12">
                           <span id="msg_modelo" name="msg" style="color:red"></span>
@@ -228,14 +228,14 @@
                       </div>
                       
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="serialnumber" name="serialnumber" class="form-control col-md-7 col-xs-12" min="1">
                           <span id="msg_serialnumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="ipvcnumber" name="ipvcnumber" class="form-control col-md-7 col-xs-12" min="1">
                           <span id="msg_ipvcnumber" name="msg" style="color:red"></span>
@@ -310,7 +310,7 @@
                         </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia <span style="color:red">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                           <input type="file" id="image" name="image" class="form-control col-md-7 col-xs-12" />
                           <span id="msg_image" name="msg" style="color:red"></span>
@@ -490,17 +490,8 @@
             ?> 
 
 
-            if(message1 == '' || message2 == '' ||  message4 == '' || message5 == '<?php echo $semcat; ?>' || message6 == '' || message7 == '' || message8 == '' || message9 == '' || message10 == '' )  
+            if(message2 == '' ||  message4 == '' || message5 == '<?php echo $semcat; ?>' || message10 == '' )  
             {  
-
-              if( message1 == '' )  
-              {  
-                $('#msg_marca').html("Deve preencher este campo de forma válida! Ex: Canon");
-              }
-              else
-              {
-                $('#msg_marca').html("");
-              }
 
               if( message2 == '' )  
               {  
@@ -520,49 +511,13 @@
                 $('#msg_visivel').html("");
               }
 
-              if( message5 == '1' )  
+              if( message5 == '<?php echo $semcat; ?>' )  
               {  
                 $('#msg_desc').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
               }
               else
               {
                 $('#msg_desc').html("");
-              }
-
-              if( message6 == '' )  
-              {  
-                $('#msg_image').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_image').html("");
-              }
-
-              if( message7 == '' )  
-              {  
-                $('#msg_serialnumber').html("Deve preencher este campo de forma válida! Ex: 1002392");
-              }
-              else
-              {
-                $('#msg_serialnumber').html("");
-              }
-
-              if( message8 == '' )  
-              {  
-                $('#msg_ipvcnumber').html("Deve preencher este campo de forma válida! Ex: 293");
-              }
-              else
-              {
-                $('#msg_ipvcnumber').html("");
-              }
-
-              if( message9 == '' )  
-              {  
-                $('#msg_modelo').html("Deve preencher este campo de forma válida! Ex: 500D");
-              }
-              else
-              {
-                $('#msg_modelo').html("");
               }
 
               if( message10 == '' )  
