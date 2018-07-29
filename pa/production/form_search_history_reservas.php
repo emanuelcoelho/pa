@@ -72,7 +72,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo $_SESSION['username']; ?></h2>
+                <h2><?php echo utf8_encode($_SESSION['username']); ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -145,7 +145,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo $_SESSION['username']; ?>
+                    <?php echo utf8_encode($_SESSION['username']); ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

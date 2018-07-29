@@ -3,7 +3,7 @@
   // ao iniciar sessão grava várias permissões em SESSION para serem utilizadas no site
 
   session_start();
-  $username=$_SESSION['username'];
+  $username=utf8_encode($_SESSION['username']);
 
 
   $style_ver = "";
