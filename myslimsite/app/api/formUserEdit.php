@@ -27,34 +27,14 @@
 
 			// compara username para verificar se escreveu sistema
 			if($comp=='sistema' )
-			{
-
-				// verifica se existe algum utilizador com username de sistema e id diferente
-				$query = "SELECT * FROM user WHERE username = 'sistema' AND id!='$id'";
-				$result = mysqli_query($mysqli,$query);
-				$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-				$count = mysqli_num_rows($result);
-				// se não encontrar outro username com nome sistema actualiza bd e manda alerta
-				if ($count<=0){
-
-					$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
-					$stmt = $mysqli->prepare($sql);
-					$stmt->bind_param("ssssiiii", $nome, $username, $password, $email, $number, $phone, $grupo, $id);
-
-					$stmt->execute();
-					echo "Utilizador editado com sucesso!";
-
-				}
-				else if ($count>=1)
-				{
-					// se encontrar outro username com nome sistema não actualiza bd e manda alerta
-					echo"Já existe utilizador com o username sistema, por favor utilize outro nome!";
-				}
+			{				
+				// se encontrar outro username com nome sistema não actualiza bd e manda alerta
+				echo "Já existe utilizador com o username sistema, por favor utilize outro nome!";	
 			}
 			else
 			{
 				// se username for diferente de sistema actualiza a bd automaticamente
-
+				//$mysqli->query("SET NAMES utf8");
 				$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ?, `id_grupo` = ? WHERE `user`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
 				$stmt->bind_param("ssssiiii", $nome, $username, $password, $email, $number, $phone, $grupo, $id);
@@ -98,32 +78,13 @@
 			// compara username para verificar se escreveu sistema
 			if($comp=='sistema' )
 			{
-
-				// verifica se existe algum utilizador com username de sistema e id diferente
-				$query = "SELECT * FROM user WHERE username = 'sistema' AND id!='$id'";
-				$result = mysqli_query($mysqli,$query);
-				$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-				$count = mysqli_num_rows($result);
-				// se não encontrar outro username com nome sistema actualiza bd e manda alerta
-				if ($count<=0){
-
-					$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
-					$stmt = $mysqli->prepare($sql);
-					$stmt->bind_param("ssssiii", $nome, $username, $password, $email, $number, $phone, $id);
-
-					$stmt->execute();
-					echo "Utilizador editado com sucesso!";
-				}
-				else if ($count>=1)
-				{
-					// se encontrar outro username com nome sistema não actualiza bd e manda alerta
-					echo"Já existe utilizador com o username sistema, por favor utilize outro nome!";
-				}
+				// se encontrar outro username com nome sistema não actualiza bd e manda alerta
+				echo "Já existe utilizador com o username sistema, por favor utilize outro nome!";
 			}
 			else
 			{
 				// se username for diferente de sistema actualiza a bd automaticamente
-				$mysqli->query("SET NAMES utf8");
+				//$mysqli->query("SET NAMES utf8");
 				$sql = "UPDATE `user` SET `nome` = ?, `username` = ?, `password` = ?, `email` = ?, `numero` = ?, `telefone` = ? WHERE `user`.`id` = ?";
 				$stmt = $mysqli->prepare($sql);
 				$stmt->bind_param("ssssiii", $nome, $username, $password, $email, $number, $phone, $id);

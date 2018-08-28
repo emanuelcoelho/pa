@@ -87,7 +87,7 @@
 
 
 		// Loop through the query results, outputing the options one by one
-		while ($row = $result->fetch_assoc()) {
+		while ($row = $result->fetch_assoc()) {  
 			echo '<tr> 
 					
 

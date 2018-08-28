@@ -49,6 +49,7 @@
 		$cat = $request->getParsedBody()['desc'];
 		$id = $request->getParsedBody()['idkit'];
 		$obs = $request->getParsedBody()['obs'];
+		$designacao = $request->getParsedBody()['designacao'];
 
 		// passa a descricao para letras minusculas
 		$comp = strtolower($descricao);
@@ -66,9 +67,9 @@
 			if ($count<=0)
 			{
 				// altera informações do kit na bd
-				$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
+				$sql = "UPDATE `kit` SET `descricao` = ?, `designacao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
 				$stmt = $mysqli->prepare($sql);
-				$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
+				$stmt->bind_param("ssiisi", $descricao, $designacao, $limite, $cat, $obs, $id);
 
 				$stmt->execute();	
 
@@ -84,9 +85,9 @@
 		{
 
 			// altera informações do kit na bd
-			$sql = "UPDATE `kit` SET `descricao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
+			$sql = "UPDATE `kit` SET `descricao` = ?, `designacao` = ?, `limite_data` = ?, `id_categoria` = ?, `observacao` = ? WHERE `id` = ?";
 			$stmt = $mysqli->prepare($sql);
-			$stmt->bind_param("siisi", $descricao, $limite, $cat, $obs, $id);
+			$stmt->bind_param("ssiisi", $descricao, $designacao, $limite, $cat, $obs, $id);
 
 			$stmt->execute();	
 

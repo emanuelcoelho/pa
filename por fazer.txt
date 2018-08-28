@@ -1,0 +1,46 @@
+nome completo no utilizador: 
+	editar users - done
+	editar perfil - done
+	informaçoes user - done
+	pesquisa utilizadores
+corrigir problemas de acentos recebidos atraves de php - done (solução no index, onde apresenta username)
+	username em todas as paginas - done
+	apresentar mensagens no canto superior direito - done
+	aplicar soluçao no resto do site - done
+corrigir problema de acentos enviados atraves de api - done (soluçao no dbconnect_teste)
+	aplicar soluçao no resto do site - done
+foto por defeito caso nao ponha foto no item (id_item.png) - done
+foto com nome automatico(id_item.png) - done
+botao eliminar kit do item - done
+coisas obrigatorias no criar item: descriçao, quantidade - done
+coisas obrigatorias no editar item: descriçao, quantidade - done
+pesquisa de categorias de kit - done
+	aplicar botão no resto do site - done
+ao reservar kit, pesquisar apenas por categoria, na tabela ter calendario do kit com as suas ocupaçoes
+numero mecanografico - done
+corrigir mensagens nas paginas do emanuel - done
+kits tem de ter designação "LIAnnn" onde "nnn" vai ser o seu numero
+	criar kit - done
+	editar kit - done
+	reservar kit
+	historico de reservas
+	mensagens de reservas
+	ver kits - done
+em pesquisas de kits meter designação de kit
+	pesquisa editar kit
+	pesquisa reservar kit
+	historico de reservas
+	pesquisa de kits		
+corrigir permissoes na pagina de ver informaçoes de kit - done
+em pesquisas de itens meter a descrição de itens nas tabelas
+	criar kits
+	editar kits
+	pesquisa editar itens
+	pesquisa itens
+
+lia reservas
+laboratorio interaçao e audiovisuais
+lia@estg.ipvc.pt como mail do sistema - done
+
+impressao de ficheiro para reservar kit
+	tentar ficheiro html

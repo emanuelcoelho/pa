@@ -72,7 +72,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo utf8_encode($_SESSION['username']); ?></h2>
+                <h2><?php echo $_SESSION['username']; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -90,6 +90,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
@@ -142,7 +143,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo utf8_encode($_SESSION['username']); ?>
+                    <?php echo $_SESSION['username']; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -215,7 +216,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Informaçoes de <?php echo $row['username'] ?> <small></small></h2>
+                    <h2>Informaçoes de <?php echo $row['username']; ?> <small></small></h2> 
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
                         <a href="<?php echo $_SESSION['paginaAnterior']; ?>" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>

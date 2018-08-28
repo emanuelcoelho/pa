@@ -8,6 +8,7 @@
 		// recolhe informação do form
 		$limite = $request->getParsedBody()['limite'];
 		$descricao = $request->getParsedBody()['descricao'];
+		$designacao = $request->getParsedBody()['designacao'];
 		$cat = $request->getParsedBody()['desc'];
 		$obs = $request->getParsedBody()['obs'];
 
@@ -23,11 +24,11 @@
 		else
 		{
 
-			$query = "INSERT INTO `kit` (`descricao`,`id_categoria`, `limite_data`, `observacao`) VALUES (?, ?, ?, ?)";
+			$query = "INSERT INTO `kit` (`descricao`, `designacao`, `id_categoria`, `limite_data`, `observacao`) VALUES (?, ?, ?, ?, ?)";
 
 			$stmt = $mysqli->prepare($query);
 
-			$stmt->bind_param("siis", $descricao, $cat, $limite, $obs);
+			$stmt->bind_param("ssiis", $descricao, $designacao, $cat, $limite, $obs);
 
 			
 

@@ -72,7 +72,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo utf8_encode($_SESSION['username']); ?></h2>
+                <h2><?php echo $_SESSION['username']; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -90,6 +90,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
@@ -142,7 +143,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo utf8_encode($_SESSION['username']); ?>
+                    <?php echo $_SESSION['username']; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -232,6 +233,17 @@
 
                       <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
                       
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação <span style="color:red">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="designacao" name="designacao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['designacao'] ?>">
+                          <span id="msg_designacao" name="msg" style="color:red"></span>  
+                        </div>
+                        <div class="control-label">
+                            <a  data-toggle="tooltip" title="Ex: Deve introduzir 'LIANNN' onde 'NNN' será um número. Ex: LIA001" class="fa fa-info fa-lg pull-left"></a>
+                        </div>
+                      </div>
+
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -555,6 +567,7 @@
             var message = $('#descricao').val();
             var message2 = $('#desc').val();   
             var message3 = $('#limite').val();
+            var message4 = $('#designacao').val();
 
             <?php 
 
@@ -564,7 +577,7 @@
               $semcat=$row3['id']; 
             ?> 
 
-            if(message == '' || message2 == '<?php echo $semcat; ?>' || message3 == ''  )  
+            if(message == '' || message2 == '<?php echo $semcat; ?>' || message3 == '' || message4 == ''  )  
             {  
               
               if( message == '' )  
@@ -591,6 +604,14 @@
               {
                 $('#msg_limite').html("");
               }
+              if( message4 == '' )  
+              {  
+                $('#msg_designacao').html("Deve preencher este campo de forma válida! Ex: LIA001");
+              }
+              else
+              {
+                $('#msg_designacao').html("");
+              }
               
               
             }  
@@ -614,6 +635,7 @@
               $('#msg_descricao').html("");
               $('#msg_check').html("");
               $('#msg_limite').html("");
+              $('#msg_designacao').html("");
             }
           });
         });

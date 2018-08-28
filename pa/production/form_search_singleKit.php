@@ -167,7 +167,7 @@
             <div class="profile clearfix">
               <div class="profile_info">
                 <span>Bem vindo,</span>
-                <h2><?php echo utf8_encode($_SESSION['username']); ?></h2>
+                <h2><?php echo $_SESSION['username']; ?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -185,6 +185,7 @@
                     <ul class="nav child_menu">
                       <li <?php echo $style_user_ver;?> ><a  href="form_search_user.php">Utilizadores</a></li>
                       <li <?php echo $style_ver;?> ><a  href="form_search_view_kit.php">Kits</a></li>
+                      <li <?php echo $style_ver;?> ><a  href="form_search_view_cat_kit.php">Categorias de kits</a></li>
                     </ul>
                   </li>
                   <li <?php echo $style_reservas;?> ><a  ><i class="fa fa-archive" ></i> Reservas <?php echo $_SESSION['reservasAviso']; ?> <span class="fa fa-chevron-down"></span></a>
@@ -237,7 +238,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo utf8_encode($_SESSION['username']); ?>
+                    <?php echo $_SESSION['username']; ?>
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -327,6 +328,14 @@
                       ?>
 
                       <!--<input type="hidden" name="idkit" id="idkit" value="<?//php echo $row2['id'] ?>">-->
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="designacao" name="designacao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['designacao'] ?>" readonly>
+                          <span id="msg_designacao" name="msg" style="color:red"></span>  
+                        </div>
+                      </div>
                       
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
