@@ -15,22 +15,106 @@
 <html lang="en">
   <head>
 
+  <style>
 
-    <style >
-      
-      .hiddenFielde{
-          display: none;
-      }
-    </style>
+    #myImg {
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #myImg:hover {opacity: 0.7;}
+
+    /* The Modal (background) */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    }
+
+    /* Modal Content (image) */
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+    }
+
+    /* Caption of Modal Image */
+    #caption {
+        margin: auto;
+        display: block;
+        width: 80%;
+        max-width: 700px;
+        text-align: center;
+        color: #ccc;
+        padding: 10px 0;
+        height: 150px;
+    }
+
+    /* Add Animation */
+    .modal-content, #caption {    
+        -webkit-animation-name: zoom;
+        -webkit-animation-duration: 0.6s;
+        animation-name: zoom;
+        animation-duration: 0.6s;
+    }
+
+    @-webkit-keyframes zoom {
+        from {-webkit-transform:scale(0)} 
+        to {-webkit-transform:scale(1)}
+    }
+
+    @keyframes zoom {
+        from {transform:scale(0)} 
+        to {transform:scale(1)}
+    }
+
+    /* The Close Button */
+    .close {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* 100% Image Width on Smaller Screens */
+    @media only screen and (max-width: 700px){
+        .modal-content {
+            width: 100%;
+        }
+    }
+
+  </style>
+
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title> IPVC Reservas </title>
 
+    
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -47,8 +131,9 @@
     <link href="../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
     <!-- starrr -->
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
+    
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="../build/css/custom.min.css" rel="stylesheet">    
     <!-- Datatables -->
     <link href="../vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
@@ -58,11 +143,13 @@
     <!--Jquery Ui -->
     <link rel="stylesheet" href="../vendors/jquery-ui-1.12.1.custom/jquery-ui.css">
 
-    <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
-        <!-- jQuery Ui -->
-    <script src="../vendors/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+     
 
+    
+    
+
+
+    
   </head>
 
   <body class="nav-md">
@@ -211,213 +298,196 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" action="" method="get" class="form-horizontal form-label-left">
+        <div class="right_col" role="main">
           <div class="">
             <div class="clearfix"></div>
             <div class="row">
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Reservar Kit <small></small></h2>
+                    <h2>Ver kit <small>Reserve aqui o seu kit (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
+                     <div class="title_right">
+                        <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                          <a href="form_search_reserva.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
+                        </div>
+                      </div>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />        
+                    <br />
+
+                    
+                    <form id="demo-form2" action="" method=""  class="form-horizontal form-label-left" >
+
+                      <?php
+                            $id = $_GET['var'];
+                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
+                            $result2=$mysqli->query($query2);
+                            $row2 = $result2->fetch_assoc();
+                      ?>
+
+                      <!--<input type="hidden" name="idkit" id="idkit" value="<?//php echo $row2['id'] ?>">-->
                       
-                      <div class="form-group" id="demo-form1">
-                        <table id="table" class="table table-striped table-bordered bulk_action text-center dt-responsive nowrap" cellspacing="0" width="100%">
-                        
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
-                          <thead>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>" readonly>
+                          
+                          <span id="msg_descricao" name="msg" style="color:red"></span>  
+                        </div>
+                      </div>
+                      
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">                      
+                          <?php
+                                    
+                            // Assume $db is a PDO object
+                            $query = "SELECT * FROM `categoria_kit` where id=$row2[id_categoria]"; // Run your query
+                            $result=$mysqli->query($query);
+                            $row = $result->fetch_assoc();
+                           
+                          ?>
+                             <input type="text" id="categoria" name="categoria" class="form-control col-md-7 col-xs-12" value="<?php echo $row['descricao'] ?>" readonly>
+                          <span id="msg_cat" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="number" id="limite" name="limite" class="form-control col-md-7 col-xs-12" min="1" value="<?php echo $row2['limite_data'] ?>"readonly>
+                          <span id="msg_limite" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+
+
+                     
+
+                      <div class="ln_solid"></div>
+
+
+                      </form>
+                    
+                      <form id="formtabela"  class="form-horizontal form-label-left" action="" method="">
+                        <div class="form-group">
+                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                          
+                          
+                            <thead>
                               <tr>
-                              
                                 
-                                <th class="text-center"></th>
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Observação</th>
-                                <th class="text-center">Disponibilidade</th>
-                                <th></th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Kit</th>
+                                <th>Estado</th>
+                                <th>Categoria</th>
+                                <th>Observações</th>
+                                <th>Foto</th>
                               </tr>
                             </thead>
                             
                             <tbody>
-
                               <?php
-
-                              
-
-
-                              // recolhe id de estado "em atraso"
-                              $sql = "SELECT * FROM estado WHERE descricao = 'Em atraso'";
-                              $result = mysqli_query($mysqli,$sql);
-                              $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                              $atraso=$row['id'];
-
-                              // verifica todos os kits que estejam em atraso
-                              $query = "SELECT * FROM `reserva` WHERE `id_estado`='$atraso' GROUP BY `id_kit`";
-
-                              $result=$mysqli->query($query);
-                              $teste[0]="1";
-                              $i=0;
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {
-
-                                $teste[$i] = $row['id_kit'];
-                                $i++;
-                              } 
-
-                              // recolhe id de categoria_kit "Sem categoria"
-                              $sql = "SELECT * FROM categoria_kit WHERE descricao = 'Sem Categoria'";
-                              $result = mysqli_query($mysqli,$sql);
-                              $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                              $noCat=$row['id'];
-
-                              $query = "SELECT  
-                                    b.id as id, 
-                                    b.descricao as descricao, 
-                                    c.descricao as descCat,
-                                    b.observacao
-                                    FROM  kit b, categoria_kit c  
-                                    WHERE b.id NOT IN (".implode(',',$teste).")
-                                    AND b.id_categoria = c.id
-                                    AND c.id != '$noCat' 
-                                    ORDER BY b.id";
-
-                              $result=$mysqli->query($query);
-                              
-                              $data=date("Y-m-d");
-                              //echo $data;
-                              // Loop through the query results, outputing the options one by one
-                              while ($row = $result->fetch_assoc()) {  
-
-                                $inicio = array();
-
-                                $idKit = $row['id'];
-
-
-                                //echo "<br>kit com id: ".$idKit."";
-                                //echo $data; 
-
-                                $sql = "SELECT reserva.id,
-                                          reserva.data_inicio,
-                                          reserva.data_fim,
-                                          reserva.id_kit,
-                                          estado.descricao AS descEst
-                                          FROM reserva 
-                                          INNER JOIN estado ON reserva.id_estado = estado.id 
-                                          WHERE (reserva.id_kit = '$idKit' AND estado.descricao = 'Em progresso' AND reserva.data_fim>='$data')
-                                          OR (reserva.id_kit = '$idKit' AND estado.descricao = 'Aceite' AND reserva.data_fim>='$data')
-                                          OR (reserva.id_kit = '$idKit' AND estado.descricao = 'Pendente' AND reserva.data_fim>='$data')";
-                                $result1 = mysqli_query($mysqli,$sql);
-                                $count1 = mysqli_num_rows($result1);
-
                                 
-                                $n=0;
-
-
-                                if($count1>=1)
-                                {
-                                  while ($row1 = $result1->fetch_assoc()) {
-                                    
-                                    //echo "<br> Data inicial do ciclo : ".$row1['data_inicio'];
-                                    //echo "<br> Data final do ciclo : ".$row1['data_fim']; 
-                                    $inicio[]=date('Y-m-d', strtotime($row1['data_inicio']));
-                                    $final=date('Y-m-d', strtotime($row1['data_fim']));
-                                   // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
-                                    
-
-                                    while($inicio[$n]<$final)
-                                    {
-                                      
-                                      $inicio[] = date('Y-m-d', strtotime($inicio[$n]. ' + 1 days'));
-                                      $n++;
-                                      //echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
-                                    }
-                                    $n++;
-                                    //echo "<br>";
-                                    //$i++;  
-                                  }
-                                  //echo "<br>Com reserva<br>";
-                                  //print_r($inicio);
-                                  
-
-                                }
-                                else if($count1==0)
-                                {
-                                    $inicio[]=$data;
-                                    //echo "<br>Sem reserva<br>";
-                                    //print_r($inicio);
-                                }
-
-                                //echo "<script type=text/javascript> alert(".json_encode($inicio)."); </script>";
-
-
-                                echo '<tr> 
-                                    
-
-                                    <td> '.$row['descCat'].'</td>
-                                    <td> '.$row['descricao'].'</td>
-                                    <td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
-                                    <td><input type="input" name="hiddenField'.$row['id'].'" id="hiddenField'.$row['id'].'" class="hiddenFielde" /></td>
-                                    <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Reservar</button></td>
-                                    </tr>';
+                                // Assume $db is a PDO object
                                 
-                                echo "<script > 
+                                $query = "SELECT itens.id, 
+                                          itens.marca,
+                                          itens.descricao,
+                                          itens.observacao,
+                                          itens.modelo,
+                                          itens.id_kit,
+                                          itens.foto,
+                                          categoria_item.descricao AS descCat, 
+                                          estado.descricao AS descEst,
+                                          kit.descricao AS descKit
+                                          FROM itens 
+                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
+                                          INNER JOIN kit ON itens.id_kit = kit.id
+                                          INNER JOIN estado ON itens.id_estado = estado.id 
+                                          
+                                          where (itens.id_kit='$id' AND itens.visivel=1)
+                                          ORDER BY itens.id_kit DESC";
+                                $result=$mysqli->query($query);
+                                
+                                // Loop through the query results, outputing the options one by one
+                                while ($row = $result->fetch_assoc()) {
                                   
-                                  var arrayFromPHP".$idKit." = ".json_encode($inicio).";
-                                  
+                                 
+                                   //echo '<tr><td><button type="button" id="button[]"  '; 
+                                          if($row['id_kit'] == $row2['id'] )
+                                          {
+                                            //echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
+                                            
+                                          }
+                                          else if ($row['id_kit'] != $row2['id'] ) 
+                                          {
+                                            //echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
+                                          }; 
+                                          echo '  
+                                          
+                                          <td> '.$row['marca'].'</td>
+                                          <td> '.$row['modelo'].'</td>
+                                          <td> '.$row['descKit'].'</td>
+                                          <td> '.$row['descEst'].'</td> 
+                                          <td>'.$row['descCat'].'</td>
+                                          <td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
+                                          <td><img class="myImg" onclick="myFunc(this)" src="../../images/'.$row['foto'].'" alt="'.$row['descricao'].'" style="display: block;width:100%;max-width:100px;margin-left: auto;
+                                          margin-right: auto"></td>
+                                        </tr>';
+                                }
+                                echo '</select>';// Close your drop down box
+                              ?>
+                              
+                            </tbody>
+                          </table>
+                        </form>
+                        <form id="formData"  class="form-horizontal form-label-left" action="http://myslimsite/api/teste/reserva2" method="POST" enctype="multipart/form-data">
+                          
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="from_date">Escolha a data para levantar <span style="color:red">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="from_date" name="from_date" readonly>
+                              <span id="msg_inicio" name="msg" style="color:red"></span>
+                            </div>
+                          </div>
 
-                                  $( '#hiddenField".$idKit."' ).datepicker({
-                                    showOn: 'button',
-                                      buttonText: '',
-                                    monthNames: [ 'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
-                                    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro' ],
-                                    monthNamesShort: [ 'Jan','Fev','Mar','Abr','Mai','Jun',
-                                    'Jul','Ago','Set','Out','Nov','Dez' ],
-                                    dayNames: [
-                                      'Domingo',
-                                      'Segunda-feira',
-                                      'Terça-feira',
-                                      'Quarta-feira',
-                                      'Quinta-feira',
-                                      'Sexta-feira',
-                                      'Sábado'
-                                    ],
-                                    dayNamesShort: [ 'Dom','Seg','Ter','Qua','Qui','Sex','Sáb' ],
-                                    dayNamesMin: [ 'Dom','Seg','Ter','Qua','Qui','Sex','Sáb' ],
-                                    weekHeader: 'Sem',
-                                    beforeShowDay: function(date){
+                          <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="to_date">Escolha a data para entregar <span style="color:red">*</span></label>
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                              <input class="form-control col-md-7 col-xs-12" type="text" id="to_date" name="to_date" readonly>
+                              <span id="msg_fim" name="msg" style="color:red"></span>
+                            </div>
+                          </div>
 
-                                      if (!$.datepicker.noWeekends(date)[0])
-                                      return [false, '', '']; 
 
-                                      var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                                      return [ arrayFromPHP".$idKit.".indexOf(string) == -1 ]
+                          <label class="control-label col-md-3 col-sm-3 col-xs-12" id="label1">  </label> 
 
-                                    },
-                                    dateFormat: 'yy-mm-dd',
-                                    minDate: 0
-                                  }).next('.ui-datepicker-trigger').addClass('fa fa-calendar');
+                        </div>
+                          <input type="hidden" name="idkit" id="idkit" value="<?php echo $id; ?>">
+                          <input type="hidden" name="idres" id="idres" value="<?php echo $_SESSION['id']; ?>">
+                          <button type="submit" class="btn btn-success" style="font-size: 40px;display:block;margin-left: auto;margin-right: auto">Requisitar</button>
+                          <span id="msg" name="msg" class="col-md-12 col-sm-12 col-xs-12 form-group" align="center"></span>        
+                        </div>
 
-                                  
-                                  
+                      </form>
 
-                                 </script>";
-
-                              } 
-
-                            ?>
-                        
-                          </tbody>
-                        </table>
-                       
-                      </div>
+                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+
+
+        <div id="myModal" class="modal">
+          <span class="close" onClick="modal.style.display='none'">&times;</span>
+          <img class="modal-content" id="img01">
+          <div id="caption"></div>
         </div>
         <!-- /page content -->
 
@@ -432,7 +502,10 @@
       </div>
     </div>
 
-    
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery Ui -->
+    <script src="../vendors/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
     <!-- Bootstrap -->
     <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../vendors/bootstrap/js/transition.js"></script>
@@ -483,60 +556,107 @@
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
 
-    
+
+    <?php 
+
+      $data=date("Y-m-d");
+
+      //echo $data; 
+
+      $sql = "SELECT reserva.id,
+                reserva.data_inicio,
+                reserva.data_fim,
+                reserva.id_kit,
+                estado.descricao AS descEst
+                FROM reserva 
+                INNER JOIN estado ON reserva.id_estado = estado.id 
+                WHERE (reserva.id_kit = '$id' AND estado.descricao = 'Em progresso' AND reserva.data_fim>='$data')
+                OR (reserva.id_kit = '$id' AND estado.descricao = 'Aceite' AND reserva.data_fim>='$data')
+                OR (reserva.id_kit = '$id' AND estado.descricao = 'Pendente' AND reserva.data_fim>='$data')";
+      $result = mysqli_query($mysqli,$sql);
+      $count = mysqli_num_rows($result);
+
+      $i=0;
+      $n=0;
+
+
+      if($count>=1)
+      {
+        while ($row = $result->fetch_assoc()) {
+          
+         // echo "<br> Data inicial do ciclo ".$i.": ".$row['data_inicio'];
+         // echo "<br> Data final do ciclo ".$i.": ".$row['data_fim']; 
+          $inicio[]=date('Y-m-d', strtotime($row['data_inicio']));
+          $final=date('Y-m-d', strtotime($row['data_fim']));
+         // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
+          
+
+          while($inicio[$n]<$final)
+          {
+            
+            $inicio[] = date('Y-m-d', strtotime($inicio[$n]. ' + 1 days'));
+            $n++;
+            //echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
+          }
+          $n++;
+          //echo "<br>";
+          $i++;  
+        }
+        
+
+      }
+      else if($count==0)
+      {
+          $inicio[]=$date;
+      }
+
+
+      ?>
+
+
+
+
 
     <script>
+    
+      var modal = document.getElementById('myModal');
 
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+       // var img = document.getElementById('myImg');
+        var modalImg = document.getElementById("img01");
+        var captionText = document.getElementById("caption");
+
+      function myFunc(el){
+          var ImgSrc = el.src;
+          var altText = el.alt;
+          modal.style.display = "block";
+            modalImg.src = ImgSrc;
+            captionText.innerHTML = altText;
+      }
+
+        // Handle ESC key (key code 27)
+        document.addEventListener('keyup', function(e) {
+            if (e.keyCode == 27) {
+              modal.style.display = "none";
+            }
+        });
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    </script>
+
+
+    <script>
       $(document).ready(function(){
 
-        $(".msgm").click(function(){ // Click to only happen on announce links
+        var arrayFromPHP = <?php echo json_encode($inicio); ?>;
+        var limite=parseInt($("#limite").val());
 
-          var v = $(this).attr("id");        
-          if (v != undefined && v != null) {
-            $.ajax({
-              type: 'put',
-                      url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                      contentType: false,
-                      cache: false,
-                      processData:false,
-                      success: function(data) { 
-                        window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                      }
-            });
-          }  
-         });
-
-        
-
-        /*
-        $( '.hiddenFielde' ).datepicker({
-          showOn: 'button',
-            buttonText: '',
-          monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-          "Jul","Ago","Set","Out","Nov","Dez" ],
-          dayNames: [
-            "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-          ],
-          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          weekHeader: "Sem",
-          beforeShowDay: $.datepicker.noWeekends,
-          minDate: 2,
-          dateFormat: "yy-mm-dd"
-        }).next('.ui-datepicker-trigger').addClass('fa fa-calendar');
-        
-        */
-  
-
-        /*
         $( function() {
           $( "#from_date" ).datepicker();
           $( "#to_date" ).datepicker();
@@ -559,16 +679,29 @@
           dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
           dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
           weekHeader: "Sem",
-          beforeShowDay: $.datepicker.noWeekends,
-          minDate: 2,
-          dateFormat: "yy-mm-dd", 
-          onSelect: function(selectedDate) {
+            beforeShowDay: function(date){
 
-            $("#to_date").datepicker("option", "minDate", selectedDate);
+              if (!$.datepicker.noWeekends(date)[0])
+              return [false, '', '']; 
 
-            $("#to_date").val('');
-          }
-        });      
+              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+              return [ arrayFromPHP.indexOf(string) == -1 ]
+
+            },
+            minDate: 2,
+            dateFormat: "yy-mm-dd", 
+            onSelect: function(selectedDate) {
+              var date = new Date($("#from_date").val());
+              date.setDate(date.getDate() + limite);
+
+              $("#to_date").datepicker("option", "minDate", selectedDate);
+
+              //alert("Limite: "+limite+"! Data selecionada: "+selectedDate+"! Data limite: "+date);
+
+              $("#to_date").datepicker("option", "maxDate", date);
+              $("#to_date").val('');
+            }
+          });      
 
           $("#to_date").datepicker({
             monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
@@ -587,20 +720,39 @@
             dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
             dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
             weekHeader: "Sem",
-            beforeShowDay: $.datepicker.noWeekends,
+            beforeShowDay: function(date){
+
+              if (!$.datepicker.noWeekends(date)[0])
+              return [false, '', ''];     
+
+              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+              return [ arrayFromPHP.indexOf(string) == -1 ] 
+            },
             minDate: 2,
-            dateFormat: "yy-mm-dd"
+            dateFormat: "yy-mm-dd",
+            onSelect: function(chosenDate) {
+
+              if ($("#from_date").val()!="" && $("#to_datete").val()!="") {
+                  var date1 = $("#from_date").val();
+                  var date2 = $("#to_date").val();
+
+                  for (var k = 0; k < arrayFromPHP.length; k++) {
+                    var date = arrayFromPHP[k];
+                      if (date1 <= date && date <= date2) {
+                          alert("Não é permitido seleccionar esta data por ter os mesmos dias que outra reserva com o mesmo kit!");
+                          $("#to_date").val('');
+                          return false;
+                      }
+                  }
+
+              }
+
+            }
+
           });
-          */
 
 
-          // TABELA
-         
           $('#table').DataTable( {
-            "order": [[ 0, "desc" ]],
-            "columnDefs": [
-              { "orderable": false, "targets": 3 }
-            ],
             "language": {
               "lengthMenu": "_MENU_ Registos por página",
               "zeroRecords": "Não foram encontrados registos",
@@ -614,53 +766,18 @@
                 "sFirst": "Primeira página",
                 "sLast": "Última página"
               }
-            },
-            initComplete: function () {
-              this.api().columns().every( function () {
-                  var column = this;
-                  if(column[0]==0){ /* is the first column you want to have dropdown filter */
-                      var select = $('<select><option value="">Categoria</option></select>')
-                      .appendTo( $(column.header()))
-                      .on( 'change', function () {
-                          var val = $.fn.dataTable.util.escapeRegex(
-                              $(this).val()
-                          );
-
-                          column
-                              .search( val ? '^'+val+'$' : '', true, false )
-                              .draw();
-                      });
-
-                      column.data().unique().sort().each( function ( d, j ) {
-                          select.append( '<option value="'+d+'">'+d+'</option>' )
-                      });
-                    }
-              });
             }
           });
 
-          $('#table').on('click','.botao',function () {
 
-            var v = $(this).data('id');        
-            if (v != undefined && v != null) {
-                window.location = '/pa/production/form_reserva.php?var=' + v;
-            }
-             
-           });
-
-
-        /*
         $(function() {
 
           // Get the form.
-          var form = $('#demo-form2');
+          var form = $('#formData');
 
           // Get the messages div.
           var formMessages = $('#msg');
 
-          $("#tbody").fadeIn(1000);
-
-          var teste;
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
             // Stop the browser from submitting the form.
@@ -699,54 +816,24 @@
 
               // Submit the form using AJAX.
               $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: formData,
-                dataType: "html",
-                success: function(response) 
-                { 
-                  $("#tbody").html(response);
-                }
-
+                  type: 'POST',
+                  url: $(form).attr('action'),
+                  data: formData,
+                  success: function(response) { 
+                   location.reload();
+                  }
               });
               $('#msg_inicio').html("");
               $('#msg_fim').html("");
+              $('#msg').html("Reserva criada com sucesso!");
             }
 
           });
 
-      });
-      */
-    });
-
-    </script>
-	   <!--
-    <script>
-      function myFunction(el) {
-        var v = $(el).attr('data-id');        
-        if (v != undefined && v != null) {
-         // window.location = '/pa/production/form_search_singleKit.php?var=' + v;
-           var form = $('#demo-form2');
-
-       // var v = $(this).data('id'); 
-        //var dataObject = { 'num': v};
-        //var form2 = $('#formtabela');
-        var formData = $(form).serialize();
-        $.ajax({
-          type: 'post',
-                  url: "http://myslimsite/api/teste/reserva2/num="+v,
-                  data: formData,
-                  dataType: "html",
-                  success: function(data) { 
-                    location.reload();
-                  }
         });
-        }
-      }
 
-
-      
-    </script>
-    -->
+      });
+      </script>
   </body>
+  
 </html>

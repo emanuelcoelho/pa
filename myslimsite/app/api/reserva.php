@@ -25,8 +25,6 @@
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$semcat=$row['id'];
 
-
-
 		// recolhe id de estado "pendente"
 		$sql = "SELECT * FROM estado WHERE descricao = 'Pendente'";
 		$result = mysqli_query($mysqli,$sql);
@@ -106,9 +104,9 @@
 
 
 	// cria nova reserva com estado pendente
-	$app->post('/api/teste/reserva2/num={id}', function($request, $response, $args) {
+	$app->post('/api/teste/reserva2', function($request, $response, $args) {
 
-		$idkit = $request->getAttribute('id');
+		//$idkit = $request->getAttribute('id');
 		
 		require_once('dbconnect_teste.php');
 		// recolhe id de funcionario "sistema"
@@ -124,7 +122,7 @@
 		$estado=$row['id'];
 		
 		// recolhe informações do form
-		//$id = $request->getParsedBody()['idkit'];
+		$id = $request->getParsedBody()['idkit'];
 
 		$reservante = $request->getParsedBody()['idres'];
 
@@ -138,7 +136,7 @@
 
 		$stmt = $mysqli->prepare($query);
 	
-		$stmt->bind_param("iiissi", $idkit, $reservante, $estado, $date1, $date2, $func);
+		$stmt->bind_param("iiissi", $id, $reservante, $estado, $date1, $date2, $func);
 		
 		$stmt->execute();
 

@@ -16,7 +16,7 @@ coisas obrigatorias no criar item: descriçao, quantidade - done
 coisas obrigatorias no editar item: descriçao, quantidade - done
 pesquisa de categorias de kit - done
 	aplicar botão no resto do site - done
-ao reservar kit, pesquisar apenas por categoria, na tabela ter calendario do kit com as suas ocupaçoes
+ao reservar kit, pesquisar apenas por categoria, na tabela ter calendario do kit com as suas ocupaçoes - done
 numero mecanografico - done
 corrigir mensagens nas paginas do emanuel - done
 kits tem de ter designação "LIAnnn" onde "nnn" vai ser o seu numero
