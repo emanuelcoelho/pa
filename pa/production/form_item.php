@@ -309,6 +309,9 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <textarea id="obs" class="form-control" name="obs"></textarea>
                         </div>
+                        <div class="control-label">
+                            <a  data-toggle="tooltip" title="Deve introduzir as observações de uma maneira organizada. Ex: -Obs1; -Obs2; " class="fa fa-info fa-lg pull-left"></a>
+                        </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>

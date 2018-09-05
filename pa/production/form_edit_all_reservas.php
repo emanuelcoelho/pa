@@ -320,6 +320,7 @@
 
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <a id="button[]" type="button" class="btn btn-primary" href="<?php echo '/pa/production/print.php?r='.$id.'' ?>;" target="_blank" >Imprimir ficheiro</a>
                           <button class="btn btn-primary" type="reset">Reset</button>
                           <input type="hidden" name="_METHOD" value="PUT"/> 
                           <button type="submit" class="btn btn-success">Submeter</button>                          

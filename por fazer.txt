@@ -42,5 +42,9 @@ lia reservas
 laboratorio interaçao e audiovisuais
 lia@estg.ipvc.pt como mail do sistema - done
 
-impressao de ficheiro para reservar kit
+impressao de ficheiro para reservar kit - done
 	tentar ficheiro html
+	na pagina de reservas aceites/em atraso botao para outra página html onde pode imprimir a pagina actual
+	tem elementos escondidos so em impressao atraves de css
+
+https://stackoverflow.com/questions/16894683/how-to-print-html-content-on-click-of-a-button-but-not-the-page

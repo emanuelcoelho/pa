@@ -373,6 +373,9 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <textarea id="obs" class="form-control" name="obs"><?php echo  $row2['observacao']; ?></textarea>
                         </div>
+                        <div class="control-label">
+                            <a  data-toggle="tooltip" title="Deve introduzir as observações de uma maneira organizada. Ex: -Obs1; -Obs2; " class="fa fa-info fa-lg pull-left"></a>
+                        </div>
                       </div>
 
                       <?php $link="../../images/".$row2['foto'];?>
