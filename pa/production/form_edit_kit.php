@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,14 +47,7 @@
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">  
   </head>
 
   <body class="nav-md">
@@ -140,6 +133,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -153,6 +147,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -160,8 +155,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -169,24 +166,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -212,6 +208,7 @@
                     <h2>Editar kit <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="form_search_edit_kit.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -221,18 +218,22 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2" action="http://myslimsite/api/formEditKit/update" method="post"  class="form-horizontal form-label-left" >
 
                       <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
+                        // recolhe o id do kit seleccionado atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes necessarias do kit utilizando o id do kit
+                        $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; 
+                        $result2=$mysqli->query($query2);
+                        $row2 = $result2->fetch_assoc();
                       ?>
 
+                      <!-- id do kit -->
                       <input type="hidden" name="idkit" id="idkit" value="<?php echo $row2['id'] ?>">
                       
+                      <!-- campo da designacao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -240,10 +241,12 @@
                           <span id="msg_designacao" name="msg" style="color:red"></span>  
                         </div>
                         <div class="control-label">
-                            <a  data-toggle="tooltip" title="Ex: Deve introduzir 'LIANNN' onde 'NNN' será um número. Ex: LIA001" class="fa fa-info fa-lg pull-left"></a>
+                          <!-- tooltip -->
+                          <a  data-toggle="tooltip" title="Ex: Deve introduzir 'LIANNN' onde 'NNN' será um número. Ex: LIA001" class="fa fa-info fa-lg pull-left"></a>
                         </div>
                       </div>
 
+                      <!-- campo da descricao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -252,32 +255,38 @@
                         </div>
                       </div>
                       
+                      <!-- campo da categoria -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                      
                           <?php
                                     
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `categoria_kit` "; // Run your query
+                            // recolhe todas as categorias
+                            $query = "SELECT * FROM `categoria_kit` "; 
                             $result=$mysqli->query($query);
-                           
-                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
-                            // Loop through the query results, outputing the options one by one
+                            
+                            // abre a drop down box
+                            echo '<select class="form-control" id="desc" name="desc" >'; 
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) 
                             {
                                echo '<option value="'.$row['id'].'" '; 
+                               // se a categoria actual for igual a categoria do kit
                                if($row['id'] == $row2['id_categoria'] )
                                {
+                                  // indica que esta categoria esta activado por defeito
                                   echo("selected");
                                }; 
                                echo '   >'.$row['descricao'].'</option>';
                             }
-                            echo '</select>';// Close your drop down box
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_cat" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo de limite -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -285,10 +294,12 @@
                           <span id="msg_limite" name="msg" style="color:red"></span>
                         </div>
                         <div class="control-label">
-                            <a  data-toggle="tooltip" title="Ex: limite de 0 dias indica que o kit tem de ser levantado e entregue no mesmo dia, 1 dia tem de ser entregue no dia a seguir a ser levantado, etc." class="fa fa-info fa-lg pull-left"></a>
+                          <!-- tooltip -->
+                          <a  data-toggle="tooltip" title="Ex: limite de 0 dias indica que o kit tem de ser levantado e entregue no mesmo dia, 1 dia tem de ser entregue no dia a seguir a ser levantado, etc." class="fa fa-info fa-lg pull-left"></a>
                         </div>
                       </div>
 
+                      <!-- campo de observacoes -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -296,8 +307,7 @@
                         </div>
                       </div>
 
-
-
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
@@ -308,100 +318,92 @@
                       </div>
 
                       <div class="ln_solid"></div>
-
-
-                      </form>
+                    </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
-                        <div class="form-group">
-                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
-                          
-                          
-                            <thead>
-                              <tr>
-                                
-                                <th class="text-center">Marca</th>
-                                <th class="text-center">Modelo</th>
-                                <th class="text-center">Kit</th>
-                                <th class="text-center">Estado</th>
-                                <th class="text-center">Categoria</th>
-                                <th class="text-center">Adicionar/Remover</th>
-                              </tr>
-                            </thead>
-                           
-                            <tbody>
-                              <?php
-                                
-                                
-                                // recolhe id do kit "sem kit"
-                                $sql3 = "SELECT * FROM kit WHERE descricao = 'Sem kit'";
-                                $result3 = mysqli_query($mysqli,$sql3);
-                                $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
-                                $nokit=$row3['id'];
-                                
-                                $query = "SELECT itens.id, 
-                                          itens.marca,
-                                          itens.modelo,
-                                          itens.id_kit,
-                                          categoria_item.descricao AS descCat, 
-                                          estado.descricao AS descEst,
-                                          kit.descricao AS descKit
-                                          FROM itens 
-                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
-                                          INNER JOIN kit ON itens.id_kit = kit.id
-                                          INNER JOIN estado ON itens.id_estado = estado.id 
-                                          WHERE (itens.id_kit='$nokit' AND itens.visivel=1)
-                                          OR (itens.id_kit='$id' AND itens.visivel=1)
-                                          ORDER BY itens.id_kit DESC";
-                                $result=$mysqli->query($query);
-                                
-                                // Loop through the query results, outputing the options one by one
-                                while ($row = $result->fetch_assoc()) {
-                                  
-                                 
-                                   echo '<tr> 
-                                             
-                                          <td> '.$row['marca'].'</td>
-                                          <td> '.$row['modelo'].'</td>
-                                          <td> '.$row['descKit'].'</td>
-                                          <td> '.$row['descEst'].'</td> 
-                                          <td>'.$row['descCat'].'</td>
-                                          <td><button type="button" id="button[]"  '; 
-                                          if($row['id_kit'] == $row2['id'] )
-                                          {
-                                            echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'"><i class="fa fa-minus-square"></i></button><font style="font-size:0px">apagar</font></td>');
-                                            
-                                          }
-                                          else if ($row['id_kit'] != $row2['id'] ) 
-                                          {
-                                            echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'"><i class="fa fa-plus-square"></i></button><font style="font-size:0px">inserir</font> </td>');
-                                          };
-                                          echo'
-                                        </tr>';
-                                }
-                                echo '</select>';// Close your drop down box
-                              ?>
+                    <!-- form de items -->
+                    <form id="formtabela"  class="form-horizontal form-label-left" action="http://myslimsite/api/formKitEdit/RemoveItem" method="PUT">
+                      <div class="form-group">
+
+                        <!-- tabela de items -->
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
+                       
+                          <thead>
+                            <tr>
+                              <th class="text-center">Descrição</th>
+                              <th class="text-center">Marca</th>
+                              <th class="text-center">Modelo</th>
+                              <th class="text-center">Kit</th>
+                              <th class="text-center">Estado</th>
+                              <th class="text-center">Categoria</th>
+                              <th class="text-center">Adicionar/Remover</th>
+                            </tr>
+                          </thead>
+                         
+                          <tbody>
+                            <?php
                               
-                            </tbody>
-                          </table>
-                          <input type="hidden" name="_METHOD" value="PUT"/>
-                        </div>
-
-                      </form>
-
-                      
-                     
-
-                    <!--</form>-->
+                              // recolhe id do kit "sem kit"
+                              $sql3 = "SELECT * FROM kit WHERE descricao = 'Sem kit'";
+                              $result3 = mysqli_query($mysqli,$sql3);
+                              $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
+                              $nokit=$row3['id'];
+                              
+                              // selecciona todos os itens pertencente ao kit "sem kit" e ao kit que esta a ser editado
+                              $query = "SELECT itens.id, 
+                                        itens.descricao,
+                                        itens.marca,
+                                        itens.modelo,
+                                        itens.id_kit,
+                                        categoria_item.descricao AS descCat, 
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit
+                                        FROM itens 
+                                        INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
+                                        INNER JOIN kit ON itens.id_kit = kit.id
+                                        INNER JOIN estado ON itens.id_estado = estado.id 
+                                        WHERE (itens.id_kit='$nokit' AND itens.visivel=1)
+                                        OR (itens.id_kit='$id' AND itens.visivel=1)
+                                        ORDER BY itens.id_kit DESC";
+                              $result=$mysqli->query($query);
+                              
+                              // percorre todos os resultados da query e apresenta os mesmos
+                              while ($row = $result->fetch_assoc()) {
+                               // preenche a tabela
+                               echo '<tr> 
+                                      <td> '.$row['descricao'].'</td>
+                                      <td> '.$row['marca'].'</td>
+                                      <td> '.$row['modelo'].'</td>
+                                      <td> '.$row['descKit'].'</td>
+                                      <td> '.$row['descEst'].'</td> 
+                                      <td>'.$row['descCat'].'</td>
+                                      <td><button type="button" id="button[]"  ';
+                                      // caso o item ja pertença ao kit 
+                                      if($row['id_kit'] == $row2['id'] )
+                                      {
+                                        // botao para remover item do kit
+                                        echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'"><i class="fa fa-minus-square"></i></button><font style="font-size:0px">apagar</font></td>');
+                                      }
+                                      // caso o item nao pertença ao kit
+                                      else if ($row['id_kit'] != $row2['id'] ) 
+                                      {
+                                        // botao para adicionar item no kit
+                                        echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'"><i class="fa fa-plus-square"></i></button><font style="font-size:0px">inserir</font> </td>');
+                                      };
+                                      echo'
+                                    </tr>';
+                              }
+                            ?>  
+                          </tbody>
+                        </table>
+                        <input type="hidden" name="_METHOD" value="PUT"/>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -466,120 +468,121 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-
-
     
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
 
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-     $('#table').DataTable( {
-        "order": [[ 5, "asc" ]],
-  
-        "language": {
-          "lengthMenu": "_MENU_ Registos por página",
-          "zeroRecords": "Não foram encontrados registos",
-          "info": "Página _PAGE_ de _PAGES_",
-          "infoEmpty": "Não foram encontrados registos",
-          "infoFiltered": "(de _MAX_ registos no total)",
-          "search": "Pesquisar:",
-          "oPaginate": {
-            "sNext": "Página seguinte",
-            "sPrevious": "Página anterior",
-            "sFirst": "Primeira página",
-            "sLast": "Última página"
+        // inicializar a tabela
+        $('#table').DataTable( {
+          "order": [[ 6, "asc" ]],
+          "language": {
+            "lengthMenu": "_MENU_ Registos por página",
+            "zeroRecords": "Não foram encontrados registos",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Não foram encontrados registos",
+            "infoFiltered": "(de _MAX_ registos no total)",
+            "search": "Pesquisar:",
+            "oPaginate": {
+              "sNext": "Página seguinte",
+              "sPrevious": "Página anterior",
+              "sFirst": "Primeira página",
+              "sLast": "Última página"
+            }
           }
-        }
-      });
-
-
-
-
-
-      
-     $('#table').on('click','.botaoadd',function () {
-      var v = $(this).data('id');
-      var i = $(this).attr('value');        
-      var form2 = $('#formtabela');
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/AddItem/num="+v+"&num2="+i,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
         });
-        //alert("delete!! "+i);          
-     });
 
-
-      $('#table').on('click','.botaodel',function () {
-        var v = $(this).data('id'); 
-        //var dataObject = { 'num': v};
-        var form2 = $('#formtabela');
-        //var formData = $(this).serialize();
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
+        // ao carregar no botao da tabela para adicionar
+        $('#table').on('click','.botaoadd',function () {
+          // recolhe id do item
+          var v = $(this).data('id');
+          // recolhe id do kit a ser editado
+          var i = $(this).attr('value');        
+          var form2 = $('#formtabela');
+          // corre api para alterar o kit do item de "sem kit" para o kit actual
+          $.ajax({
+            type: 'put',
+            url: "http://myslimsite/api/formKitEdit/AddItem/num="+v+"&num2="+i,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) {
+              // recarrega a pagina 
+              location.reload();
+            }
+          });         
         });
-        //alert("delete!! "+v);    
-      });
-      
-      
+
+        
+        // ao carregar no botao da tabela para remover
+        $('#table').on('click','.botaodel',function () {
+          // recolhe id do item
+          var v = $(this).data('id'); 
+          var form2 = $('#formtabela');
+          // corre api para alterar o kit do item para "sem kit"
+          $.ajax({
+            type: 'put',
+            url: "http://myslimsite/api/formKitEdit/RemoveItem/num="+v,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) {
+              // recarrega pagina 
+              location.reload();
+            }
+          });    
+        });
+
+
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
-          
+
           // Get the messages div.
           var formMessages = $('#msg');
-           
+
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
 
             // Stop the browser from submitting the form.
             event.preventDefault();
-
+            // recolhe o conteudo dos campos obrigatorios
             var message = $('#descricao').val();
             var message2 = $('#desc').val();   
             var message3 = $('#limite').val();
             var message4 = $('#designacao').val();
 
             <?php 
-
+              // recolhe id da categoria "Sem categoria"
               $sql3 = "SELECT * FROM categoria_kit WHERE descricao = 'Sem categoria'";
               $result3 = mysqli_query($mysqli,$sql3);
               $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
               $semcat=$row3['id']; 
             ?> 
 
+            // verifica se algum dos campos obrigatorios esta vazio
             if(message == '' || message2 == '<?php echo $semcat; ?>' || message3 == '' || message4 == ''  )  
             {  
-              
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               if( message == '' )  
               {  
                 $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica Canon 500D");
@@ -588,6 +591,7 @@
               {
                 $('#msg_descricao').html("");
               }
+
               if( message2 == '1' )  
               {  
                 $('#msg_cat').html("Deve escolher uma categoria válida! Ex: Camara fotografica");
@@ -596,6 +600,7 @@
               {
                 $('#msg_cat').html("");
               }
+
               if( message3 == '' )  
               {  
                 $('#msg_limite').html("Deve preencher este campo de forma válida! Ex: 6");
@@ -604,6 +609,7 @@
               {
                 $('#msg_limite').html("");
               }
+
               if( message4 == '' )  
               {  
                 $('#msg_designacao').html("Deve preencher este campo de forma válida! Ex: LIA001");
@@ -612,28 +618,30 @@
               {
                 $('#msg_designacao').html("");
               }
-              
-              
             }  
             else  
             {  
+              // se todos os campos obrigatorios estiverem preenchidos
               // Serialize the form data.
               var formData = $(form).serialize();
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    alert(data);
-                    location.reload();
-                  }
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) { 
+                  // mensagem de aviso a indicar se editou bd
+                  alert(data);
+                  // recarrega pagina
+                  location.reload();
+                }
               });
+              // Elimina a mensagem de aviso
               $('#msg_descricao').html("");
-              $('#msg_check').html("");
+              $('#msg_cat').html("");
               $('#msg_limite').html("");
               $('#msg_designacao').html("");
             }
@@ -641,8 +649,5 @@
         });
       });
     </script>
-
-
-  
   </body>
 </html>

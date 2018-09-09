@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,6 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-
   </head>
 
   <body class="nav-md">
@@ -131,6 +130,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -144,6 +144,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -151,8 +152,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -160,24 +163,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -206,18 +208,21 @@
                   </div>
                   <div class="x_content">
                     <br />
+
+                    <!-- form -->
                     <form id="demo-form2"  class="form-horizontal form-label-left" action="http://myslimsite/api/formEditUser/updateProfile" method="post">
 
                       <?php 
-
+                        // recolhe informacoes do utilizador utilizando a variavel de sessao
                         $sql = "SELECT * FROM user WHERE id = '".$_SESSION['id']."' ";
                         $result = mysqli_query($mysqli,$sql);
                         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-
                       ?>
 
+                      <!-- id do utilizador -->
                       <input type="hidden" name="iduser" id="iduser" value="<?php echo $row['id'] ?>">
 
+                      <!-- campo do nome -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nome">Nome de utilizador <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -226,6 +231,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do username -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username de utilizador <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -233,6 +239,8 @@
                           <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo do email -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -240,6 +248,8 @@
                           <span id="msg_email" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo da password -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -247,9 +257,12 @@
                           <span id="msg_password" name="msg" style="color:red"></span>
                         </div>
                         <div class="control-label ">
-                            <a  id="eye" class="fa fa-eye fa-lg pull-left"></a>
+                          <!-- botao para esconder/revelar texto -->
+                          <a  id="eye" class="fa fa-eye fa-lg pull-left"></a>
                         </div>
                       </div>
+
+                      <!-- campo do numero mecanografico -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecanográfico <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -257,6 +270,8 @@
                           <span id="msg_number" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo do numero de telefone -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -264,7 +279,10 @@
                           <span id="msg_phonenumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
                       <div class="ln_solid"></div>
+
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
@@ -273,7 +291,6 @@
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12"></span>
                         </div>
                       </div>
-
                     </form>
                   </div>
                 </div>
@@ -330,65 +347,73 @@
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
 
-
-
-
     <script>
       $(document).ready(function(){
 
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
+        });
 
-
-
-
-       $(".msgm").click(function(){ // Click to only happen on announce links
-
-        var v = $(this).attr("id");        
-        if (v != undefined && v != null) {
-          $.ajax({
-            type: 'put',
-                    url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    success: function(data) { 
-                      window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                    }
-          });
-        }  
-       });
-
-       function show() {
-        var p = document.getElementById('password');
-        p.setAttribute('type', 'text');
-        var g = document.getElementById('eye');
-        g.setAttribute('class', 'fa fa-eye-slash fa-lg pull-left');
-      }
-
-      function hide() {
-        var p = document.getElementById('password');
-        var g = document.getElementById('eye');
-        g.setAttribute('class', 'fa fa-eye fa-lg pull-left');
-        p.setAttribute('type', 'password');
-      }
-
-      var pwShown = 0;
-
-      document.getElementById("eye").addEventListener("click", function () {
-        if (pwShown == 0) {
-          pwShown = 1;
-          show();
-        } 
-        else 
-        {
-          pwShown = 0;
-          hide();
+        // revelar texto
+        function show() {
+          // recolhe caixa de texto de password
+          var p = document.getElementById('password');
+          // altera caixa de texto de password
+          p.setAttribute('type', 'text');
+          // recolhe imagem do olho
+          var g = document.getElementById('eye');
+          // altera imagem do olho
+          g.setAttribute('class', 'fa fa-eye-slash fa-lg pull-left');
         }
-      }, false);
 
-    
+        // esconde texto
+        function hide() {
+          // recolhe caixa de texto de password
+          var p = document.getElementById('password');
+          // recolhe imagem do olho
+          var g = document.getElementById('eye');
+          // altera imagem do olho
+          g.setAttribute('class', 'fa fa-eye fa-lg pull-left');
+          // altera caixa de texto de password
+          p.setAttribute('type', 'password');
+        }
 
+        // estado do texto
+        var pwShown = 0;
+
+        // ao clicar na imagem do olho
+        document.getElementById("eye").addEventListener("click", function () {
+          // verifica o estado do texto
+          if (pwShown == 0) {
+            // se estiver escondido altera estado e corre funçao para revelar
+            pwShown = 1;
+            show();
+          } 
+          else 
+          {
+            // se estiver revelado altera estado e corre funçao para esconder
+            pwShown = 0;
+            hide();
+          }
+        }, false);
 
         $(function() {
+
           // Get the form.
           var form = $('#demo-form2');
 
@@ -397,19 +422,20 @@
 
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
+
             // Stop the browser from submitting the form.
             event.preventDefault();
-
+            // recolhe o conteudo dos campos obrigatorios
             var message1 = $('#username').val();  
             var message2 = $('#email').val();  
             var message3 = $('#password').val();
             var message4 = $('#number').val();
             var message5 = $('#nome').val();      
 
-
+            // verifica se algum dos campos obrigatorios esta vazio
             if(message1 == '' || message2 == '' || message3 == '' || message4 == '' || message5 == '' )  
             {  
-
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               if( message1 == '' )  
               {  
                 $('#msg_username').html("Deve preencher este campo de forma válida! Ex: Pedro");
@@ -454,44 +480,37 @@
               {
                 $('#msg_nome').html("");
               }
-                   
             }  
             else  
             {  
-
+              // se todos os campos obrigatorios estiverem preenchidos
               // Serialize the form data.
               var formData = $(form).serialize();
 
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    alert(data);                    
-                    location.reload();
-                   
-                  }
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) { 
+                  // mensagem de aviso a indicar se editou bd 
+                  alert(data);            
+                  // recarrega pagina        
+                  location.reload();
+                }
               });
+              // Elimina a mensagem de aviso
               $('#msg_username').html("");
               $('#msg_email').html("");
               $('#msg_number').html(""); 
-
             }
           });
-
-
         });
       });
-    </script>
-
-
-    
-
-	
+    </script>	
   </body>
 </html>
 

@@ -5,7 +5,6 @@
   require_once('session.php');
   // verifica se tem permissão para editar reservas
   require_once('session_reservas.php');
-  $LOL="12/12/1222"
 ?>
 
 <!DOCTYPE html>
@@ -25,10 +24,10 @@
 
       @media print
       {    
-          .no-print, .no-print *
-          {
-              display: none !important;
-          }
+        .no-print, .no-print *
+        {
+          display: none !important;
+        }
       }
     </style>
 
@@ -38,12 +37,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
   </head>
 
-  
+  <!-- conteudo da pagina -->
   <body >
+    <!-- botao para imprimir -->
     <button class="no-print" onclick="myFunction()">Imprimir página</button>
     <br>
     <div style="background-color:lightgrey">
@@ -58,26 +58,24 @@
     <br>----------------------------------------------------------------------------------------------------------------------------------------------------
     <br>
     <?php
-        $rid = $_GET['r'];
-        $query = "SELECT * FROM `reserva` WHERE `id`='$rid' "; // Run your query
-        $result=$mysqli->query($query);
-        $row = $result->fetch_assoc();
+      // recolhe id da reserva atraves do url
+      $rid = $_GET['r'];
 
-        // Assume $db is a PDO object
-                                
-        $query = "SELECT reserva.id, 
-                  reserva.data_inicio,
-                  reserva.data_fim,
-                  reserva.id_kit,
-                  kit.designacao AS desigKit,
-                  kit.descricao AS descKit
-                  FROM reserva 
-                  INNER JOIN kit ON reserva.id_kit = kit.id
-                  where reserva.id='$rid'";
-        $result=$mysqli->query($query); 
-        $row = $result->fetch_assoc();
-        $id = $row['id_kit'];
-      ?>
+      // recolhe informacoes da reserva atraves do id                              
+      $query = "SELECT reserva.id, 
+                reserva.data_inicio,
+                reserva.data_fim,
+                reserva.id_kit,
+                kit.designacao AS desigKit,
+                kit.descricao AS descKit
+                FROM reserva 
+                INNER JOIN kit ON reserva.id_kit = kit.id
+                where reserva.id='$rid'";
+      $result=$mysqli->query($query); 
+      $row = $result->fetch_assoc();
+      // recolhe id do kit associado a reserva
+      $id = $row['id_kit'];
+    ?>
     <br><b>Solicita a requisição, entre <?php echo $row['data_inicio'];?> e <?php echo $row['data_fim'];?> , do equipamento no kit <?php echo "".$row['desigKit']." - ".$row['descKit']."";?>, afeto ao Laboratório de Interação e Audiovisuais, com a seguinte fundamentação</b>
     <br>
     <br>___________________________________________________________________________________________________
@@ -96,12 +94,8 @@
         <th>Observações</th> 
       </tr>
       <?php
-        $query = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
-        $result=$mysqli->query($query);
-        $row = $result->fetch_assoc();
 
-        // Assume $db is a PDO object
-                                
+        // recolhe informacoes do kit atraves do id
         $query = "SELECT itens.id, 
                   itens.marca,
                   itens.descricao,
@@ -112,10 +106,10 @@
                   where itens.id_kit='$id'";
         $result=$mysqli->query($query);
         
-        // Loop through the query results, outputing the options one by one
+        // percorre todos os resultados da query e apresenta os mesmos
         while ($row = $result->fetch_assoc()) {
-          
-          echo '  
+          // preenche tabela
+          echo ' <tr> 
           <td>'.$row['descricao'].'</td>
           <td>'.$row['marca'].'</td>
           <td>'.$row['modelo'].'</td>
@@ -155,9 +149,8 @@
     <br>
     <br>
     <br>
-
     
-
+    <!-- funcao para imprimir -->
     <script>
       function myFunction() {
           window.print();

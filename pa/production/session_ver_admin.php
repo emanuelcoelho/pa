@@ -13,13 +13,11 @@
   	$query = "SELECT * FROM `itens` WHERE `id`='$id' "; // Run your query
     $result = $mysqli->query($query);
     $row = $result->fetch_assoc();
-  // se for um item escondido
-  if ($row['visivel']==0)
-  {
-    // expulsa o utilizador da página actuaç
-  	header('Location: index.php');
-  }
-
-    
+    // se for um item escondido
+    if ($row['visivel']==0)
+    {
+      // expulsa o utilizador da página actuaç
+    	header('Location: index.php');
+    }
   }	
 ?>

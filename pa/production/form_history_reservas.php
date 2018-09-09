@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,12 +42,6 @@
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
-    
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -133,6 +127,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -146,6 +141,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -153,8 +149,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -162,24 +160,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -195,7 +192,9 @@
         <!-- /top navigation -->
 
         <?php
+          // recolhe o id da reserva seleccionada atraves do url
           $id = $_GET['var'];
+          // recolhe informacoes necessarias da mensagem utilizando o id da mensagem
           $query2 = "SELECT reserva.id,
                       reserva.data_inicio,
                       reserva.data_fim,
@@ -204,6 +203,7 @@
                       reserva.id_reservante,
                       estado.descricao AS descEst,
                       kit.descricao AS descKit,
+                      kit.designacao AS desigKit,
                       res.username AS descReservante,
                       func.username AS descFuncionario                                       
                       FROM reserva 
@@ -211,9 +211,10 @@
                       INNER JOIN user as func ON reserva.id_funcionario = func.id
                       INNER JOIN kit ON reserva.id_kit = kit.id
                       INNER JOIN estado ON reserva.id_estado = estado.id
-                      WHERE reserva.id='$id' "; // Run your query
+                      WHERE reserva.id='$id' "; 
           $result2=$mysqli->query($query2);
           $row2 = $result2->fetch_assoc();
+          // recolhe o id do reservante
           $user=$row2['id_reservante'];
         ?>
 
@@ -228,6 +229,7 @@
                     <h2>Visualizar reservas <small></small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href= <?php echo "form_search_history_reservas.php?var=".$user; ?> id="button" type="button"  class="btn btn-primary botao" >Voltar ao histórico de reservas</a>
                       </div>
                     </div>
@@ -237,13 +239,10 @@
                   <div class="x_content">
                     <br />
 
-                    
-                    <form id="demo-form2"  method="post" action="http://myslimsite/api/formResEdit/allEdit" class="form-horizontal form-label-left" >   
-
+                    <!-- form -->
+                    <form id="demo-form2"  method="post" action="" class="form-horizontal form-label-left" >   
                       
-
-                      <input type="hidden" name="idres" id="idres" value="<?php echo $id; ?>">
-                      
+                      <!-- campo do requisitante -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="requisitante">Requisitante </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -252,6 +251,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do funcionario -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcionario">Funcionário </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -260,6 +260,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do kit -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kit">Kit </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -268,6 +269,16 @@
                         </div>
                       </div>
 
+                      <!-- campo da designacao do kit -->
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação kit </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="designacao" name="designacao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['desigKit']; ?>" disabled>
+                          <span id="msg_designacao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <!-- campo da data inicial -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inicio">Data de início de reserva </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -276,6 +287,7 @@
                         </div>
                       </div>
 
+                      <!-- campo da data final -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fim">Data de fim de reserva </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -284,33 +296,38 @@
                         </div>
                       </div>
 
+                      <!-- campo do estado -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <?php
 
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `estado` "; // Run your query
+                            // recolhe todos os estados
+                            $query = "SELECT * FROM `estado` "; 
                             $result=$mysqli->query($query);
                             
-                            echo '<select class="form-control" id="estado" name="estado" disabled >'; // Open your drop down box
+                            // abre a drop down box
+                            echo '<select class="form-control" id="estado" name="estado" disabled >'; 
 
-                            // Loop through the query results, outputing the options one by one
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) {
-                               echo '<option value="'.$row['id'].'" ';
-                               if( $row['id'] == $row2['id_estado'] )
-                               {
-                                 echo ("selected");
-                               }
-                               echo ' " >'.$row['descricao'].'</option> ';
+                              echo '<option value="'.$row['id'].'" ';
+                              // se o estado actual for igual ao estado da reserva
+                              if( $row['id'] == $row2['id_estado'] )
+                              {
+                                // indica que este estado esta activado por defeito
+                                echo ("selected");
+                              }
+                              echo ' ">'.$row['descricao'].'</option>';
                             }
-
-                            echo ' </select>';// Close your drop down box
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_estado" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da observacao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -318,23 +335,14 @@
                         </div>
                       </div>
 
-                      
-
                       <div class="ln_solid"></div>
-
-
                     </form>
-                    
-                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -384,38 +392,28 @@
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
     
-
-
-    
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
-        });
-      }  
-     });
- 
-     
-      
-       
-
-    });
+       // funcao de mensagens
+       $(".msgm").click(function(){ 
+        // ao carregar numa das mensagens recolhe o id da mensagem
+        var v = $(this).attr("id");        
+        // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+        if (v != undefined && v != null) {
+          $.ajax({
+            type: 'put',
+            url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) { 
+              window.location.href = "/pa/production/form_open_message.php?var=" + v;
+            }
+          });
+        }  
+       });
+      });
     </script>
-
-
-  
   </body>
 </html>

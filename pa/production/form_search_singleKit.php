@@ -10,7 +10,10 @@
   // numero de mensagens
   require_once('sessionMessages.php'); 
 ?>
-
+<!-- PAGINA NAO USADA -->
+<!-- PAGINA NAO USADA -->
+<!-- PAGINA NAO USADA -->
+<!-- PAGINA NAO USADA -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -112,7 +115,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     
     <!-- Bootstrap -->
@@ -142,14 +145,6 @@
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <!--Jquery Ui -->
     <link rel="stylesheet" href="../vendors/jquery-ui-1.12.1.custom/jquery-ui.css">
-
-     
-
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -235,6 +230,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -248,6 +244,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -255,8 +252,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -264,24 +263,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -317,18 +315,19 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2" action="" method=""  class="form-horizontal form-label-left" >
 
                       <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
+                        // recolhe id do kit atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes do kit atraves do id do kit 
+                        $query2 = "SELECT * FROM `kit` WHERE `kit`.`id`='$id' "; // Run your query
+                        $result2=$mysqli->query($query2);
+                        $row2 = $result2->fetch_assoc();
                       ?>
 
-                      <!--<input type="hidden" name="idkit" id="idkit" value="<?//php echo $row2['id'] ?>">-->
-
+                      <!-- campo da designacao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -337,31 +336,32 @@
                         </div>
                       </div>
                       
+                      <!-- campo da descricao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>" readonly>
-                          
+                          <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descricao'] ?>" readonly>                          
                           <span id="msg_descricao" name="msg" style="color:red"></span>  
                         </div>
                       </div>
                       
+                      <!-- campo da categoria -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                      
                           <?php
                                     
-                            // Assume $db is a PDO object
+                            // recolhe a categoria pertencente ao kit actual
                             $query = "SELECT * FROM `categoria_kit` where id=$row2[id_categoria]"; // Run your query
                             $result=$mysqli->query($query);
-                            $row = $result->fetch_assoc();
-                           
+                            $row = $result->fetch_assoc();                           
                           ?>
-                             <input type="text" id="categoria" name="categoria" class="form-control col-md-7 col-xs-12" value="<?php echo $row['descricao'] ?>" readonly>
+                          <input type="text" id="categoria" name="categoria" class="form-control col-md-7 col-xs-12" value="<?php echo $row['descricao'] ?>" readonly>
                           <span id="msg_cat" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo do limite maximo -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="limite">Limite máximo de dias </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -370,91 +370,68 @@
                         </div>
                       </div>
 
-
-
-                     
-
                       <div class="ln_solid"></div>
-
-
-                      </form>
+                    </form>
                     
-                      <form id="formtabela"  class="form-horizontal form-label-left" action="" method="">
-                        <div class="form-group">
-                          <table id="table" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
-                          
-                          
-                            <thead>
-                              <tr>
-                                
-                                <th>Marca</th>
-                                <th>Modelo</th>
-                                <th>Kit</th>
-                                <th>Estado</th>
-                                <th>Categoria</th>
-                                <th>Observações</th>
-                                <th>Foto</th>
-                              </tr>
-                            </thead>
-                            
-                            <tbody>
-                              <?php
-                                
-                                // Assume $db is a PDO object
-                                
-                                $query = "SELECT itens.id, 
-                                          itens.marca,
-                                          itens.descricao,
-                                          itens.observacao,
-                                          itens.modelo,
-                                          itens.id_kit,
-                                          itens.foto,
-                                          categoria_item.descricao AS descCat, 
-                                          estado.descricao AS descEst,
-                                          kit.descricao AS descKit
-                                          FROM itens 
-                                          INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
-                                          INNER JOIN kit ON itens.id_kit = kit.id
-                                          INNER JOIN estado ON itens.id_estado = estado.id 
-                                          
-                                          where (itens.id_kit='$id' AND itens.visivel=1)
-                                          ORDER BY itens.id_kit DESC";
-                                $result=$mysqli->query($query);
-                                
-                                // Loop through the query results, outputing the options one by one
-                                while ($row = $result->fetch_assoc()) {
-                                  
-                                 
-                                   //echo '<tr><td><button type="button" id="button[]"  '; 
-                                          if($row['id_kit'] == $row2['id'] )
-                                          {
-                                            //echo('class="btn btn-danger botaodel" data-id="'.$row['id'].'">Remover</button></td>');
-                                            
-                                          }
-                                          else if ($row['id_kit'] != $row2['id'] ) 
-                                          {
-                                            //echo('class="btn btn-success botaoadd" value="'.$row2['id'].'" data-id="'.$row['id'].'">Adicionar</button> </td>');
-                                          }; 
-                                          echo '  
-                                          
-                                          <td> '.$row['marca'].'</td>
-                                          <td> '.$row['modelo'].'</td>
-                                          <td> '.$row['descKit'].'</td>
-                                          <td> '.$row['descEst'].'</td> 
-                                          <td>'.$row['descCat'].'</td>
-                                          <td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
-                                          <td><img class="myImg" onclick="myFunc(this)" src="../../images/'.$row['foto'].'" alt="'.$row['descricao'].'" style="display: block;width:100%;max-width:100px;margin-left: auto;
-                                          margin-right: auto"></td>
-                                        </tr>';
-                                }
-                                echo '</select>';// Close your drop down box
-                              ?>
+                    <!-- form -->
+                    <form id="formtabela"  class="form-horizontal form-label-left" action="" method="">
+                      <div class="form-group">
+                        <!-- tabela dos itens -->
+                        <table id="table" class="table table-striped table-bordered bulk_action dt-responsive nowrap" cellspacing="0" width="100%">
+                                                
+                          <thead>
+                            <tr>
+                              <th>Descrição</th>
+                              <th>Marca</th>
+                              <th>Modelo</th>
+                              <th>Estado</th>
+                              <th>Categoria</th>
+                              <th>Observações</th>
+                              <th>Foto</th>
+                            </tr>
+                          </thead>                          
+                          <tbody>
+                            <?php
                               
-                            </tbody>
-                          </table>
-                        </form>
-                        
-                    <!--</form>-->
+                              // recolhe itens pertencentes ao kit                              
+                              $query = "SELECT itens.id, 
+                                        itens.marca,
+                                        itens.descricao,
+                                        itens.observacao,
+                                        itens.modelo,
+                                        itens.id_kit,
+                                        itens.foto,
+                                        categoria_item.descricao AS descCat, 
+                                        estado.descricao AS descEst,
+                                        kit.descricao AS descKit
+                                        FROM itens 
+                                        INNER JOIN categoria_item ON itens.id_categoria = categoria_item.id
+                                        INNER JOIN kit ON itens.id_kit = kit.id
+                                        INNER JOIN estado ON itens.id_estado = estado.id                                         
+                                        where (itens.id_kit='$id' AND itens.visivel=1)
+                                        ORDER BY itens.id_kit DESC";
+                              $result=$mysqli->query($query);
+                              
+                              // percorre todos os resultados da query e apresenta os mesmos
+                              while ($row = $result->fetch_assoc()) {
+                                       
+                                // preenche tabela
+                                echo ' <tr>
+                                  <td> '.$row['marca'].'</td>
+                                  <td> '.$row['marca'].'</td>
+                                  <td> '.$row['modelo'].'</td>
+                                  <td> '.$row['descEst'].'</td> 
+                                  <td>'.$row['descCat'].'</td>
+                                  <td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
+                                  <td><img class="myImg" onclick="myFunc(this)" src="../../images/'.$row['foto'].'" alt="'.$row['descricao'].'" style="display: block;width:100%;max-width:100px;margin-left: auto;
+                                  margin-right: auto"></td>
+                                </tr>';
+                              }                              
+                            ?>                            
+                          </tbody>
+                        </table>
+                      </div>
+                    </form>                        
                   </div>
                 </div>
               </div>
@@ -462,7 +439,7 @@
           </div>
         </div>
 
-
+        <!-- modal -->
         <div id="myModal" class="modal">
           <span class="close" onClick="modal.style.display='none'">&times;</span>
           <img class="modal-content" id="img01">
@@ -534,303 +511,78 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-
-    <?php 
-
-      $data=date("Y-m-d");
-
-      //echo $data; 
-
-      $sql = "SELECT reserva.id,
-                reserva.data_inicio,
-                reserva.data_fim,
-                reserva.id_kit,
-                estado.descricao AS descEst
-                FROM reserva 
-                INNER JOIN estado ON reserva.id_estado = estado.id 
-                WHERE (reserva.id_kit = '$id' AND estado.descricao = 'Em progresso' AND reserva.data_fim>='$data')
-                OR (reserva.id_kit = '$id' AND estado.descricao = 'Aceite' AND reserva.data_fim>='$data')
-                OR (reserva.id_kit = '$id' AND estado.descricao = 'Pendente' AND reserva.data_fim>='$data')";
-      $result = mysqli_query($mysqli,$sql);
-      $count = mysqli_num_rows($result);
-
-      $i=0;
-      $n=0;
-
-
-      if($count>=1)
-      {
-        while ($row = $result->fetch_assoc()) {
-          
-         // echo "<br> Data inicial do ciclo ".$i.": ".$row['data_inicio'];
-         // echo "<br> Data final do ciclo ".$i.": ".$row['data_fim']; 
-          $inicio[]=date('Y-m-d', strtotime($row['data_inicio']));
-          $final=date('Y-m-d', strtotime($row['data_fim']));
-         // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
-          
-
-          while($inicio[$n]<$final)
-          {
-            
-            $inicio[] = date('Y-m-d', strtotime($inicio[$n]. ' + 1 days'));
-            $n++;
-            //echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
-          }
-          $n++;
-          //echo "<br>";
-          $i++;  
-        }
-        
-
-      }
-      else if($count==0)
-      {
-          $inicio[]=$date;
-      }
-
-
-      ?>
-
-
-
-
-
     <script>
-    
+      // comportamento do modal
       var modal = document.getElementById('myModal');
 
-        // Get the image and insert it inside the modal - use its "alt" text as a caption
-       // var img = document.getElementById('myImg');
-        var modalImg = document.getElementById("img01");
-        var captionText = document.getElementById("caption");
+      // Get the image and insert it inside the modal - use its "alt" text as a caption
+      var modalImg = document.getElementById("img01");
+      var captionText = document.getElementById("caption");
 
       function myFunc(el){
-          var ImgSrc = el.src;
-          var altText = el.alt;
-          modal.style.display = "block";
-            modalImg.src = ImgSrc;
-            captionText.innerHTML = altText;
+        var ImgSrc = el.src;
+        var altText = el.alt;
+        modal.style.display = "block";
+        modalImg.src = ImgSrc;
+        captionText.innerHTML = altText;
       }
 
-        // Handle ESC key (key code 27)
-        document.addEventListener('keyup', function(e) {
-            if (e.keyCode == 27) {
-              modal.style.display = "none";
-            }
-        });
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
+      // Handle ESC key (key code 27)
+      document.addEventListener('keyup', function(e) {
+        if (e.keyCode == 27) {
+          modal.style.display = "none";
         }
+      });
 
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      }
     </script>
 
 
     <script>
       $(document).ready(function(){
 
-
-        $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
-        });
-      }  
-     });
-
-        var arrayFromPHP = <?php echo json_encode($inicio); ?>;
-        var limite=parseInt($("#limite").val());
-
-        $( function() {
-          $( "#from_date" ).datepicker();
-          $( "#to_date" ).datepicker();
-        } );
-
-        $("#from_date").datepicker({
-          monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-          "Jul","Ago","Set","Out","Nov","Dez" ],
-          dayNames: [
-            "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-          ],
-          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          weekHeader: "Sem",
-            beforeShowDay: function(date){
-
-              if (!$.datepicker.noWeekends(date)[0])
-              return [false, '', '']; 
-
-              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-              return [ arrayFromPHP.indexOf(string) == -1 ]
-
-            },
-            minDate: 2,
-            dateFormat: "yy-mm-dd", 
-            onSelect: function(selectedDate) {
-              var date = new Date($("#from_date").val());
-              date.setDate(date.getDate() + limite);
-
-              $("#to_date").datepicker("option", "minDate", selectedDate);
-
-              //alert("Limite: "+limite+"! Data selecionada: "+selectedDate+"! Data limite: "+date);
-
-              $("#to_date").datepicker("option", "maxDate", date);
-              $("#to_date").val('');
-            }
-          });      
-
-          $("#to_date").datepicker({
-            monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-            "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-            monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-            "Jul","Ago","Set","Out","Nov","Dez" ],
-            dayNames: [
-              "Domingo",
-              "Segunda-feira",
-              "Terça-feira",
-              "Quarta-feira",
-              "Quinta-feira",
-              "Sexta-feira",
-              "Sábado"
-            ],
-            dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            weekHeader: "Sem",
-            beforeShowDay: function(date){
-
-              if (!$.datepicker.noWeekends(date)[0])
-              return [false, '', ''];     
-
-              var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-              return [ arrayFromPHP.indexOf(string) == -1 ] 
-            },
-            minDate: 2,
-            dateFormat: "yy-mm-dd",
-            onSelect: function(chosenDate) {
-
-              if ($("#from_date").val()!="" && $("#to_datete").val()!="") {
-                  var date1 = $("#from_date").val();
-                  var date2 = $("#to_date").val();
-
-                  for (var k = 0; k < arrayFromPHP.length; k++) {
-                    var date = arrayFromPHP[k];
-                      if (date1 <= date && date <= date2) {
-                          alert("Não é permitido seleccionar esta data por ter os mesmos dias que outra reserva com o mesmo kit!");
-                          $("#to_date").val('');
-                          return false;
-                      }
-                  }
-
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
               }
-
-            }
-
-          });
-
-
-          $('#table').DataTable( {
-            "language": {
-              "lengthMenu": "_MENU_ Registos por página",
-              "zeroRecords": "Não foram encontrados registos",
-              "info": "Página _PAGE_ de _PAGES_",
-              "infoEmpty": "Não foram encontrados registos",
-              "infoFiltered": "(de _MAX_ registos no total)",
-              "search": "Pesquisar:",
-              "oPaginate": {
-                "sNext": "Página seguinte",
-                "sPrevious": "Página anterior",
-                "sFirst": "Primeira página",
-                "sLast": "Última página"
-              }
-            }
-          });
-
-
-        $(function() {
-
-          // Get the form.
-          var form = $('#formData');
-
-          // Get the messages div.
-          var formMessages = $('#msg');
-
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message1 = $('#from_date').val();  
-            var message2 = $('#to_date').val();  
-
-            if(message1 == '' || message2 == '' )  
-            {  
-
-              if( message1 == '' )  
-              {  
-                $('#msg_inicio').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_inicio').html("");
-              }
-
-              if( message2 == '' )  
-              {  
-                $('#msg_fim').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_fim').html("");
-              }              
-                   
-            }  
-            else  
-            {  
-
-              // Serialize the form data.
-              var formData = $(form).serialize();
-
-              // Submit the form using AJAX.
-              $.ajax({
-                  type: 'POST',
-                  url: $(form).attr('action'),
-                  data: formData,
-                  success: function(response) { 
-                   location.reload();
-                  }
-              });
-              $('#msg_inicio').html("");
-              $('#msg_fim').html("");
-              $('#msg').html("Reserva criada com sucesso!");
-            }
-
-          });
-
+            });
+          }  
         });
 
+        // inicializa a tabela
+        $('#table').DataTable( {
+          "language": {
+            "lengthMenu": "_MENU_ Registos por página",
+            "zeroRecords": "Não foram encontrados registos",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Não foram encontrados registos",
+            "infoFiltered": "(de _MAX_ registos no total)",
+            "search": "Pesquisar:",
+            "oPaginate": {
+              "sNext": "Página seguinte",
+              "sPrevious": "Página anterior",
+              "sFirst": "Primeira página",
+              "sLast": "Última página"
+            }
+          }
+        });
       });
-      </script>
+    </script>
   </body>
-  
 </html>

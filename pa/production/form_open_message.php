@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -50,13 +50,6 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -142,6 +135,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -155,6 +149,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -162,8 +157,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -171,24 +168,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -214,49 +210,41 @@
 
             <div class="title_right">
                 <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                  <!-- botao pagina anterior -->
                   <a href="form_search_messages.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                 </div>
               </div>
-
             <div class="clearfix"></div>
 
-
             <?php
+              // recolhe o id da mensagem seleccionada atraves do url
               $id = $_GET['var'];
+              // recolhe informacoes necessarias da mensagem utilizando o id da mensagem
               $query = "SELECT * FROM `mensagem` WHERE `mensagem`.`id`='$id' "; // Run your query
               $result=$mysqli->query($query);
               $row = $result->fetch_assoc();
-
+              // recolhe data da mensagem
               $date = new DateTime($row['data']);
-
-            ?>
-            
-           
+            ?>           
 
             <div class="row">
               <div class="col-md-12">
                 <div class="x_panel">
                   <div class="x_title">
+                    <!-- Assunto e data da mensagem -->
                     <h2> <?php echo $row['assunto']; ?> <small> <?php echo date_format($date, 'H:i d-m-Y'); ?> </small></h2>
                     
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-
-
-                      
-                        <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>                    
-                    
+                    <!-- Texto da mensagem -->    
+                    <h2><p><?php $text=$row['mensagem']; echo nl2br($text); ?></p></h2>                    
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -327,28 +315,26 @@
     <script>
     $(document).ready(function(){
 
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
-        });
-      }  
-     });
-
+      // funcao de mensagens
+      $(".msgm").click(function(){ 
+        // ao carregar numa das mensagens recolhe o id da mensagem
+        var v = $(this).attr("id");        
+        // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+        if (v != undefined && v != null) {
+          $.ajax({
+            type: 'put',
+            url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) { 
+              window.location.href = "/pa/production/form_open_message.php?var=" + v;
+            }
+          });
+        }  
+      });
     });
     </script>
-
-
-  
   </body>
 </html>
 

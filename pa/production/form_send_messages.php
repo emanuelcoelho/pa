@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,13 +48,6 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -140,6 +133,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -153,6 +147,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -160,8 +155,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -169,24 +166,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -212,6 +208,7 @@
                     <h2>Enviar mensagem <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="<?php echo $_SESSION['pageMessage']; ?>" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -221,20 +218,25 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2"  method="post" action="http://myslimsite/api/formMsg/sendMsg" class="form-horizontal form-label-left" > 
 
                       <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `user` WHERE `user`.`id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
+                        // recolhe id do utilizador atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes do utilizador atraves do id
+                        $query2 = "SELECT * FROM `user` WHERE `user`.`id`='$id' "; // Run your query
+                        $result2=$mysqli->query($query2);
+                        $row2 = $result2->fetch_assoc();
                       ?>
 
+                      <!-- id do destinatario -->
                       <input type="hidden" name="iddest" id="iddest" value="<?php echo $id ?>">
+                      <!-- id do emissor -->
                       <input type="hidden" name="idemi" id="idemi" value="<?php echo $_SESSION['id']; ?>">
 
-                      <div class="form-group">
+                      <!-- campo do destinatario -->
+                      <div class="form-group"> 
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Destinatário </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="dest" name="dest" class="form-control col-md-7 col-xs-12" disabled="disabled" placeholder="<?php echo $row2['username']; ?>">
@@ -242,6 +244,7 @@
                         </div>
                       </div>
                       
+                      <!-- campo do assunto -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Assunto (25 chars max) <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -250,15 +253,16 @@
                         </div>
                       </div>
                       
-                      
+                      <!-- campo da mensagem -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Mensagem (1000 chars max) <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <textarea id="mensagem" class="form-control" name="mensagem" maxlength="1000"> </textarea>
                           <span id="msg_mensagem" name="msg" style="color:red"></span>
-                        </div>
-                        
+                        </div>                        
                       </div>
+
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button> 
@@ -268,22 +272,13 @@
                       </div>
 
                       <div class="ln_solid"></div>
-
-
-                      </form>
-                    
-                      
-
-                    <!--</form>-->
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -349,52 +344,48 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-
-      
-     
-      
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
-          
+
           // Get the messages div.
           var formMessages = $('#msg');
-           
+
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
 
             // Stop the browser from submitting the form.
             event.preventDefault();
-
+            // recolhe o conteudo dos campos obrigatorios
             var message = $('#assunto').val();
             var message2 = $('#mensagem').val();   
 
+            // verifica se algum dos campos obrigatorios esta vazio
             if(message == '' || !$.trim($("#mensagem").val()) )  
             {  
-              
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               if( message == '' )  
               {  
                 $('#msg_assunto').html("Deve preencher este campo de forma válida! ");
@@ -403,6 +394,7 @@
               {
                 $('#msg_assunto').html("");
               }
+
               if( !$.trim($("#mensagem").val()) )  
               {  
                 $('#msg_mensagem').html("Deve preencher este campo de forma válida! ");
@@ -411,37 +403,33 @@
               {
                 $('#msg_mensagem').html("");
               }
-              
-              
             }  
             else  
-            {  
+            {
+              // se todos os campos obrigatorios estiverem preenchidos  
               // Serialize the form data.
               var formData = $(form).serialize();
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) { 
+                  // recarrega a pagina
+                  location.reload();
+                }
               });
+              // Elimina a mensagem de aviso
               $('#msg_assunto').html("");
               $('#msg_mensagem').html("");
               $('#msg').html("Mensagem enviada!");
-              //$('#demo-form2').trigger("reset");
-              //$('#descricao').val('');
             }
           });
         });
       });
     </script>
-
-
-  
   </body>
 </html>

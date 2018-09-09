@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,14 +49,7 @@
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet"> 
   </head>
 
   <body class="nav-md">
@@ -142,6 +135,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -155,6 +149,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -162,8 +157,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -171,24 +168,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -214,6 +210,7 @@
                     <h2>Editar item <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="form_search_edit_item.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -223,18 +220,22 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2"  method="post" action="http://myslimsite/api/formEditItem/updateSem" enctype="multipart/form-data" class="form-horizontal form-label-left" >   
 
                       <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT * FROM `itens` WHERE `itens`.`id`='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
+                        // recolhe o id do item seleccionado atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes necessarias do item utilizando o id do item
+                        $query2 = "SELECT * FROM `itens` WHERE `itens`.`id`='$id' "; // Run your query
+                        $result2=$mysqli->query($query2);
+                        $row2 = $result2->fetch_assoc();
                       ?>
 
+                      <!-- id do item -->
                       <input type="hidden" name="iditem" id="iditem" value="<?php echo $row2['id'] ?>">
                       
+                      <!-- campo da descricao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -243,6 +244,7 @@
                         </div>
                       </div>
 
+                      <!-- campo da marca -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="marca">Marca </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -251,6 +253,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do modelo -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="modelo">Modelo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -259,6 +262,7 @@
                         </div>
                       </div>
                       
+                      <!-- campo do serial number -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="serialnumber">Serial Number </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -267,6 +271,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do serial ipvc -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ipvcnumber">Serial IPVC </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -275,126 +280,144 @@
                         </div>
                       </div>
 
+                      <!-- campo do item escondido -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Visivel</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="visivel" name="visivel" value="1" <?php if($row2['visivel']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="visivel" name="visivel" value="0" <?php if($row2['visivel']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_visivel" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da categoria -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Categoria </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <?php
 
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `categoria_item` "; // Run your query
+                            // recolhe todas as categorias
+                            $query = "SELECT * FROM `categoria_item` "; 
                             $result=$mysqli->query($query);
                             
-                            echo '<select class="form-control" id="desc" name="desc" >'; // Open your drop down box
+                            // abre a drop down box
+                            echo '<select class="form-control" id="desc" name="desc" >'; 
 
-                            // Loop through the query results, outputing the options one by one
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) {
                                echo '<option value="'.$row['id'].'" ';
+                               // se a categoria actual for igual a categoria do item
                                if( $row['id'] == $row2['id_categoria'] )
                                {
-                                 echo ("selected");
+                                  // indica que esta categoria esta activado por defeito
+                                  echo ("selected");
                                }
                                echo ' ">'.$row['descricao'].'</option>';
                             }
-
-                            echo '</select>';// Close your drop down box
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_desc" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo do estado -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <?php
 
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `estado` "; // Run your query
+                            // recolhe todos os estados
+                            $query = "SELECT * FROM `estado` ";
                             $result=$mysqli->query($query);
                             
-                            echo '<select class="form-control" id="estado" name="estado" >'; // Open your drop down box
+                            // abre a drop down box
+                            echo '<select class="form-control" id="estado" name="estado" >'; 
 
-                            // Loop through the query results, outputing the options one by one
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) {
                                echo '<option value="'.$row['id'].'" ';
+                               // se o estado actual for igual ao estado do item
                                if( $row['id'] == $row2['id_estado'] )
                                {
-                                 echo ("selected");
+                                  // indica que este estado esta activado por defeito
+                                  echo ("selected");
                                }
                                echo ' ">'.$row['descricao'].'</option>';
                             }
-
-                            echo '</select>';// Close your drop down box
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_estado" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo dos atributos -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Atributos </label>
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                          <table class="table table-bordered" id="dynamic_field">
                           <?php
+                            // recolhe o id do item seleccionado
                             $id=$row2['id'];
-                            // Assume $db is a PDO object
+                            // recolhe todos os atributos relacionados com o item
                             $query = "SELECT * FROM `atributos` WHERE `id_item`= '$id' "; // Run your query
                             $result=$mysqli->query($query);
 
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) {
-                               echo '<tr  id="rowold'.$row['id'].'">
-                                      <td><input type="text" id="attributesold[]" name="attributesold[]" placeholder="" class="form-control name_list" value="'.$row['descricao'].'" />
-                                      <input type="hidden" name="idattributesold[]" id="idattributesold[]" value='.$row['id'].'>
-                                      </td>
-                                      <td><button type="button" name="remove" id="'.$row['id'].'" class="btn btn-danger btn_remove_old">X</button></td>
-                                    </tr>';        
+                             echo '<tr  id="rowold'.$row['id'].'">
+                                    <td><input type="text" id="attributesold[]" name="attributesold[]" placeholder="" class="form-control name_list" value="'.$row['descricao'].'" />
+                                    <input type="hidden" name="idattributesold[]" id="idattributesold[]" value='.$row['id'].'>
+                                    </td>
+                                    <td><button type="button" name="remove" id="'.$row['id'].'" class="btn btn-danger btn_remove_old">X</button></td>
+                                  </tr>';        
                             }
                           ?>
-
                          </table>
+                         <!-- botao de adicionar atributos atributos -->
                          <button type="button" name="add" id="add" class="btn btn-success">Adicionar atributos</button>
                          <span id="msg_attributes" name="msg" style="color:red"></span>
-
                         </div>
                       </div>
 
-                       <br>
+                      <br>
 
-
+                      <!-- campo das observacoes -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <textarea id="obs" class="form-control" name="obs"><?php echo  $row2['observacao']; ?></textarea>
                         </div>
                         <div class="control-label">
+                            <!-- tooltip -->
                             <a  data-toggle="tooltip" title="Deve introduzir as observações de uma maneira organizada. Ex: -Obs1; -Obs2; " class="fa fa-info fa-lg pull-left"></a>
                         </div>
                       </div>
-
-                      <?php $link="../../images/".$row2['foto'];?>
+                      
+                      <!-- campo da fotografia -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Fotografia </label>
-
                         <div class="col-md-6 col-sm-6 col-xs-12"> 
                           <?php 
-                          $link="../../images/".$row2['foto'];
-                          echo '<img class="myImg" src="'.$link.'" id="img" style="display: block; width:100%; max-width:400px; margin-left: auto; margin-right: auto">'
-                        ?>
+                            // localizacao da fotografia do item
+                            $link="../../images/".$row2['foto'];
+                            // apresentar fotografia do item
+                            echo '<img class="myImg" src="'.$link.'" id="img" style="display: block; width:100%; max-width:400px; margin-left: auto; margin-right: auto">'
+                          ?>
+                          <!-- file input -->
                           <input type="file" id="image"  name="image" class="form-control col-md-7 col-xs-12" />
                           <input type="hidden" name="path" id="path" value="<?php echo $link; ?>">
                           <span id="msg_image" name="msg" style="color:red"></span>
                         </div>
                         <div class="control-label">
+                            <!-- tooltip -->
                             <a  data-toggle="tooltip" title="A imagem tem de ter uma extensão válida (JPEG/JPG/PNG) e também tem como limite 10 mb! " class="fa fa-info fa-lg pull-left"></a>
                         </div>
                       </div>
+
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
@@ -405,22 +428,13 @@
                       </div>
 
                       <div class="ln_solid"></div>
-
-
-                      </form>
-                    
-                      
-
-                    <!--</form>-->
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -486,105 +500,101 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-
-     $("#image").change(function() {
-          var maxSize=10000000; 
+        // ao alterar a imagem
+        $("#image").change(function() {
+          // tamanho max
+          var maxSize=10000000;
+          // imagem seleccionada 
           var file = this.files[0];
+          // tipo de imagem
           var imagefile = file.type;
+          // nome da imagem
           var imagename = file.name;
+          // tipo de imagem aceitavel
           var match= ["image/jpeg","image/png","image/jpg"];
+          // se tamanho da imagem for maior do que o permitido
           if(this.files[0].size>maxSize){
+            // nao faz upload e remove o valor da imagem que foi seleccionada
             alert('Por favor escolha uma imagem com menos de 10mb');
             $("#image").val('');
             return false;
           }
+          // se o tipo de imagem nao for um dos tipos aceitaveis
           if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            // nao faz upload e remove o valor da imagem que foi seleccionada
             alert('Por favor escolha uma imagem com uma extensão válida (JPEG/JPG/PNG).');
             $("#image").val('');
             return false;
           }
+          // upload da imagem
           $.ajax({
-              url:'http://localhost/images/'+imagename,
-              type:'HEAD',
-              error: function()
-              {
-                  //file not exists
-              },
-              success: function()
-              {
-                  alert('Já existe uma imagem com esse nome, por favor mude o nome da sua imagem.');
-                  $("#image").val('');
-                  return false;
-              }
+            url:'http://localhost/images/'+imagename,
+            type:'HEAD',
+            error: function()
+            {
+              //file not exists
+            },
+            success: function()
+            {
+              // nao faz upload por ja existir imagem com nome
+              alert('Já existe uma imagem com esse nome, por favor mude o nome da sua imagem.');
+              $("#image").val('');
+              return false;
+            }
           });
-          
-          
-
         });
 
-
-
-
-      
-     
-      
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
-          
+
           // Get the messages div.
           var formMessages = $('#msg');
-           
+
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
 
             // Stop the browser from submitting the form.
             event.preventDefault();
-
-            var message1 = $('#marca').val();  
+            // recolhe o conteudo dos campos obrigatorios
             var message2 = $('#descricao').val();  
             var message4 = $('#visivel').val();  
             var message5 = $('#desc').val();  
-            var message6 = $('#image').val();
-            var message7 = $('#serialnumber').val();
-            var message8 = $('#ipvcnumber').val();
-            var message9 = $('#modelo').val();
 
             <?php 
-
+              // recolhe id da categoria "Sem categoria"
               $sql3 = "SELECT * FROM categoria_item WHERE descricao = 'Sem categoria'";
               $result3 = mysqli_query($mysqli,$sql3);
               $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
               $semcat=$row3['id']; 
             ?> 
 
-
+            // verifica se algum dos campos obrigatorios esta vazio
             if( message2 == '' ||  message4 == '' || message5 == '<?php echo $semcat; ?>' )  
             {  
-
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               if( message2 == '' )  
               {  
                 $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Camara fotografica Canon 500D");
@@ -611,74 +621,75 @@
               {
                 $('#msg_desc').html("");
               }
-              
-              
             }  
             else  
             {  
-              
+              // se todos os campos obrigatorios estiverem preenchidos
               // Serialize the form data.
               var formData = $(form).serialize();
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    location.reload();
-                  }
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) { 
+                  // refresh da pagina
+                  location.reload();
+                }
               });
-              $('#msg_nome').html("");
+              // Elimina a mensagem de aviso
               $('#msg_descricao').html("");
               $('#msg_visivel').html("");
               $('#msg_desc').html("");   
-              $('#msg_attributes').html("");
-              $('#msg_image').html("");
-              $('#msg_ipvcnumber').html("");
-              $('#msg_serialnumber').html("");
               $('#msg').html("Item editado com sucesso!");              
             }
           });
         });
       });
-    </script>
-
-
-  
+    </script>  
   </body>
 </html>
 
 <!-- Adicionar mais campos para atributos -->
 <script>
-$(document).ready(function(){
-  var i=0;
-  $('#add').click(function(){
-    i++;
-    $('#dynamic_field').append('<tr id="rownew'+i+'"><td><input type="text" id="attributesnew[]" name="attributesnew[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_new">X</button></td></tr>');
-  });
-  
-  $(document).on('click', '.btn_remove_old', function(){
-    var button_id = $(this).attr("id"); 
+  $(document).ready(function(){
 
-    $.ajax({
-          type: 'post',
-                  url: "http://myslimsite/api/formItemEdit/RemoveAttribute/num="+button_id,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    $('#rowold'+button_id+'').remove();
-                  }
-        });
-    
-  });
+    var i=0;
+    // adicionar campos para atributos
+    $('#add').click(function(){
+      i++;
+      // adiciona entrada da tabela de atributos presente na pagina
+      $('#dynamic_field').append('<tr id="rownew'+i+'"><td><input type="text" id="attributesnew[]" name="attributesnew[]" placeholder="" class="form-control name_list" /></td><td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_new">X</button></td></tr>');
+    });
 
-  $(document).on('click', '.btn_remove_new', function(){
-    var button_id = $(this).attr("id"); 
-    $('#rownew'+button_id+'').remove();
+    // remover campos existentes de atributos
+    $(document).on('click', '.btn_remove_old', function(){
+      // recolhe id do atributo
+      var button_id = $(this).attr("id"); 
+        // corre api para remover atributo da bd
+        $.ajax({
+        type: 'post',
+        url: "http://myslimsite/api/formItemEdit/RemoveAttribute/num="+button_id,
+        contentType: false,
+        cache: false,
+        processData:false,
+        success: function(data) { 
+          // remove entrada da tabela de atributos presente na pagina
+          $('#rowold'+button_id+'').remove();
+        }
+      });
+
+    });
+
+    // remover campos novos de atributos
+    $(document).on('click', '.btn_remove_new', function(){
+      // recolhe id do atributo
+      var button_id = $(this).attr("id"); 
+      // remove entrada da tabela de atributos presente na pagina
+      $('#rownew'+button_id+'').remove();
+    });
   });
-});
 </script>

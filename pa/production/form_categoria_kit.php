@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,14 +41,7 @@
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
+    <link href="../build/css/custom.min.css" rel="stylesheet">    
   </head>
 
   <body class="nav-md">
@@ -134,6 +127,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -147,6 +141,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -154,8 +149,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -163,11 +160,11 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
+
                                    echo '<li>
                                           <a class="msgm" id='.$row3['id'].'>
                                             <span>
@@ -179,8 +176,7 @@
                                             </span>
                                           </a>
                                         </li>';
-                                }
-
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -210,29 +206,28 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2" action="http://myslimsite/api/formCat/insertCatKit" method="POST" enctype="multipart/form-data" class="form-horizontal form-label-left">
 
+                      <!-- campo descricao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="descricao" name="descricao" class="form-control col-md-7 col-xs-12">
                           <span id="msg_desc" name="msg" style="color:red"></span>  
                         </div>
-                        
                       </div>
                       
                       <div class="ln_solid"></div>
                       
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
 						              <button class="btn btn-primary" type="reset">Reset</button>
                           <button name="submit" type="submit" class="btn btn-success">Submeter</button>
                           <span id="msg" name="msg" class="control-label col-md-5 col-sm-3 col-xs-12" ></span>                      
-
                         </div>
                       </div>
-
                     </form>
                   </div>
                 </div>
@@ -294,11 +289,11 @@
     <script>
       $(document).ready(function(){
 
-
-
-        $(".msgm").click(function(){ // Click to only happen on announce links
-
-          var v = $(this).attr("id");        
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida        
           if (v != undefined && v != null) {
               $.ajax({
               type: 'put',
@@ -313,8 +308,6 @@
           }  
         });
 
-
-
         $(function() {
 
           // Get the form.
@@ -327,16 +320,17 @@
           $(form).submit(function(event) {
             // Stop the browser from submitting the form.
             event.preventDefault();
-
-            var message = $('#descricao').val();  
+            // recolhe o conteudo dos campos obrigatorios
+            var message = $('#descricao').val(); 
+            // verifica se algum dos campos obrigatorios esta vazio 
             if(message == '')  
             {  
-              
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               $('#msg_desc').html("Deve preencher este campo de forma válida! Ex: Televisão");  
             }  
             else  
             {  
-
+              // se todos os campos obrigatorios estiverem preenchidos
               // Serialize the form data.
               var formData = $(form).serialize();
 
@@ -349,8 +343,8 @@
                     alert(data); 
                   }
               });
+              // Elimina a mensagem de aviso e faz reset ao form
               $('#msg_desc').html("");
-
               $('#demo-form2').trigger("reset");
             }
           });

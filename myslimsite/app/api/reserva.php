@@ -149,6 +149,7 @@
 
 		$query5 = "SELECT user.username,
 			   kit.descricao AS kitDesc,
+			   kit.designacao AS kitDesig,
 		       reserva.id,
 		       reserva.id_reservante,
 		       reserva.data_inicio
@@ -160,6 +161,7 @@
 		$row5 = mysqli_fetch_array($result5,MYSQLI_ASSOC);
 		$destinatario = $row5['username'];
 		$kit=$row5['kitDesc'];
+		$kitDes=$row5['kitDesig'];
 
 		$query = "INSERT INTO `mensagem` (`assunto`,`mensagem`, `lido`,`data`, `id_utilizador`,`id_emissor`) VALUES (?, ?, ?, ?, ?,?)";
 
@@ -174,7 +176,7 @@
 		$lido=0;
 
 		$assunto = "Notificação da reserva!";
-		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kit."</b> foi enviado com sucesso, por favor aguarde pela avaliação de um funcionário.";
+		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kitDes." - ".$kit."</b> foi enviado com sucesso, por favor aguarde pela avaliação de um funcionário.";
 		
 
 		$stmt2->execute();

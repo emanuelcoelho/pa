@@ -14,12 +14,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
-
-    <style >
-      
+    <style >      
       .hiddenFielde{
-          display: none;
+        display: none;
       }
     </style>
 
@@ -29,7 +26,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -57,12 +54,10 @@
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <!--Jquery Ui -->
     <link rel="stylesheet" href="../vendors/jquery-ui-1.12.1.custom/jquery-ui.css">
-
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
-        <!-- jQuery Ui -->
+    <!-- jQuery Ui -->
     <script src="../vendors/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-
   </head>
 
   <body class="nav-md">
@@ -148,6 +143,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -161,6 +157,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -168,8 +165,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -177,24 +176,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -224,29 +222,23 @@
                   </div>
                   <div class="x_content">
                     <br />        
-                      
+                      <!-- conteudo -->
                       <div class="form-group" id="demo-form1">
+                        <!-- tabela de reservas -->
                         <table id="table" class="table table-striped table-bordered bulk_action text-center dt-responsive nowrap" cellspacing="0" width="100%">
                         
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                               <tr>
-                              
-                                
                                 <th class="text-center"></th>
+                                <th class="text-center">Designação</th>
                                 <th class="text-center">Kit</th>
                                 <th class="text-center">Observação</th>
                                 <th class="text-center">Disponibilidade</th>
                                 <th></th>
                               </tr>
-                            </thead>
-                            
+                            </thead>                            
                             <tbody>
-
                               <?php
-
-                              
-
 
                               // recolhe id de estado "em atraso"
                               $sql = "SELECT * FROM estado WHERE descricao = 'Em atraso'";
@@ -254,13 +246,13 @@
                               $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
                               $atraso=$row['id'];
 
-                              // verifica todos os kits que estejam em atraso
+                              // verifica todos os kits que tenham uma reserva em atraso
                               $query = "SELECT * FROM `reserva` WHERE `id_estado`='$atraso' GROUP BY `id_kit`";
 
                               $result=$mysqli->query($query);
                               $teste[0]="1";
                               $i=0;
-                              // Loop through the query results, outputing the options one by one
+                              // percorre todos os resultados da query e adiciona todos os id ao array
                               while ($row = $result->fetch_assoc()) {
 
                                 $teste[$i] = $row['id_kit'];
@@ -273,9 +265,11 @@
                               $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
                               $noCat=$row['id'];
 
+                              // recolhe todos os kits que nao tenham uma reserva em atraso
                               $query = "SELECT  
                                     b.id as id, 
-                                    b.descricao as descricao, 
+                                    b.descricao as descricao,
+                                    b.designacao as designacao,  
                                     c.descricao as descCat,
                                     b.observacao
                                     FROM  kit b, categoria_kit c  
@@ -283,22 +277,21 @@
                                     AND b.id_categoria = c.id
                                     AND c.id != '$noCat' 
                                     ORDER BY b.id";
-
                               $result=$mysqli->query($query);
                               
+                              // recolhe data actual
                               $data=date("Y-m-d");
-                              //echo $data;
-                              // Loop through the query results, outputing the options one by one
+                              
+                              // percorre todos os resultados da query e adiciona os dias ocupados a um array
                               while ($row = $result->fetch_assoc()) {  
 
+                                // define array
                                 $inicio = array();
 
+                                // indica o id do kit actual
                                 $idKit = $row['id'];
 
-
-                                //echo "<br>kit com id: ".$idKit."";
-                                //echo $data; 
-
+                                // recolhe todas as reservas do kit que estejam "em progresso","aceite" e "pendente" e que a data final ainda nao tenha passado
                                 $sql = "SELECT reserva.id,
                                           reserva.data_inicio,
                                           reserva.data_fim,
@@ -310,64 +303,62 @@
                                           OR (reserva.id_kit = '$idKit' AND estado.descricao = 'Aceite' AND reserva.data_fim>='$data')
                                           OR (reserva.id_kit = '$idKit' AND estado.descricao = 'Pendente' AND reserva.data_fim>='$data')";
                                 $result1 = mysqli_query($mysqli,$sql);
+                                // conta o numero de resultados
                                 $count1 = mysqli_num_rows($result1);
-
                                 
                                 $n=0;
 
-
+                                // se existir pelo menos uma reserva
                                 if($count1>=1)
                                 {
+                                  // percorre todos os resultados da query e cria um array com todos os dias que tiver ocupado
                                   while ($row1 = $result1->fetch_assoc()) {
                                     
-                                    //echo "<br> Data inicial do ciclo : ".$row1['data_inicio'];
-                                    //echo "<br> Data final do ciclo : ".$row1['data_fim']; 
+                                    // indica que o inicio do array tem como data inicial a data inicial presente na bd
                                     $inicio[]=date('Y-m-d', strtotime($row1['data_inicio']));
-                                    $final=date('Y-m-d', strtotime($row1['data_fim']));
-                                   // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
-                                    
+                                    // indica que a data final presente na bd
+                                    $final=date('Y-m-d', strtotime($row1['data_fim']));                                   
 
+                                    // motivos de teste
+                                    // echo "<br> Data inicial do ciclo ".$i.": ".$row['data_inicio'];
+                                    // echo "<br> Data final do ciclo ".$i.": ".$row['data_fim'];
+                                    // echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n]; 
+                                    
+                                    // enquanto a data inicial nao passar da data final
                                     while($inicio[$n]<$final)
                                     {
-                                      
+                                      // nesta posicao do array vai estar o dia seguinte ao dia que esta guardado na posicao anterior do mesmo array
                                       $inicio[] = date('Y-m-d', strtotime($inicio[$n]. ' + 1 days'));
                                       $n++;
                                       //echo "<br> Data do ciclo ".$i.", posição array ".$n.": ".$inicio[$n];
                                     }
-                                    $n++;
-                                    //echo "<br>";
-                                    //$i++;  
+                                    // incrementar valores
+                                    $n++;                                    
                                   }
-                                  //echo "<br>Com reserva<br>";
-                                  //print_r($inicio);
-                                  
-
                                 }
                                 else if($count1==0)
                                 {
-                                    $inicio[]=$data;
-                                    //echo "<br>Sem reserva<br>";
-                                    //print_r($inicio);
+                                  // o unico valor no array vai ser o dia actual
+                                  $inicio[]=$data;
                                 }
 
-                                //echo "<script type=text/javascript> alert(".json_encode($inicio)."); </script>";
-
-
-                                echo '<tr> 
-                                    
-
+                                // preenche tabela
+                                echo '<tr>
                                     <td> '.$row['descCat'].'</td>
+                                    <td> '.$row['designacao'].'</td>
                                     <td> '.$row['descricao'].'</td>
                                     <td><textarea rows="4" cols="5" style="with:100%;min-width:400px;max-width:500px;min-height:100px;max-height:100px;" readonly>'.$row['observacao'].'</textarea></td>
                                     <td><input type="input" name="hiddenField'.$row['id'].'" id="hiddenField'.$row['id'].'" class="hiddenFielde" /></td>
                                     <td><button id="button[]" type="button"  class="btn btn-primary botao" data-id="'.$row['id'].'">Reservar</button></td>
                                     </tr>';
                                 
+                                // inicializa calendarios e ocupa as datas necessarias
                                 echo "<script > 
                                   
+                                  // recolhe o array criado anteriormente com as datas ocupadas
                                   var arrayFromPHP".$idKit." = ".json_encode($inicio).";
                                   
-
+                                  // inicializa o calendario
                                   $( '#hiddenField".$idKit."' ).datepicker({
                                     showOn: 'button',
                                       buttonText: '',
@@ -389,29 +380,23 @@
                                     weekHeader: 'Sem',
                                     beforeShowDay: function(date){
 
+                                      // fins de semana invalidos
                                       if (!$.datepicker.noWeekends(date)[0])
                                       return [false, '', '']; 
 
+                                      // dias incluidos no array invalidos
                                       var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
                                       return [ arrayFromPHP".$idKit.".indexOf(string) == -1 ]
-
                                     },
                                     dateFormat: 'yy-mm-dd',
                                     minDate: 0
                                   }).next('.ui-datepicker-trigger').addClass('fa fa-calendar');
-
                                   
-                                  
-
                                  </script>";
-
                               } 
-
-                            ?>
-                        
+                            ?>                        
                           </tbody>
-                        </table>
-                       
+                        </table>                       
                       </div>
                   </div>
                 </div>
@@ -482,271 +467,84 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
-
     <script>
-
       $(document).ready(function(){
 
-        $(".msgm").click(function(){ // Click to only happen on announce links
-
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
           var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
           if (v != undefined && v != null) {
             $.ajax({
               type: 'put',
-                      url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                      contentType: false,
-                      cache: false,
-                      processData:false,
-                      success: function(data) { 
-                        window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                      }
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
             });
           }  
-         });
-
-        
-
-        /*
-        $( '.hiddenFielde' ).datepicker({
-          showOn: 'button',
-            buttonText: '',
-          monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-          "Jul","Ago","Set","Out","Nov","Dez" ],
-          dayNames: [
-            "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-          ],
-          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          weekHeader: "Sem",
-          beforeShowDay: $.datepicker.noWeekends,
-          minDate: 2,
-          dateFormat: "yy-mm-dd"
-        }).next('.ui-datepicker-trigger').addClass('fa fa-calendar');
-        
-        */
-  
-
-        /*
-        $( function() {
-          $( "#from_date" ).datepicker();
-          $( "#to_date" ).datepicker();
-        } );
-
-        $("#from_date").datepicker({
-          monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-          "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-          monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-          "Jul","Ago","Set","Out","Nov","Dez" ],
-          dayNames: [
-            "Domingo",
-            "Segunda-feira",
-            "Terça-feira",
-            "Quarta-feira",
-            "Quinta-feira",
-            "Sexta-feira",
-            "Sábado"
-          ],
-          dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-          weekHeader: "Sem",
-          beforeShowDay: $.datepicker.noWeekends,
-          minDate: 2,
-          dateFormat: "yy-mm-dd", 
-          onSelect: function(selectedDate) {
-
-            $("#to_date").datepicker("option", "minDate", selectedDate);
-
-            $("#to_date").val('');
-          }
-        });      
-
-          $("#to_date").datepicker({
-            monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho",
-            "Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-            monthNamesShort: [ "Jan","Fev","Mar","Abr","Mai","Jun",
-            "Jul","Ago","Set","Out","Nov","Dez" ],
-            dayNames: [
-              "Domingo",
-              "Segunda-feira",
-              "Terça-feira",
-              "Quarta-feira",
-              "Quinta-feira",
-              "Sexta-feira",
-              "Sábado"
-            ],
-            dayNamesShort: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            dayNamesMin: [ "Dom","Seg","Ter","Qua","Qui","Sex","Sáb" ],
-            weekHeader: "Sem",
-            beforeShowDay: $.datepicker.noWeekends,
-            minDate: 2,
-            dateFormat: "yy-mm-dd"
-          });
-          */
-
-
-          // TABELA
-         
-          $('#table').DataTable( {
-            "order": [[ 0, "desc" ]],
-            "columnDefs": [
-              { "orderable": false, "targets": 3 }
-            ],
-            "language": {
-              "lengthMenu": "_MENU_ Registos por página",
-              "zeroRecords": "Não foram encontrados registos",
-              "info": "Página _PAGE_ de _PAGES_",
-              "infoEmpty": "Não foram encontrados registos",
-              "infoFiltered": "(de _MAX_ registos no total)",
-              "search": "Pesquisar:",
-              "oPaginate": {
-                "sNext": "Página seguinte",
-                "sPrevious": "Página anterior",
-                "sFirst": "Primeira página",
-                "sLast": "Última página"
-              }
-            },
-            initComplete: function () {
-              this.api().columns().every( function () {
-                  var column = this;
-                  if(column[0]==0){ /* is the first column you want to have dropdown filter */
-                      var select = $('<select><option value="">Categoria</option></select>')
-                      .appendTo( $(column.header()))
-                      .on( 'change', function () {
-                          var val = $.fn.dataTable.util.escapeRegex(
-                              $(this).val()
-                          );
-
-                          column
-                              .search( val ? '^'+val+'$' : '', true, false )
-                              .draw();
-                      });
-
-                      column.data().unique().sort().each( function ( d, j ) {
-                          select.append( '<option value="'+d+'">'+d+'</option>' )
-                      });
-                    }
-              });
-            }
-          });
-
-          $('#table').on('click','.botao',function () {
-
-            var v = $(this).data('id');        
-            if (v != undefined && v != null) {
-                window.location = '/pa/production/form_reserva.php?var=' + v;
-            }
-             
-           });
-
-
-        /*
-        $(function() {
-
-          // Get the form.
-          var form = $('#demo-form2');
-
-          // Get the messages div.
-          var formMessages = $('#msg');
-
-          $("#tbody").fadeIn(1000);
-
-          var teste;
-          // Set up an event listener for the contact form.
-          $(form).submit(function(event) {
-            // Stop the browser from submitting the form.
-            event.preventDefault();
-
-            var message1 = $('#from_date').val();  
-            var message2 = $('#to_date').val();  
-
-            if(message1 == '' || message2 == '' )  
-            {  
-
-              if( message1 == '' )  
-              {  
-                $('#msg_inicio').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_inicio').html("");
-              }
-
-              if( message2 == '' )  
-              {  
-                $('#msg_fim').html("Deve preencher este campo de forma válida!");
-              }
-              else
-              {
-                $('#msg_fim').html("");
-              }              
-                   
-            }  
-            else  
-            {  
-
-              // Serialize the form data.
-              var formData = $(form).serialize();
-
-              // Submit the form using AJAX.
-              $.ajax({
-                type: 'POST',
-                url: $(form).attr('action'),
-                data: formData,
-                dataType: "html",
-                success: function(response) 
-                { 
-                  $("#tbody").html(response);
-                }
-
-              });
-              $('#msg_inicio').html("");
-              $('#msg_fim').html("");
-            }
-
-          });
-
-      });
-      */
-    });
-
-    </script>
-	   <!--
-    <script>
-      function myFunction(el) {
-        var v = $(el).attr('data-id');        
-        if (v != undefined && v != null) {
-         // window.location = '/pa/production/form_search_singleKit.php?var=' + v;
-           var form = $('#demo-form2');
-
-       // var v = $(this).data('id'); 
-        //var dataObject = { 'num': v};
-        //var form2 = $('#formtabela');
-        var formData = $(form).serialize();
-        $.ajax({
-          type: 'post',
-                  url: "http://myslimsite/api/teste/reserva2/num="+v,
-                  data: formData,
-                  dataType: "html",
-                  success: function(data) { 
-                    location.reload();
-                  }
         });
-        }
-      }
 
+        // inicializa tabela
+        $('#table').DataTable( {
+          "order": [[ 0, "desc" ]],
+          "columnDefs": [
+            { "orderable": false, "targets": 3 }
+          ],
+          "language": {
+            "lengthMenu": "_MENU_ Registos por página",
+            "zeroRecords": "Não foram encontrados registos",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Não foram encontrados registos",
+            "infoFiltered": "(de _MAX_ registos no total)",
+            "search": "Pesquisar:",
+            "oPaginate": {
+              "sNext": "Página seguinte",
+              "sPrevious": "Página anterior",
+              "sFirst": "Primeira página",
+              "sLast": "Última página"
+            }
+          },
+          initComplete: function () {
+            // codigo para criar drop down box na tabela e actualizar a mesma ao mudar
+            this.api().columns().every( function () {
+              var column = this;
+                if(column[0]==0){ /* is the first column you want to have dropdown filter */
+                var select = $('<select><option value="">Categoria</option></select>')
+                .appendTo( $(column.header()))
+                .on( 'change', function () {
+                  var val = $.fn.dataTable.util.escapeRegex(
+                    $(this).val()
+                  );
 
-      
+                  column
+                  .search( val ? '^'+val+'$' : '', true, false )
+                  .draw();
+                });
+
+                column.data().unique().sort().each( function ( d, j ) {
+                  select.append( '<option value="'+d+'">'+d+'</option>' )
+                });
+              }
+            });
+          }
+        });
+
+        // ao carregar no botao reservar da tabela
+        $('#table').on('click','.botao',function () {
+
+          // recolhe id da reserva
+          var v = $(this).data('id'); 
+          // abre pagina para fazer a reserva       
+          if (v != undefined && v != null) {
+            window.location = '/pa/production/form_reserva.php?var=' + v;
+          }
+        });
+      });
     </script>
-    -->
   </body>
 </html>

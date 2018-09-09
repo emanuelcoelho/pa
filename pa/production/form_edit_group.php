@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,14 +49,7 @@
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet"> 
   </head>
 
   <body class="nav-md">
@@ -142,6 +135,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -155,6 +149,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -162,8 +157,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -171,24 +168,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -214,6 +210,7 @@
                     <h2>Editar grupo <small>Insira as informações necessárias (campos com <span style="color:red">*</span> são obrigatórios!)</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="form_search_edit_group.php" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -223,18 +220,22 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2" action="http://myslimsite/api/formEditGroup/update" method="post"  class="form-horizontal form-label-left" >
 
                       <?php
-                            $id = $_GET['var'];
-                            $query = "SELECT * FROM `grupo` WHERE `grupo`.`id`='$id' "; // Run your query
-                            $result = $mysqli->query($query);
-                            $row = $result->fetch_assoc();
+                        // recolhe o id do grupo seleccionado atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes necessarias do grupo utilizando o id do grupo
+                        $query = "SELECT * FROM `grupo` WHERE `grupo`.`id`='$id' ";
+                        $result = $mysqli->query($query);
+                        $row = $result->fetch_assoc();
                       ?>
 
+                      <!-- id do grupo -->
                       <input type="hidden" name="idgroup" id="idgroup" value="<?php echo $row['id'] ?>">
                       
+                      <!-- campo da descricao -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="descricao">Descrição <span style="color:red">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -243,80 +244,95 @@
                         </div>
                       </div>
                       
+                      <!-- campo da permissao ver kits -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver kits</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="ver" name="ver" value="1" <?php if($row['ver']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="ver" name="ver" value="0" <?php if($row['ver']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_ver" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao reservar kits -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Reservar kits</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="reservar" name="reservar" value="1" <?php if($row['reservar']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="reservar" name="reservar" value="0" <?php if($row['reservar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_reservar" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao ver itens escondidos -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver itens escondidos</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="ver_admin" name="ver_admin" value="1" <?php if($row['ver_admin']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="ver_admin" name="ver_admin" value="0" <?php if($row['ver_admin']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_ver_admin" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao editar reservas -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Aceitar, recusar, editar reservas</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="reservas" name="reservas" value="1" <?php if($row['reservas']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="reservas" name="reservas" value="0" <?php if($row['reservas']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_reservas" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao criar e editar -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e editar (kits, estados, itens e categorias)</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="criar_editar" name="criar_editar" value="1" <?php if($row['criar_editar']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="criar_editar" name="criar_editar" value="0" <?php if($row['criar_editar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_criar_editar" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao ver utilizadores -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Ver utilizadores</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="user_ver" name="user_ver" value="1" <?php if($row['user_ver']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="user_ver" name="user_ver" value="0" <?php if($row['user_ver']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_user_ver" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao criar e editar grupos e utilizador -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Editar utilizadores e grupos</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="user_editar" name="user_editar" value="1" <?php if($row['user_editar']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="user_editar" name="user_editar" value="0" <?php if($row['user_editar']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_user_editar" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo da permissao criar mensagens -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Criar e enviar mensagens</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+                          <!-- verifica qual deles e o campo que esta seleccionado na bd -->
                           <input type="radio" class="flat" id="criar_msg" name="criar_msg" value="1" <?php if($row['criar_msg']==1) {echo "checked";}?> > Sim<br>
                           <input type="radio" class="flat" id="criar_msg" name="criar_msg" value="0" <?php if($row['criar_msg']==0) {echo "checked";}?> > Não<br>
                           <span id="msg_criar_msg" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
-
-
+                      <!-- botoes reset e submit -->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="reset">Reset</button>
@@ -327,21 +343,13 @@
                       </div>
 
                       <div class="ln_solid"></div>
-
-
-                      </form>
-                    
-                      
-                    <!--</form>-->
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -406,54 +414,47 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-
-
     
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-      
-     
-      
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
-          
+
           // Get the messages div.
           var formMessages = $('#msg');
-           
+
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
 
             // Stop the browser from submitting the form.
             event.preventDefault();
-
+            // recolhe o conteudo dos campos obrigatorios
             var message = $('#descricao').val();
-            
-
+            // verifica se algum dos campos obrigatorios esta vazio
             if(message == ''  )  
             {  
-              
+              // se algum dos campos estiver vazio, avisa o utilizador e nao faz submit do form
               if( message == '' )  
               {  
                 $('#msg_descricao').html("Deve preencher este campo de forma válida! Ex: Alunos");
@@ -462,34 +463,33 @@
               {
                 $('#msg_descricao').html("");
               }
-              
-              
             }  
             else  
             {  
+              // se todos os campos obrigatorios estiverem preenchidos
               // Serialize the form data.
               var formData = $(form).serialize();
               // Submit the form using AJAX.
               $.ajax({
-                  type: 'post',
-                  url: $(form).attr('action'),
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) {
-                    alert(data); 
-                    location.reload();
-                  }
+                type: 'post',
+                url: $(form).attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data) {
+                  // mensagem de aviso a indicar se foi alterado
+                  alert(data); 
+                  // refresh da pagina
+                  location.reload();
+                }
               });
+              // Elimina a mensagem de aviso
               $('#msg_descricao').html("");
             }
           });
         });
       });
     </script>
-
-
-  
   </body>
 </html>

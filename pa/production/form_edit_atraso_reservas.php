@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,13 +41,7 @@
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
-    
-    
-    
-
-
-    
+    <link href="../build/css/custom.min.css" rel="stylesheet">  
   </head>
 
   <body class="nav-md">
@@ -133,6 +127,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -146,6 +141,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -153,8 +149,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -162,24 +160,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -205,6 +202,7 @@
                     <h2>Editar reservas <small>Insira as informações necessárias</small></h2>
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="form_search_atraso.php" id="button" type="button"  class="btn btn-primary" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -214,44 +212,52 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2"  method="post" action="http://myslimsite/api/formResEdit/allEdit" class="form-horizontal form-label-left" >   
 
                       <?php
-                            $id = $_GET['var'];
-                            $query2 = "SELECT reserva.id,
-                                        reserva.data_inicio,
-                                        reserva.data_fim,
-                                        reserva.observacao,
-                                        reserva.id_estado,
-                                        reserva.id_reservante,
-                                        estado.descricao AS descEst,
-                                        kit.descricao AS descKit,
-                                        res.username AS descReservante,
-                                        func.username AS descFuncionario                                       
-                                        FROM reserva 
-                                        INNER JOIN user as res ON reserva.id_reservante = res.id
-                                        INNER JOIN user as func ON reserva.id_funcionario = func.id
-                                        INNER JOIN kit ON reserva.id_kit = kit.id
-                                        INNER JOIN estado ON reserva.id_estado = estado.id
-                                        WHERE reserva.id='$id' "; // Run your query
-                            $result2=$mysqli->query($query2);
-                            $row2 = $result2->fetch_assoc();
+                        // recolhe o id da reserva seleccionada atraves do url
+                        $id = $_GET['var'];
+                        // recolhe informacoes necessarias da reserva utilizando o id da reserva
+                        $query2 = "SELECT reserva.id,
+                                    reserva.data_inicio,
+                                    reserva.data_fim,
+                                    reserva.observacao,
+                                    reserva.id_estado,
+                                    reserva.id_reservante,
+                                    estado.descricao AS descEst,
+                                    kit.descricao AS descKit,
+                                    kit.designacao AS desigKit,
+                                    res.username AS descReservante,
+                                    func.username AS descFuncionario                                       
+                                    FROM reserva 
+                                    INNER JOIN user as res ON reserva.id_reservante = res.id
+                                    INNER JOIN user as func ON reserva.id_funcionario = func.id
+                                    INNER JOIN kit ON reserva.id_kit = kit.id
+                                    INNER JOIN estado ON reserva.id_estado = estado.id
+                                    WHERE reserva.id='$id' "; // Run your query
+                        $result2=$mysqli->query($query2);
+                        $row2 = $result2->fetch_assoc();
 
-                            $_SESSION['paginaAnterior'] = 'form_edit_atraso_reservas.php?var='.$id;
+                        // define a pagina actual como a variavel de sessao de pagina anterior
+                        $_SESSION['paginaAnterior'] = 'form_edit_atraso_reservas.php?var='.$id;
                       ?>
 
+                      <!-- id da reserva -->
                       <input type="hidden" name="idres" id="idres" value="<?php echo $id; ?>">
                       
+                      <!-- campo do requisitante -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="requisitante">Requisitante </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="text" id="requisitante" name="requisitante" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['descReservante']; ?>" disabled>
                           <span id="msg_requisitante" name="msg" style="color:red"></span>
                         </div>
+                        <!-- botao para ir a pagina do requisitante -->
                         <button id="button[]" type="button" class="btn btn-primary botao" data-id="<?php echo $row2['id_reservante']; ?>">Página de utilizador</button>
                       </div>
 
+                      <!-- campo do funcionario -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcionario">Funcionário </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -260,6 +266,7 @@
                         </div>
                       </div>
 
+                      <!-- campo do kit -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="kit">Kit </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -268,6 +275,16 @@
                         </div>
                       </div>
 
+                      <!-- campo da designacao do kit -->
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="designacao">Designação </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="designacao" name="designacao" class="form-control col-md-7 col-xs-12" value="<?php echo $row2['desigKit']; ?>" disabled>
+                          <span id="msg_designacao" name="msg" style="color:red"></span>
+                        </div>
+                      </div>
+
+                      <!-- campo da data inicial -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="inicio">Data de início de reserva </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -276,6 +293,7 @@
                         </div>
                       </div>
 
+                      <!-- campo da data final -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fim">Data de fim de reserva </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -284,33 +302,38 @@
                         </div>
                       </div>
 
+                      <!-- campo do estado -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Estado </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                         
                           <?php
 
-                            // Assume $db is a PDO object
-                            $query = "SELECT * FROM `estado` "; // Run your query
+                            // recolhe todos os estados
+                            $query = "SELECT * FROM `estado` "; 
                             $result=$mysqli->query($query);
                             
-                            echo '<select class="form-control" id="estado" name="estado" >'; // Open your drop down box
+                            // abre a drop down box
+                            echo '<select class="form-control" id="estado" name="estado" >'; 
 
-                            // Loop through the query results, outputing the options one by one
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row = $result->fetch_assoc()) {
-                               echo '<option value="'.$row['id'].'" ';
-                               if( $row['id'] == $row2['id_estado'] )
-                               {
-                                 echo ("selected");
-                               }
-                               echo ' ">'.$row['descricao'].'</option>';
+                              echo '<option value="'.$row['id'].'" ';
+                              // se o estado actual for igual ao estado da reserva
+                              if( $row['id'] == $row2['id_estado'] )
+                              {
+                                // indica que este estado esta activado por defeito
+                                echo ("selected");
+                              }
+                              echo ' ">'.$row['descricao'].'</option>';
                             }
-
-                            echo '</select>';// Close your drop down box
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_estado" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
+                      <!-- campo das observacoes -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -318,6 +341,7 @@
                         </div>
                       </div>
 
+                      <!-- botoes reset e submit e imprimir-->
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <a id="button[]" type="button" class="btn btn-primary" href="<?php echo '/pa/production/print.php?r='.$id.'' ?>;" target="_blank" >Imprimir ficheiro</a>
@@ -329,20 +353,13 @@
                       </div>
 
                       <div class="ln_solid"></div>
-
-
                     </form>
-                    
-                    <!--</form>-->
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -391,80 +408,72 @@
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-    
-
-
-    
+        
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-     $(".botao").click(function(){
+        // funcao de entrar na pagina de utilizador
+        $(".botao").click(function(){
+          // recolhe id do botao
+          var v = $(this).data('id');  
+          // abre a pagina do utilizador      
+          if (v != undefined && v != null) {
+            window.location = "/pa/production/form_info_user.php?var=" + v;
+          }
+        });
 
-        var v = $(this).data('id');        
-        if (v != undefined && v != null) {
-          window.location = "/pa/production/form_info_user.php?var=" + v;
-        }
-
-      });
- 
-     
-      
         $(function() {
           // Get the form.
           var form = $('#demo-form2');
-          
+
           // Get the messages div.
           var formMessages = $('#msg');
-           
+
           // Set up an event listener for the contact form.
           $(form).submit(function(event) {
 
             // Stop the browser from submitting the form.
             event.preventDefault();
- 
+
             // Serialize the form data.
             var formData = $(form).serialize();
             // Submit the form using AJAX.
             $.ajax({
-                type: 'post',
-                url: $(form).attr('action'),
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(data) { 
-                  location.reload();
-                }
+              type: 'post',
+              url: $(form).attr('action'),
+              data: new FormData(this),
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                // faz refresh a pagina
+                location.reload();
+              }
             });
-            
+            // indica que foi editado com sucesso
             $('#msg').html("Reserva editada com sucesso!");
-                
           });
-
         });
-
       });
-    </script>
-
-
-  
+    </script>  
   </body>
 </html>

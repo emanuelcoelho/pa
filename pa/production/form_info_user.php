@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,14 +47,7 @@
     <link href="../vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
-    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
+    <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">    
   </head>
 
   <body class="nav-md">
@@ -140,6 +133,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -153,6 +147,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -160,8 +155,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -169,24 +166,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -202,10 +198,14 @@
         <!-- /top navigation -->
 
         <?php
+          // recolhe o id do utilizador seleccionado atraves do url
           $id = $_GET['var'];
-          $query = "SELECT * FROM `user` WHERE `id`='$id' "; // Run your query
+          // recolhe informacoes necessarias do utilizador utilizando o id do utilizador
+          $query = "SELECT * FROM `user` WHERE `id`='$id' "; 
           $result = $mysqli->query($query);
           $row = $result->fetch_assoc();
+          // define a pagina actual como a variavel de sessao de pagina anterior
+          $_SESSION['pageMessage']= 'form_info_user.php?var='.$id
         ?>
 
         <!-- page content -->
@@ -216,9 +216,11 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+                    <!-- titulo com nome do utilizador -->
                     <h2>Informaçoes de <?php echo $row['username']; ?> <small></small></h2> 
                     <div class="title_right">
                       <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right">
+                        <!-- botao pagina anterior -->
                         <a href="<?php echo $_SESSION['paginaAnterior']; ?>" id="button" type="button"  class="btn btn-primary botao" ><i class="fa fa-arrow-left"></i>  Voltar pagina anterior</a>
                       </div>
                     </div>
@@ -228,11 +230,10 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2"  class="form-horizontal form-label-left" >
 
-                      
-
+                      <!-- campo do nome -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nome">Nome de utilizador </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -241,6 +242,7 @@
                         </div>
                       </div>
                       
+                      <!-- campo do username -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="username">Username de utilizador </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -248,22 +250,28 @@
                           <span id="msg_username" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo do email -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">E-mail </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="email" id="email" name="email" class="form-control col-md-7 col-xs-12" value="<?php echo $row['email'] ?>" disabled>
                           <span id="msg_email" name="msg" style="color:red"></span>
                         </div>
+                        <!-- botao para enviar mensagem para o utilizador -->
                         <button id="button[]" type="button" class="btn btn-primary botao" data-id="<?php echo $row['id']; ?>" <?php echo $style_criar_msg;?>>Enviar mensagem</button>
                       </div>
                       
+                      <!-- campo do numero mecanografico -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Número mecanográfico </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" min=1 value="<?php echo $row['numero'] ?>" disabled>
+                          <input type="number" id="number" name="number" class="form-control col-md-7 col-xs-12" value="<?php echo $row['numero'] ?>" disabled>
                           <span id="msg_number" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo do numero de telefone -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="phonenumber">Número de telefone </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -271,53 +279,46 @@
                           <span id="msg_phonenumber" name="msg" style="color:red"></span>
                         </div>
                       </div>
+
+                      <!-- campo do grupo -->
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Grupo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                      
                           <?php
                                     
-                            // Assume $db is a PDO object
-                            $query2 = "SELECT * FROM `grupo` "; // Run your query
+                            // recolhe todos os grupos
+                            $query2 = "SELECT * FROM `grupo` "; 
                             $result2=$mysqli->query($query2);
-                           
-                            echo '<select class="form-control" id="desc" name="desc" disabled >'; // Open your drop down box
-                            // Loop through the query results, outputing the options one by one
+                            
+                            // abre a drop down box
+                            echo '<select class="form-control" id="desc" name="desc" disabled >'; 
+                            // percorre todos os resultados da query e apresenta os mesmos
                             while ($row2 = $result2->fetch_assoc()) 
                             {
-                               echo '<option value="'.$row2['id'].'" '; 
-                               if($row2['id'] == $row['id_grupo'] )
-                               {
-                                  echo("selected");
-                               }; 
-                               echo '   >'.$row2['descricao'].'</option>';
+                              echo '<option value="'.$row2['id'].'" '; 
+                              // se o grupo actual actual for igual ao grupo do user
+                              if($row2['id'] == $row['id_grupo'] )
+                              {
+                                // indica que este grupo esta activado por defeito
+                                echo("selected");
+                              }; 
+                              echo '   >'.$row2['descricao'].'</option>';
                             }
-                            echo '</select>';// Close your drop down box
-
-                            $_SESSION['pageMessage'] = 'form_info_user.php?var='.$id;
+                            // fecha a drop down box
+                            echo '</select>';
                           ?>
                           <span id="msg_cat" name="msg" style="color:red"></span>
                         </div>
                       </div>
 
-
-
-
                       <div class="ln_solid"></div>
-
-
-                      </form>
-                    
-                      
-                    <!--</form>-->
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -382,44 +383,39 @@
     <script src="../vendors/jszip/dist/jszip.min.js"></script>
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
-
-
-    
+   
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-       $(".botao").click(function(){
-
-        var i = $(this).data('id');        
-        if (i != undefined && i != null) {
-          window.location = "/pa/production/form_send_messages.php?var=" + i;
-        }
-
-      });
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // botao enviar mensagem
+        $(".botao").click(function(){
+          // recolhe id do utilizador
+          var i = $(this).data('id'); 
+          // abre pagina para enviar mensagem ao utilizador       
+          if (i != undefined && i != null) {
+            window.location = "/pa/production/form_send_messages.php?var=" + i;
+          }
         });
-      }  
-     });
-     
-      
-        
+
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
+        });
       });
-    </script>
-
-
-  
+    </script>  
   </body>
 </html>

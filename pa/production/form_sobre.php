@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,13 +48,6 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -140,6 +133,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -153,6 +147,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -160,8 +155,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -169,34 +166,31 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
-                        $date = new DateTime($row3['data']);
-                                  
+                        $date = new DateTime($row3['data']);  
                                  
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
 
-
-                       
-
-                        $sql3 = "SELECT * FROM user WHERE username = 'Sistema'";
-                        $result3 = mysqli_query($mysqli,$sql3);
-                        $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
-                        $funcmail=$row3['email'];
-                       
-
+                      // recolhe informacoes do utilizador com o username "sistema"
+                      $sql3 = "SELECT * FROM user WHERE username = 'Sistema'";
+                      $result3 = mysqli_query($mysqli,$sql3);
+                      $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
+                      $funcmail=$row3['email'];
                     ?>
+
                     <li>
                       <a href="form_search_messages.php" align="center">
                         <b><u>Ver todas as mensagens</u></b>
@@ -230,17 +224,18 @@
                     
                     <div class="clearfix"></div>
                   </div>
+                  <!-- conteudo da pagina -->
                   <div class="x_content">
+                    <!-- email do sistema -->
                     <h2><p><b>Contacto do funcionário:</b> <?php echo $funcmail; ?><br><br>
 
+                    <!-- contactos -->
                     <b>Telef:</b> +351 258 819 700 <br>
                     <b>Tlm:</b> +351 965 919 660 <br><br>
 
                     <b>Site:</b> www.estg.ipvc.pt <br>  
                     <b>E-mail:</b> direcao@estg.ipvc.pt <br> </p></h2>
-
                   </div>
-
                 </div>
               </div>
             </div>
@@ -254,21 +249,16 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <!-- manual de utilizador -->
                     <h2><b><i class="fa fa-file-pdf-o"></i><a href="download1.php">&nbsp;&nbsp;Manual de Utilizador.pdf</a>
+                      <!-- manual de admin -->
                     <h2><b><i class="fa fa-file-pdf-o" <?php echo $style_ver_admin;?> ></i><a <?php echo $style_ver_admin;?> href="download2.php">&nbsp;&nbsp;Manual de Administrador.pdf</a>
-
                   </div>
-
                 </div>
               </div>   
             </div>
-
           </div>
         </div>
-
-
-        
-        
         <!-- /page content -->
 
         <!-- footer content -->
@@ -334,33 +324,29 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
-
-    });
+      });
     </script>
-
-
-  
   </body>
 </html>
 

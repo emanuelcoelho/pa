@@ -6,6 +6,7 @@
 	$result = mysqli_query($mysqli,$sql);
 	$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 
+  // o grupo onde pertence o utilizador activo
 	$group = $row['id_grupo'];
 
 	// recolhe informações do grupo do utilizador activo

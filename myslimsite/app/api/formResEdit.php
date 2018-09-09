@@ -27,6 +27,7 @@
 		//Enviar notificação ao utilizador da decisão do funcionário
 		$query = "SELECT user.username,
 				   kit.descricao AS kitDesc,
+				   kit.designacao AS kitDesig,
 			       reserva.id,
 			       reserva.id_reservante,
 			       reserva.data_inicio
@@ -40,6 +41,7 @@
 		$destinatario = $row['username'];
 		$kit=$row['kitDesc'];
 		$dataInicio=$row['data_inicio'];
+		$kitDes=$row['kitDesig'];
 
 		$query = "INSERT INTO `mensagem` (`assunto`,`mensagem`, `lido`,`data`, `id_utilizador`,`id_emissor`) VALUES (?, ?, ?, ?, ?,?)";
 
@@ -54,7 +56,7 @@
 		$lido=0;
 
 		$assunto = "Notificação da reserva!";
-		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kit."</b> já foi avaliado e foi recusado.";
+		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kitDes." - ".$kit."</b> já foi avaliado e foi recusado.";
 		
 
 		$stmt2->execute();
@@ -85,6 +87,7 @@
 		//Enviar notificação ao utilizador da decisão do funcionário
 		$query = "SELECT user.username,
 				   kit.descricao AS kitDesc,
+				   kit.designacao AS kitDesig,
 			       reserva.id,
 			       reserva.id_reservante,
 			       reserva.data_inicio
@@ -98,6 +101,7 @@
 		$destinatario = $row['username'];
 		$kit=$row['kitDesc'];
 		$dataInicio=$row['data_inicio'];
+		$kitDes=$row['kitDesig'];
 
 
 		$query = "INSERT INTO `mensagem` (`assunto`,`mensagem`, `lido`,`data`, `id_utilizador`,`id_emissor`) VALUES (?, ?, ?, ?, ?,?)";
@@ -113,7 +117,7 @@
 		$lido=0;
 
 		$assunto = "Notificação da reserva!";
-		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kit."</b> já foi avaliado e foi aceite, a sua data de levantamento é ".$dataInicio.".";
+		$mensagem = "Caro ".$destinatario.". Esta é uma mensagem de notificação para indicar que o pedido da sua reserva do kit <b>".$kitDes." - ".$kit."</b> já foi avaliado e foi aceite, a sua data de levantamento é ".$dataInicio.".";
 		
 		$stmt3->execute();
 

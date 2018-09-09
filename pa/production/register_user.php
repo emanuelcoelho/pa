@@ -22,11 +22,10 @@
       if($comp=='sistema' )
       {
 
-        //Se encontrar username for sistema
+        // se username for sistema
         // avisa utilizador e expulsa utilizador da página
         echo"<script language='javascript' type='text/javascript'>alert('Não pode criar conta com esse username, por favor utilize um username diferente!');window.location.href='login.php';</script>";
         die();
-
       }
       else
       {
@@ -54,7 +53,7 @@
 
           $stmt->execute();
           
-          // Pesquisar utilizador na base de dados     
+          // pesquisar utilizador na base de dados     
           $sql = "SELECT * FROM user WHERE email = '$myemail'";
           $result = mysqli_query($mysqli,$sql);
           $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
@@ -104,9 +103,9 @@
 
             $assunto = "Bem-vindo!";
             $mensagem = "Caro ".$myusername.". 
-            Se deseja usufruir de mais funcionalidades da nossa plataforma por favor complete o seu perfil com o seu contacto e número mecatrónico!
+            Se deseja usufruir de mais funcionalidades da nossa plataforma por favor complete o seu perfil com o seu contacto e número Mecanográfico!
             Para editar o seu perfil por favor carregue no seu nome, no canto superior direito, e depois escolha a opção <b>Editar informações</b>!
-            Depois de completar o seu perfil entre em contacto com o email <b>".$funcmail."</b>, onde envia algumas informações como o seu mail registado, o seu número mecatrónico e o seu username para poder ter acesso a mais privilégios!";
+            Depois de completar o seu perfil entre em contacto com o email <b>".$funcmail."</b>, onde envia algumas informações como o seu mail registado, o seu número Mecanográfico e o seu username para poder ter acesso a mais privilégios!";
             
 
             $stmt4->execute();

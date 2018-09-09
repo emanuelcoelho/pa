@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title> IPVC Reservas </title>
+    <title> LIA Reservas </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,13 +48,6 @@
     <link href="../vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="../vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
-     
-
-    
-    
-
-
-    
   </head>
 
   <body class="nav-md">
@@ -132,9 +125,6 @@
         </div>
       </div>
 
-
-
-
         <!-- top navigation -->
         <div class="top_nav">
           <div class="nav_menu">
@@ -143,6 +133,7 @@
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
 
+              <!-- top right menu -->
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -156,6 +147,7 @@
                   </ul>
                 </li>
 
+                <!-- top right message menu -->
                 <li role="presentation" class="dropdown">
                   <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                     <i class="fa fa-envelope-o"></i>
@@ -163,8 +155,10 @@
                   </a>
                   <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
                     <?php
+                      // recolhe id de utilizador na sessao actual
                       $id=$_SESSION['id'];
 
+                      // recolhe as 5 ultimas mensagens do utilizador que estejam por ler
                       $sql3 = "SELECT * FROM mensagem 
                                WHERE id_utilizador = '$id' 
                                AND lido = 0 
@@ -172,24 +166,23 @@
                                LIMIT 5  ";
                       $result3 = mysqli_query($mysqli,$sql3);
 
+                      // escreve as 5 mensagens recolhidas no menu de mensagens
                       while ($row3 = $result3->fetch_assoc()) {
                         $mensagem= substr($row3['mensagem'],0,40);
                         $date = new DateTime($row3['data']);
-                                  
-                                 
-                                   echo '<li>
-                                          <a class="msgm" id='.$row3['id'].'>
-                                            <span>
-                                              <span><b>'.$row3['assunto'].'</b></span>
-                                              <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
-                                            </span>
-                                            <span class="message">
-                                              '.$mensagem.'
-                                            </span>
-                                          </a>
-                                        </li>';
-                                }
-
+                                   
+                        echo '<li>
+                              <a class="msgm" id='.$row3['id'].'>
+                                <span>
+                                  <span><b>'.$row3['assunto'].'</b></span>
+                                  <span class="time">'.date_format($date, 'H:i d-m-Y').'</span>
+                                </span>
+                                <span class="message">
+                                  '.$mensagem.'
+                                </span>
+                              </a>
+                            </li>';
+                      }
                     ?>
                     <li>
                       <a href="form_search_messages.php" align="center">
@@ -205,16 +198,17 @@
         <!-- /top navigation -->
 
 
-        <?php $id = $_SESSION['id']; 
+        <?php 
+          // recolhe o id do utilizador seleccionada atraves da sessao
+          $id = $_SESSION['id']; 
+          // recolhe informacoes necessarias do utilizador utilizando o id do utilizador
           $query1 = "SELECT *
                     FROM user
                     WHERE id = '$id'";
           $result1=$mysqli->query($query1);
           $row1 = $result1->fetch_assoc();
-
+          // recolhe username do utilizador
           $utilizador = $row1['username'];
-
-
         ?>
 
         <!-- page content -->
@@ -225,6 +219,7 @@
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
+                    <!-- titulo com username -->
                     <h2>Histórico de reservas de <?php echo $utilizador; ?> <small></small> </h2>
                     
                     <div class="clearfix"></div>
@@ -232,19 +227,18 @@
                   <div class="x_content">
                     <br />
 
-                    
+                    <!-- form -->
                     <form id="demo-form2" class="form-horizontal form-label-left" >
-                     <input type="hidden" name="idkit" id="idkit" value="<?php echo $_SESSION['id'] ?>">
+                     
 
                       <div class="form-group">
+                        <!-- tabela com reservas -->
                         <table id="table" class="table table-striped table-bordered bulk_action dt-responsive text-center nowrap" cellspacing="0" width="100%">
                         
-                        <!--<table id="example" class="display" cellspacing="0" width="100%"> -->
                           <thead>
                             <tr>
-                              
-                              
                               <th class="text-center">Funcionário</th>
+                              <th class="text-center">Designação</th>
                               <th class="text-center">Kit</th>
                               <th class="text-center">Data inicial</th>
                               <th class="text-center">Data final</th>
@@ -257,8 +251,7 @@
                           <tbody>
                             <?php
 
-                              // Assume $db is a PDO object
-                              
+                              // selecciona todas reservas do utilizador
                               $query = "SELECT reserva.id,
                                         reserva.data_inicio,
                                         reserva.data_fim,
@@ -266,6 +259,7 @@
                                         reserva.id_reservante,
                                         estado.descricao AS descEst,
                                         kit.descricao AS descKit,
+                                        kit.designacao AS desigKit,
                                         res.username AS descReservante,
                                         func.username AS descFuncionario                                       
                                         FROM reserva 
@@ -275,42 +269,36 @@
                                         INNER JOIN estado ON reserva.id_estado = estado.id
                                         WHERE reserva.id_reservante='$id' ";
                               $result=$mysqli->query($query);
-                              
 
-                              // Loop through the query results, outputing the options one by one
+                              // percorre todos os resultados da query e apresenta os mesmos
                               while ($row = $result->fetch_assoc()) {
-                                
+                                // preenche a tabela
 
-                                 echo '<tr>';
-                                 
-                                  echo'
+                                echo '<tr>
                                         <td> '.$row['descFuncionario'].'</td>
+                                        <td> '.$row['desigKit'].'</td>
                                         <td> '.$row['descKit'].'</td> 
                                         <td> '.$row['data_inicio'].'</td>
                                         <td> '.$row['data_fim'].'</td>   
                                         <td>'.$row['descEst'].'</td>
                                         <td>'.$row['observacao'].'</td>';
+                                        // caso o estado da reservas seja "pendente"
                                         if($row['descEst']=="Pendente")
                                         {
-                                         echo '<td><button id="button[]" type="button" class="btn btn-danger botao" value='.$_SESSION['id'].' data-id='.$row['id'].'><i class="fa fa-close"></i></button>
-                                         </td>';
+                                          // cria um botao para poder cancelar a sua reserva
+                                          echo '<td><button id="button[]" type="button" class="btn btn-danger botao" value='.$_SESSION['id'].' data-id='.$row['id'].'><i class="fa fa-close"></i></button>
+                                          </td>';
                                         }
                                         else
                                         {
-                                         echo '<td></td></tr>';
+                                          // nao cria botao
+                                          echo '<td></td></tr>';
                                         }
                               }
-
                             ?>
-                            
                           </tbody>
                         </table>
-                        
                       </div>
-
-                      
-                      
-
                     </form>
                   </div>
                 </div>
@@ -383,71 +371,68 @@
     <script src="../vendors/pdfmake/build/pdfmake.min.js"></script>
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
-    
     <script>
-    $(document).ready(function(){
+      $(document).ready(function(){
 
-
-
-     $(".msgm").click(function(){ // Click to only happen on announce links
-
-      var v = $(this).attr("id");        
-      if (v != undefined && v != null) {
-        $.ajax({
-          type: 'put',
-                  url: "http://myslimsite/api/formMessageEdit/update/num="+v,
-                  contentType: false,
-                  cache: false,
-                  processData:false,
-                  success: function(data) { 
-                    window.location.href = "/pa/production/form_open_message.php?var=" + v;
-                  }
+        // funcao de mensagens
+        $(".msgm").click(function(){ 
+          // ao carregar numa das mensagens recolhe o id da mensagem
+          var v = $(this).attr("id");        
+          // e corre uma api para mudar o estado dessa mensagem para "lido" e depois abre a mensagem escolhida
+          if (v != undefined && v != null) {
+            $.ajax({
+              type: 'put',
+              url: "http://myslimsite/api/formMessageEdit/update/num="+v,
+              contentType: false,
+              cache: false,
+              processData:false,
+              success: function(data) { 
+                window.location.href = "/pa/production/form_open_message.php?var=" + v;
+              }
+            });
+          }  
         });
-      }  
-     });
 
-     $('#table').DataTable( {
-        "order": [[ 2, "asc" ]],
-        "columnDefs": [
-          { "orderable": false, "targets": 6 }
-        ],
-        "language": {
-          "lengthMenu": "_MENU_ Registos por página",
-          "zeroRecords": "Não foram encontrados registos",
-          "info": "Página _PAGE_ de _PAGES_",
-          "infoEmpty": "Não foram encontrados registos",
-          "infoFiltered": "(de _MAX_ registos no total)",
-          "search": "Pesquisar:",
-          "oPaginate": {
-            "sNext": "Página seguinte",
-            "sPrevious": "Página anterior",
-            "sFirst": "Primeira página",
-            "sLast": "Última página"
+        // inicializar a tabela
+        $('#table').DataTable( {
+          "order": [[ 2, "asc" ]],
+          "columnDefs": [
+            { "orderable": false, "targets": 6 }
+          ],
+          "language": {
+            "lengthMenu": "_MENU_ Registos por página",
+            "zeroRecords": "Não foram encontrados registos",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "Não foram encontrados registos",
+            "infoFiltered": "(de _MAX_ registos no total)",
+            "search": "Pesquisar:",
+            "oPaginate": {
+              "sNext": "Página seguinte",
+              "sPrevious": "Página anterior",
+              "sFirst": "Primeira página",
+              "sLast": "Última página"
+            }
           }
-        }
-      });
+        });
 
-      $('#table').on('click','.botao',function () {
-        var v = $(this).data('id');       
-        var form2 = $('#formtabela');
+        // ao carregar no botao da tabela para cancelar
+        $('#table').on('click','.botao',function () {
+          // recolhe id da reserva
+          var v = $(this).data('id');       
+          var form2 = $('#formtabela');
+          // corre api para alterar o estado da reserva para "cancelado"
           $.ajax({
             type: 'put',
-                    url: "http://myslimsite/api/formResEdit/cancel/num="+v,
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    success: function(data) { 
-                      location.reload();
-                    }
+            url: "http://myslimsite/api/formResEdit/cancel/num="+v,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) { 
+              location.reload();
+            }
           });        
+        });
       });
-
-
-   });
     </script>
-
-
-	
   </body>
 </html>

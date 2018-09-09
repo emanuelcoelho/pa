@@ -5,7 +5,7 @@
 	// recolhe o id do utilizador activo
 	$user=$_SESSION['id'];
 
-	// recolhe o id da mensagem aberta
+	// recolhe o id da mensagem aberta atraves do url
 	$id=$_GET['var'];
 	
 	// recolhe informações da mensagem
