@@ -47,8 +47,12 @@ laboratorio interaçao e audiovisuais
 lia@estg.ipvc.pt como mail do sistema - done
 
 verificar se campos das observaçoes/mensagens estao certos
-	textarea max= bd max
+	textarea max= bd max - done
 	descriçao de max = bd max
+	mensagens - done
+	item - done
+	kit - done
+	reservas - done
 
 impressao de ficheiro para reservar kit - done
 	tentar ficheiro html

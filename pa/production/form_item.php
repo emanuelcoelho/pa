@@ -331,7 +331,7 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="obs">Observações (300 chars max) : </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <textarea id="obs" class="form-control" name="obs"></textarea>
+                          <textarea id="obs" class="form-control" name="obs" maxlength="300"></textarea>
                         </div>
                         <div class="control-label">
                           <!-- tooltip -->

@@ -493,7 +493,7 @@
         $('#table').DataTable( {
           "order": [[ 0, "desc" ]],
           "columnDefs": [
-            { "orderable": false, "targets": 3 }
+            { "orderable": false, "targets": [3,4,5] }
           ],
           "language": {
             "lengthMenu": "_MENU_ Registos por página",

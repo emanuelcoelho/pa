@@ -19,6 +19,7 @@
                reserva.id_funcionario,
                estado.descricao AS descEst,
                kit.descricao AS descKit,
+               kit.designacao AS desigKit,
                user.username AS descReservante
                FROM reserva 
                INNER JOIN user ON reserva.id_reservante = user.id
@@ -28,6 +29,14 @@
                AND reserva.data_fim<'$data'";
      $result5 = mysqli_query($mysqli,$sql5);
      $count5 = mysqli_num_rows($result5);
+
+     // recolhe id do username sistema
+     $sql3 = "SELECT * FROM user WHERE username = 'Sistema'";
+     // recolhe informacoes do user sistema atraves de id
+     $result3 = mysqli_query($mysqli,$sql3);
+     $row3 = mysqli_fetch_array($result3,MYSQLI_ASSOC);
+     // recolhe mail do user sistema
+     $funcmail=$row3['email'];
 
      // se existir uma ou mais reservas
      if($count5>=1)
@@ -67,11 +76,12 @@
                $idDestinatario = $row5['id_reservante'];
                $myusername = $row5['descReservante'];
                $kit = $row5['descKit'];
+               $Dkit = $row5['desigKit'];
                $dataFim = $row5['data_fim'];
 
                $assunto = "Aviso!";
                $mensagem = "Caro ".$myusername.". 
-               O tempo de aluguer do kit <b>".$kit."</b> já chegou ao final, a data de entrega do kit está registada como <b>".$dataFim."</b>, por favor entregue o kit ou entre em contacto com o funcionário através do email <b>sistema@gmail.com</b> para explicar a situação!";
+               O tempo de aluguer do kit <b>".$Dkit." - ".$kit."</b> já chegou ao final, a data de entrega do kit está registada como <b>".$dataFim."</b>, por favor entregue o kit ou entre em contacto com o funcionário através do email <b>".$funcmail."</b> para explicar a situação!";
                
 
                $stmt4->execute();

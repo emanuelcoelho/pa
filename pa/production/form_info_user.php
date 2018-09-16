@@ -205,7 +205,7 @@
           $result = $mysqli->query($query);
           $row = $result->fetch_assoc();
           // define a pagina actual como a variavel de sessao de pagina anterior
-          $_SESSION['pageMessage']= 'form_info_user.php?var='.$id
+          $_SESSION['pageMessage']= 'form_info_user.php?var='.$id;
         ?>
 
         <!-- page content -->
