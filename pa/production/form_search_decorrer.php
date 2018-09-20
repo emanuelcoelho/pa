@@ -370,7 +370,7 @@
         $('#table').DataTable( {
           "order": [[ 3, "asc" ]],
           "columnDefs": [
-            { "orderable": false, "targets": 6 }
+            { "orderable": false, "targets": 7 }
           ],
           "language": {
             "lengthMenu": "_MENU_ Registos por página",

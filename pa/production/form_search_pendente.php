@@ -366,7 +366,7 @@
         $('#table').DataTable( {
           "order": [[ 2, "asc" ]],
           "columnDefs": [
-            { "orderable": false, "targets": 5 }
+            { "orderable": false, "targets": 6 }
           ],
           "language": {
             "lengthMenu": "_MENU_ Registos por página",

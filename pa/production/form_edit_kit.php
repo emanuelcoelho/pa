@@ -330,6 +330,7 @@
                           <thead>
                             <tr>
                               <th class="text-center">Descrição</th>
+                              <th class="text-center">Serial</th>
                               <th class="text-center">Marca</th>
                               <th class="text-center">Modelo</th>
                               <th class="text-center">Kit</th>
@@ -354,6 +355,7 @@
                                         itens.marca,
                                         itens.modelo,
                                         itens.id_kit,
+                                        itens.serial_number,
                                         categoria_item.descricao AS descCat, 
                                         estado.descricao AS descEst,
                                         kit.descricao AS descKit
@@ -371,6 +373,7 @@
                                // preenche a tabela
                                echo '<tr> 
                                       <td> '.$row['descricao'].'</td>
+                                      <td> '.$row['serial_number'].'</td>
                                       <td> '.$row['marca'].'</td>
                                       <td> '.$row['modelo'].'</td>
                                       <td> '.$row['descKit'].'</td>
@@ -494,7 +497,7 @@
 
         // inicializar a tabela
         $('#table').DataTable( {
-          "order": [[ 6, "asc" ]],
+          "order": [[ 7, "asc" ]],
           "language": {
             "lengthMenu": "_MENU_ Registos por página",
             "zeroRecords": "Não foram encontrados registos",

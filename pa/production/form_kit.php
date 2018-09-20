@@ -290,6 +290,7 @@
                             <tr>
                               <th></th>
                               <th>Descrição</th>
+                              <th>Serial</th>
                               <th>Marca</th>
                               <th>Modelo</th>
                               <th>Categoria</th>
@@ -311,6 +312,7 @@
                                         itens.marca,
                                         itens.descricao,
                                         itens.modelo,
+                                        itens.serial_number,
                                         categoria_item.descricao AS descCat, 
                                         estado.descricao AS descEst,
                                         kit.descricao AS descKit
@@ -327,6 +329,7 @@
                                 echo '<tr> 
                                       <td><input type="checkbox" id="itens" name="itens[]"   value='.$row['id'].'  />&nbsp;</td>
                                       <td> '.$row['descricao'].'</td>
+                                      <td> '.$row['serial_number'].'</td>
                                       <td> '.$row['marca'].'</td> 
                                       <td>'.$row['modelo'].'</td>
                                       <td>'.$row['descCat'].'</td> 
@@ -450,6 +453,7 @@
           "columnDefs": [
             { "orderable": false, "targets": 0 }
           ],
+          "pageLength": 100,
           "language": {
             "lengthMenu": "_MENU_ Registos por página",
             "zeroRecords": "Não foram encontrados registos",

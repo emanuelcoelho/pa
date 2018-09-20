@@ -50,9 +50,26 @@
       <h3><center>Requisição de Equipamento - Laboratório de Interação e Audiovisuais (L 3.6)</center></h3>
       <br>
     </div>
-    <br><b>Nome Completo:</b> _________________________________ <b>Data de nascimento:</b> __/__/____  <b>BI:</b> ____________
-    <br><b>Telefone/Telemóvel:</b> ___________ <b>Email:</b> ________________________ 
-    <br>&#10066;<b>Aluno do curso:</b> _________________ <b>Ano:</b> ___ <b>N.º Mecanográfico:</b> ______ <b>Unidade Orgânica:</b> _____________
+    <?php
+      // recolhe id da reserva atraves do url
+      $rid = $_GET['r'];
+
+      // recolhe informacoes da reserva atraves do id                              
+      $query = "SELECT reserva.id,
+                reserva.id_reservante,
+                user.nome,
+                user.numero,
+                user.email,
+                user.telefone
+                FROM reserva 
+                INNER JOIN user ON reserva.id_reservante = user.id
+                where reserva.id='$rid'";
+      $result=$mysqli->query($query); 
+      $row = $result->fetch_assoc();
+    ?>
+    <br><b>Nome Completo:</b> <?php echo $row['nome'];?> <b>Data de nascimento:</b> __/__/____  <b>BI:</b> ____________
+    <br><b>Telefone/Telemóvel:</b> <?php echo $row['telefone'];?> <b>Email:</b> <?php echo $row['email'];?> 
+    <br>&#10066;<b>Aluno do curso:</b> _________________ <b>Ano:</b> ___ <b>N.º Mecanográfico:</b> <?php echo $row['numero'];?> <b>Unidade Orgânica:</b> _____________
     <br>&#10066;<b>Outro:</b> _________________ <b>Observações:</b> _____________________________________________________
     <br>
     <br>----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -89,6 +106,7 @@
     <table style="width:100%">
       <tr>
         <th>Descrição</th>
+        <th>Serial</th>
         <th>Marca</th>
         <th>Modelo</th>
         <th>Observações</th> 
@@ -96,7 +114,8 @@
       <?php
 
         // recolhe informacoes do kit atraves do id
-        $query = "SELECT itens.id, 
+        $query = "SELECT itens.id,
+                  itens.serial_number, 
                   itens.marca,
                   itens.descricao,
                   itens.observacao,
@@ -111,6 +130,7 @@
           // preenche tabela
           echo ' <tr> 
           <td>'.$row['descricao'].'</td>
+          <td>'.$row['serial_number'].'</td>
           <td>'.$row['marca'].'</td>
           <td>'.$row['modelo'].'</td>
           <td>'.$row['observacao'].'</td>

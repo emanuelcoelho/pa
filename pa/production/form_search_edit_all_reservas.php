@@ -372,7 +372,7 @@
         $('#table').DataTable( {
           "order": [[ 4, "asc" ]],
           "columnDefs": [
-            { "orderable": false, "targets": 7 }
+            { "orderable": false, "targets": 8 }
           ],
           "language": {
             "lengthMenu": "_MENU_ Registos por página",
